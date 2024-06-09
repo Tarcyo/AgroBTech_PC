@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:midas/constants.dart';
-import '../pages/createFileScreen/controleDeQualidade.dart';
+import '../pages/createFileScreen/controleDeQualidade/controleDeQualidade.dart';
+import '../pages/createFileScreen/sanidadeDeSementes/sanidadeDeSementes.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:midas/providers/fileNameProvider.dart';
+import 'dart:convert';
 
 class EditCard extends StatelessWidget {
   final String _nomeDoArquivo;
@@ -69,28 +71,57 @@ class EditCard extends StatelessWidget {
                       ),
                       onPressed: () async {
                         final content = await _getFileContentInRascunhos();
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 600),
-                            pageBuilder: (_, __, ___) =>
-                                ControleDeQualidade(content),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return ScaleTransition(
-                                scale: Tween<double>(
-                                  begin: 0.0,
-                                  end: 1.0,
-                                ).animate(
-                                  CurvedAnimation(
-                                    parent: animation,
-                                    curve: Curves.easeInOut,
+                        final data = json.decode(content);
+                        if (data['informacoes']['Tipo_de_analise'] ==
+                            "Controle de qualidade") {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 600),
+                              pageBuilder: (_, __, ___) =>
+                                  ControleDeQualidade(content),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.0,
+                                    end: 1.0,
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeInOut,
+                                    ),
                                   ),
-                                ),
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (data['informacoes']['Tipo_de_analise'] ==
+                            "Sanidade de sementes") {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 600),
+                              pageBuilder: (_, __, ___) =>
+                                  SanidadeDeSementes(content),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.0,
+                                    end: 1.0,
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeInOut,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        }
                       },
                     ),
                     IconButton(

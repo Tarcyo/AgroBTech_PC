@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:midas/constants.dart';
-import 'controleDeQualidade.dart';
+import 'controleDeQualidade/controleDeQualidade.dart';
+import 'sanidadeDeSementes/sanidadeDeSementes.dart';
 
 String selectedLaudo = 'Controle de qualidade';
 
@@ -89,6 +90,19 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                             pageBuilder: (context, animation,
                                                 secondaryAnimation) {
                                               return ControleDeQualidade("");
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      if (selectedLaudo ==
+                                          'Sanidade de sementes') {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            transitionDuration: Duration.zero,
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) {
+                                              return SanidadeDeSementes("");
                                             },
                                           ),
                                         );
