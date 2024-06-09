@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'providers/fileNameProvider.dart';
-
+import 'constants.dart';
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Certifica-se de que os serviços do Flutter foram inicializados
+  WidgetsFlutterBinding.ensureInitialized(); 
 
   final files = await _listFilesInRascunhos();
   final filesNames = _obterNomesArquivos(files);
@@ -26,9 +26,9 @@ class AgroBioTech extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Definindo a cor da barra de status como verde
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.green,
+      statusBarColor: mainColor,
     ));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -38,7 +38,7 @@ class AgroBioTech extends StatelessWidget {
       
       theme: ThemeData(
         fontFamily: "Quicksand",
-        primaryColor: Colors.green, // Definindo a cor verde
+        primaryColor: mainColor, 
       ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
@@ -48,18 +48,17 @@ class AgroBioTech extends StatelessWidget {
 
 Future<List<FileSystemEntity>> _listFilesInRascunhos() async {
   try {
-    // Obter o diretório de documentos
+  
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
-    // Obter o caminho da pasta "rascunhos"
+ 
     String rascunhosPath = '${documentsDirectory.path}/rascunhos';
 
-    // Verificar se a pasta "rascunhos" existe
+   
     if (await Directory(rascunhosPath).exists()) {
-      // Listar todos os arquivos na pasta "rascunhos"
+      
       List<FileSystemEntity> files = Directory(rascunhosPath).listSync();
 
-      // Verificar se há arquivos
       if (files.isNotEmpty) {
         return files;
       } else {

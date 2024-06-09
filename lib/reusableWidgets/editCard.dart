@@ -27,7 +27,7 @@ class EditCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(180), // Retângulo arredondado
               border: Border.all(
                 color: mainColor, // Cor da borda
-                width: 2, // Largura da borda
+                width: 2, // L2argura da borda
               ),
             ),
             width: double.infinity, // Para preencher toda a largura da tela
