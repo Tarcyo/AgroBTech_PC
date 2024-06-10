@@ -5,69 +5,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:midas/pages/createFileScreen/controleDeQualidade/tableOfResults.dart';
 import 'package:open_file/open_file.dart';
-
-pw.Widget _buildTable(List<dynamic> list) {
-  print(list);
-  final headers = [
-    'ID lab',
-    'ID cliente',
-    'Conídios/ml',
-    'UFC/ml',
-  ];
-  final List<Map<String, dynamic>> data = [];
-  for (final i in list) {
-    data.add(
-      {"id_lab": i[0], "id_cliente": i[1], "conidios_ml": i[2], "ufc_ml": i[3]},
-    );
-  }
-
-  final tableHeaders = headers.map((header) {
-    return pw.Container(
-      alignment: pw.Alignment.center,
-      child:
-          pw.Text(header, style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-      padding: const pw.EdgeInsets.all(5),
-      decoration: const pw.BoxDecoration(color: PdfColors.grey300),
-    );
-  }).toList();
-
-  final tableRows = data.map((rowData) {
-    return pw.TableRow(
-      children: [
-        pw.Padding(
-          padding: const pw.EdgeInsets.all(5),
-          child: pw.Text('${rowData["id_lab"]}'),
-        ),
-        pw.Padding(
-          padding: const pw.EdgeInsets.all(5),
-          child: pw.Text('${rowData["id_cliente"]}'),
-        ),
-        pw.Padding(
-          padding: const pw.EdgeInsets.all(5),
-          child: pw.Text('${rowData["conidios_ml"]}'),
-        ),
-        pw.Padding(
-          padding: const pw.EdgeInsets.all(5),
-          child: pw.Text('${rowData["ufc_ml"]}'),
-        ),
-      ],
-    );
-  }).toList();
-
-  return pw.Container(
-    child: pw.Table(
-      border: pw.TableBorder.all(),
-      children: [
-        pw.TableRow(
-          children: tableHeaders,
-        ),
-        ...tableRows,
-      ],
-    ),
-  );
-}
 
 Future<void> createPDF(
     BuildContext context,
@@ -77,9 +15,9 @@ Future<void> createPDF(
     String contratante,
     String material,
     String dataEntrada,
-    String cnpj,
+    String produtor,
     String fazenda,
-    List<DataRow> resultados,
+    List<TextEditingController> resultados,
     List<TextEditingController> observacaoes,
     List<File> imagens,
     List<TextEditingController> descricoes) async {
@@ -114,23 +52,21 @@ Future<void> createPDF(
   if (dataEntrada.isEmpty) {
     dataEntrada = "-";
   }
-  if (cnpj.isEmpty) {
-    cnpj = "-";
+  if (produtor.isEmpty) {
+    produtor = "-";
   }
   if (fazenda.isEmpty) {
     fazenda = "-";
   }
 
-  final dataResults = [];
-
+  List<pw.Widget> resutadosWidgets = [];
   for (final r in resultados) {
-    final cells = [];
-    for (final c in r.cells) {
-      final cell = c.child as tableCell;
-      cells.add(cell.controller.text);
-    }
-    dataResults.add(cells);
+    resutadosWidgets.add(pw.SizedBox(height: 15, width: 15));
+    resutadosWidgets.add(pw.Text(
+      r.text,style: pw.TextStyle(color: PdfColors.black,fontWeight: pw.FontWeight.bold,)
+    ));
   }
+
   List<pw.Widget> observacoesWidgets = [];
   for (int i = 0; i < observacaoes.length; i++) {
     observacoesWidgets.add(
@@ -185,7 +121,7 @@ Future<void> createPDF(
     index: 0,
     pw.MultiPage(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
-      maxPages: 999,
+      maxPages: 99,
       pageTheme: pw.PageTheme(
         clip: true,
         buildBackground: (context) {
@@ -379,7 +315,7 @@ Future<void> createPDF(
                     pw.Row(
                       children: [
                         pw.Text(
-                          "CNPJ:",
+                          "Produtor:",
                           style: pw.TextStyle(
                               fontSize: 10, fontWeight: pw.FontWeight.bold),
                         ),
@@ -421,7 +357,8 @@ Future<void> createPDF(
                   children: [
                     pw.Row(
                       children: [
-                        pw.Text(cnpj, style: const pw.TextStyle(fontSize: 10)),
+                        pw.Text(produtor,
+                            style: const pw.TextStyle(fontSize: 10)),
                       ],
                     ),
                     pw.SizedBox(
@@ -464,27 +401,16 @@ Future<void> createPDF(
                 color: PdfColors.orange, // Cor de fundo branca
               ),
               child: pw.Center(
-                  child: pw.Text("RESULTADOS",
+                  child: pw.Text("DIAGNOSE FITOPATOLÓGICA",
                       style: pw.TextStyle(
                           fontWeight: pw.FontWeight.bold,
                           fontSize: 14,
                           color: PdfColors.white)))),
           pw.SizedBox(height: 5),
-          _buildTable(dataResults),
+          ...resutadosWidgets,
           pw.SizedBox(
             height: 2,
           ),
-          pw.Row(children: [
-            pw.SizedBox(
-              width: 35,
-            ),
-            pw.Text(
-                "NR: Não realizado. *Contaminação com bactérias e leveduras.",
-                style: pw.TextStyle(
-                  fontWeight: pw.FontWeight.bold,
-                  fontSize: 8,
-                )),
-          ]),
           pw.SizedBox(height: 10),
           pw.Row(children: [
             pw.SizedBox(

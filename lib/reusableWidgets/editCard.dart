@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:midas/constants.dart';
 import '../pages/createFileScreen/controleDeQualidade/controleDeQualidade.dart';
 import '../pages/createFileScreen/sanidadeDeSementes/sanidadeDeSementes.dart';
+import '../pages/createFileScreen/diagnose/diagnose.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +106,31 @@ class EditCard extends StatelessWidget {
                               transitionDuration: Duration(milliseconds: 600),
                               pageBuilder: (_, __, ___) =>
                                   SanidadeDeSementes(content),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.0,
+                                    end: 1.0,
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeInOut,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (data['informacoes']['Tipo_de_analise'] ==
+                            "Diagnose Fitopatológica") {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 600),
+                              pageBuilder: (_, __, ___) =>
+                                  Diagnose(content),
                               transitionsBuilder: (_, animation, __, child) {
                                 return ScaleTransition(
                                   scale: Tween<double>(

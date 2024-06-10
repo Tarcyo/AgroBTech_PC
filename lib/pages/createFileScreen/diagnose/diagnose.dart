@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import '../../../reusableWidgets/insertCamp.dart';
-import 'tableOfResults.dart';
 import '../../../reusableWidgets/roundedButtom.dart';
+import '../../../reusableWidgets/resultList.dart';
 import '../../../reusableWidgets/observationsList.dart';
 import '../../../reusableWidgets/attachmentsList.dart';
-import 'package:midas/utils/createFiles/sanidadeDeSementes.dart';
+import 'package:midas/utils/createFiles/diagnose.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:midas/constants.dart';
 import 'package:midas/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
-
-
-class SanidadeDeSementes extends StatefulWidget {
-  SanidadeDeSementes(this._savedData, {Key? key}) : super(key: key);
+class Diagnose extends StatefulWidget {
+  Diagnose(this._savedData, {Key? key}) : super(key: key);
   final String _savedData;
 
   @override
-  State<SanidadeDeSementes> createState() =>
-      _SanidadeDeSementesState(_savedData);
+  State<Diagnose> createState() =>
+      _DiagnoseState(_savedData);
 }
 
-class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
+class _DiagnoseState extends State<Diagnose> {
   final String _savedData;
-
-  _SanidadeDeSementesState(this._savedData) {
+  
+  _DiagnoseState(this._savedData) {
     if (_savedData.isEmpty == false) {
       final data = json.decode(_savedData);
       print("Aqui:" + _savedData);
@@ -35,11 +33,11 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
       _contractorController.text = data['informacoes']['Contratante'];
       _materialController.text = data['informacoes']['Material'];
       _dateController.text = data['informacoes']['Data_de_entrada'];
-      _productorController.text = data['informacoes']['CNPJ'];
+      _cnpjController.text = data['informacoes']['CNPJ'];
       _farmController.text = data['informacoes']['Fazenda'];
-      _results = [];
-      for (final i in data["resultados"]) {
-        _results.add(TextEditingController(text: i));
+
+      for(final result in data["resultados"]){
+        _results.add(TextEditingController(text: result));
       }
 
       for (final i in data['observacoes']) {
@@ -60,35 +58,17 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
   }
 
   // Informações:
-  TextEditingController _analyzeController =
-      TextEditingController(text: "Sanidade de sementes");
+  TextEditingController _analyzeController = TextEditingController(text: "Diagnose Fitopatológica");
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _contractorController = TextEditingController();
   TextEditingController _materialController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  TextEditingController _productorController = TextEditingController();
+  TextEditingController _cnpjController = TextEditingController();
   TextEditingController _farmController = TextEditingController();
 
   // Resultados
-  List<TextEditingController> _results = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-  ];
+  List<TextEditingController> _results = [];
 
   //Observações
   List<TextEditingController> _observations = [];
@@ -137,117 +117,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
 
   @override
   Widget build(BuildContext context) {
-    if (_index == 0) {
-      return Scaffold(
-        body: Container(
-          color: secondaryColor,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(width: 1),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
     if (_index == 1) {
       return Scaffold(
         body: Container(
@@ -397,7 +266,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                         'Data de entrada', _dateController),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.inventory, 'Produtor',
-                                        _productorController),
+                                        _cnpjController),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.landscape, 'Fazenda',
                                         _farmController),
@@ -564,9 +433,8 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                             color: Colors.white, fontSize: 22),
                                       ),
                                     ),
-                                    DataTableWidget(
-                                      controllers: [..._results],
-                                    ),
+                                    ResultList(controllers: _results),
+                                 
                                     SizedBox(height: 15, width: 5),
                                     Center(
                                       child: RoundedButton(
@@ -833,7 +701,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                             _contractorController.text,
                                             _materialController.text,
                                             _dateController.text,
-                                            _productorController.text,
+                                            _cnpjController.text,
                                             _farmController.text,
                                             _results,
                                             _observations,
@@ -979,18 +847,19 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     if (_dateController.text.isEmpty == false) {
       dataEntrada = _dateController.text;
     }
-    if (_productorController.text.isEmpty == false) {
-      cnpj = _productorController.text;
+    if (_cnpjController.text.isEmpty == false) {
+      cnpj = _cnpjController.text;
     }
     if (_farmController.text.isEmpty == false) {
       fazenda = _farmController.text;
     }
 
     final results = [];
-
-    for (final r in _results) {
+    for(final r in _results){
       results.add(r.text);
     }
+
+   
 
     final observacoes = [];
 
@@ -1001,7 +870,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     final anexos = [];
 
     for (final i in _images) {
-    
       anexos.add(i.path);
     }
 
