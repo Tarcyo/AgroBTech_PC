@@ -107,10 +107,10 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     setState(() {
       rows.add(
         DataRow(cells: [
-          DataCell(tableCell(TextEditingController())),
-          DataCell(tableCell(TextEditingController())),
-          DataCell(tableCell(TextEditingController())),
-          DataCell(tableCell(TextEditingController())),
+          DataCell(TableTextCell(TextEditingController())),
+          DataCell(TableTextCell(TextEditingController())),
+          DataCell(TableTextCell(TextEditingController())),
+          DataCell(TableTextCell(TextEditingController())),
         ]),
       );
     });
@@ -201,12 +201,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   }
 }
 
-class tableCell extends StatelessWidget {
+class TableTextCell extends StatelessWidget {
   final TextEditingController _controller;
 
   TextEditingController get controller => _controller;
 
-  tableCell(
+  TableTextCell(
     this._controller,
   );
 

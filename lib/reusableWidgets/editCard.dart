@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:midas/constants.dart';
+import 'package:midas/pages/createFileScreen/diferenciacaoDeRaca/diferencia%C3%A7%C3%A3oDeRa%C3%A7a.dart';
 import '../pages/createFileScreen/controleDeQualidade/controleDeQualidade.dart';
 import '../pages/createFileScreen/sanidadeDeSementes/sanidadeDeSementes.dart';
 import '../pages/createFileScreen/diagnose/diagnose.dart';
@@ -129,8 +130,31 @@ class EditCard extends StatelessWidget {
                             context,
                             PageRouteBuilder(
                               transitionDuration: Duration(milliseconds: 600),
-                              pageBuilder: (_, __, ___) =>
-                                  Diagnose(content),
+                              pageBuilder: (_, __, ___) => Diagnose(content),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.0,
+                                    end: 1.0,
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeInOut,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (data['informacoes']['Tipo_de_analise'] ==
+                            "Diferenciação de raças") {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 600),
+                              pageBuilder: (_, __, ___) => DifereciacaoDeRaca(content),
                               transitionsBuilder: (_, animation, __, child) {
                                 return ScaleTransition(
                                   scale: Tween<double>(

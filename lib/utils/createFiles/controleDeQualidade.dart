@@ -126,7 +126,7 @@ Future<void> createPDF(
   for (final r in resultados) {
     final cells = [];
     for (final c in r.cells) {
-      final cell = c.child as tableCell;
+      final cell = c.child as TableTextCell;
       cells.add(cell.controller.text);
     }
     dataResults.add(cells);

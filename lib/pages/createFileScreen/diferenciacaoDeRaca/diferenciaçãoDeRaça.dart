@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import '../../../reusableWidgets/insertCamp.dart';
 import 'tableOfResults.dart';
 import '../../../reusableWidgets/roundedButtom.dart';
 import '../../../reusableWidgets/observationsList.dart';
 import '../../../reusableWidgets/attachmentsList.dart';
-import 'package:midas/utils/createFiles/controleDeQualidade.dart';
+import 'package:midas/utils/createFiles/diferenciaçãoDeRaça.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:midas/constants.dart';
@@ -13,19 +12,19 @@ import 'package:midas/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 
-class ControleDeQualidade extends StatefulWidget {
-  ControleDeQualidade(this._savedData, {Key? key}) : super(key: key);
+class DifereciacaoDeRaca extends StatefulWidget {
+  DifereciacaoDeRaca(this._savedData, {Key? key}) : super(key: key);
   final String _savedData;
 
   @override
-  State<ControleDeQualidade> createState() =>
-      _ControleDeQualidadeState(_savedData);
+  State<DifereciacaoDeRaca> createState() =>
+      _DifereciacaoDeRacaState(_savedData);
 }
 
-class _ControleDeQualidadeState extends State<ControleDeQualidade> {
-  final String _savedData;
+class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
+  final dynamic _savedData;
 
-  _ControleDeQualidadeState(this._savedData) {
+  _DifereciacaoDeRacaState(this._savedData) {
     if (_savedData.isEmpty == false) {
       final data = json.decode(_savedData);
       print("Aqui:" + _savedData);
@@ -35,14 +34,21 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
       _contractorController.text = data['informacoes']['Contratante'];
       _materialController.text = data['informacoes']['Material'];
       _dateController.text = data['informacoes']['Data_de_entrada'];
-      _cnpjController.text = data['informacoes']['CNPJ'];
+      _proprietarioControler.text = data['informacoes']['Proprietario'];
       _farmController.text = data['informacoes']['Fazenda'];
+      _responsavelControler.text = data['informacoes']['Responsavel'];
 
       DataRow linha = DataRow(cells: []);
 
       for (final i in data['resultados']) {
         for (final j in i) {
-          linha.cells.add(DataCell(TableTextCell(TextEditingController(text: j))));
+          if (j == '-' || j == '+') {
+            linha.cells
+                .add(DataCell(OptionDropdownCell(DropdownController(j))));
+          } else {
+            linha.cells
+                .add(DataCell(TableTextCell(TextEditingController(text: j))));
+          }
         }
         _results.add(linha);
         linha = DataRow(cells: []);
@@ -66,13 +72,16 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
   }
 
   // Informações:
-  TextEditingController _analyzeController = TextEditingController(text: "Controle de qualidade");
+  TextEditingController _analyzeController =
+      TextEditingController(text: "Diferenciação de raças");
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _contractorController = TextEditingController();
   TextEditingController _materialController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  TextEditingController _cnpjController = TextEditingController();
+  TextEditingController _proprietarioControler = TextEditingController();
+  TextEditingController _responsavelControler = TextEditingController();
+
   TextEditingController _farmController = TextEditingController();
 
   // Resultados
@@ -384,8 +393,13 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                     _buildInfoRow(Icons.calendar_today,
                                         'Data de entrada', _dateController),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.account_balance, 'CNPJ',
-                                        _cnpjController),
+                                    _buildInfoRow(Icons.account_circle,
+                                        'Proprietário', _proprietarioControler),
+                                    SizedBox(height: 15, width: 5),
+                                    _buildInfoRow(
+                                        Icons.engineering,
+                                        'Responsavel pela entrega',
+                                        _responsavelControler),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.landscape, 'Fazenda',
                                         _farmController),
@@ -821,8 +835,9 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                             _contractorController.text,
                                             _materialController.text,
                                             _dateController.text,
-                                            _cnpjController.text,
+                                            _proprietarioControler.text,
                                             _farmController.text,
+                                            _responsavelControler.text,
                                             _results,
                                             _observations,
                                             _images,
@@ -936,8 +951,9 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
     String contratante = "";
     String material = "";
     String dataEntrada = "";
-    String cnpj = "";
+    String proprietario = "";
     String fazenda = "";
+    String responsavel = "";
 
     if (_fileNameController.text.isEmpty == false) {
       nomeArquivo = _fileNameController.text;
@@ -967,11 +983,14 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
     if (_dateController.text.isEmpty == false) {
       dataEntrada = _dateController.text;
     }
-    if (_cnpjController.text.isEmpty == false) {
-      cnpj = _cnpjController.text;
+    if (_proprietarioControler.text.isEmpty == false) {
+      proprietario = _proprietarioControler.text;
     }
     if (_farmController.text.isEmpty == false) {
       fazenda = _farmController.text;
+    }
+    if (_responsavelControler.text.isEmpty == false) {
+      responsavel = _responsavelControler.text;
     }
 
     final results = [];
@@ -979,8 +998,13 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
     for (final r in _results) {
       final cells = [];
       for (final c in r.cells) {
-        final cell = c.child as TableTextCell;
-        cells.add(cell.controller.text);
+        if (c.child is TableTextCell) {
+          final cell = c.child as TableTextCell;
+          cells.add(cell.controller.text);
+        } else {
+          final cell = c.child as OptionDropdownCell;
+          cells.add(cell.controller.selectedValue);
+        }
       }
       results.add(cells);
     }
@@ -1011,8 +1035,9 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
         "Contratante": contratante,
         "Material": material,
         "Data_de_entrada": dataEntrada,
-        "CNPJ": cnpj,
+        "Proprietario": proprietario,
         "Fazenda": fazenda,
+        'Responsavel': responsavel,
       },
       "resultados": results,
       "observacoes": observacoes,

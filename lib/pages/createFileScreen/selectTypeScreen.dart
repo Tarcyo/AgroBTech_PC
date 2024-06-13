@@ -3,6 +3,7 @@ import 'package:midas/constants.dart';
 import 'controleDeQualidade/controleDeQualidade.dart';
 import 'sanidadeDeSementes/sanidadeDeSementes.dart';
 import 'diagnose/diagnose.dart';
+import 'diferenciacaoDeRaca/diferenciaçãoDeRaça.dart';
 
 String selectedLaudo = 'Controle de qualidade';
 
@@ -117,6 +118,19 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                             pageBuilder: (context, animation,
                                                 secondaryAnimation) {
                                               return Diagnose("");
+                                            },
+                                          ),
+                                        );
+                                      }
+                                        if (selectedLaudo ==
+                                          'Laudo Raça de nematóides') {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            transitionDuration: Duration.zero,
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) {
+                                              return DifereciacaoDeRaca("");
                                             },
                                           ),
                                         );
