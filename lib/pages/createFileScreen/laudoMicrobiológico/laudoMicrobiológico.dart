@@ -4,27 +4,27 @@ import 'tableOfResults.dart';
 import '../../../reusableWidgets/roundedButtom.dart';
 import '../../../reusableWidgets/observationsList.dart';
 import '../../../reusableWidgets/attachmentsList.dart';
-import 'package:midas/utils/createFiles/diferenciaçãoDeRaça.dart';
+import 'package:midas/utils/createFiles/laudoMicrobiol%C3%B3gico.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:midas/constants.dart';
 import 'package:midas/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'TableOfInterpretation.dart';
 
-class DifereciacaoDeRaca extends StatefulWidget {
-  DifereciacaoDeRaca(this._savedData, {Key? key}) : super(key: key);
+class Microbiologico extends StatefulWidget {
+  Microbiologico(this._savedData, {Key? key}) : super(key: key);
   final String _savedData;
 
   @override
-  State<DifereciacaoDeRaca> createState() =>
-      _DifereciacaoDeRacaState(_savedData);
+  State<Microbiologico> createState() => _MicrobiologicoState(_savedData);
 }
 
-class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
-  final dynamic _savedData;
+class _MicrobiologicoState extends State<Microbiologico> {
+  final String _savedData;
 
-  _DifereciacaoDeRacaState(this._savedData) {
+  _MicrobiologicoState(this._savedData) {
     if (_savedData.isEmpty == false) {
       final data = json.decode(_savedData);
       print("Aqui:" + _savedData);
@@ -34,24 +34,27 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
       _contractorController.text = data['informacoes']['Contratante'];
       _materialController.text = data['informacoes']['Material'];
       _dateController.text = data['informacoes']['Data_de_entrada'];
-      _produtorController.text = data['informacoes']['Produtor'];
+      _productorController.text = data['informacoes']['Produtor'];
       _farmController.text = data['informacoes']['Fazenda'];
-      _responsavelControler.text = data['informacoes']['Responsavel'];
-
+      _results = [];
       DataRow linha = DataRow(cells: []);
 
       for (final i in data['resultados']) {
         for (final j in i) {
-          if (j == '-' || j == '+') {
-            linha.cells
-                .add(DataCell(OptionDropdownCell(DropdownController(j))));
-          } else {
-            linha.cells
-                .add(DataCell(TableTextCell(TextEditingController(text: j))));
-          }
+          linha.cells
+              .add(DataCell(TableTextCell(TextEditingController(text: j))));
         }
         _results.add(linha);
         linha = DataRow(cells: []);
+      }
+
+      _criteriaByFactorControllers = [];
+      for (final i in data['criterios1']) {
+        _criteriaByFactorControllers.add(TextEditingController(text: i));
+      }
+      _criteriaByMacrophominaControllers = [];
+      for (final i in data['criterios2']) {
+        _criteriaByMacrophominaControllers.add(TextEditingController(text: i));
       }
 
       for (final i in data['observacoes']) {
@@ -73,19 +76,31 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
 
   // Informações:
   TextEditingController _analyzeController =
-      TextEditingController(text: "Diferenciação de raças");
+      TextEditingController(text: "Laudo Microbiológico");
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _contractorController = TextEditingController();
   TextEditingController _materialController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  TextEditingController _produtorController = TextEditingController();
-  TextEditingController _responsavelControler = TextEditingController();
-
+  TextEditingController _productorController = TextEditingController();
   TextEditingController _farmController = TextEditingController();
 
   // Resultados
   List<DataRow> _results = [];
+
+  // Análise dos reultados
+  List<TextEditingController> _criteriaByMacrophominaControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
+  List<TextEditingController> _criteriaByFactorControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
 
   //Observações
   List<TextEditingController> _observations = [];
@@ -393,13 +408,8 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
                                     _buildInfoRow(Icons.calendar_today,
                                         'Data de entrada', _dateController),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.account_circle,
-                                        'Proprietário', _produtorController),
-                                    SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(
-                                        Icons.engineering,
-                                        'Responsavel pela entrega',
-                                        _responsavelControler),
+                                    _buildInfoRow(Icons.inventory, 'Produtor',
+                                        _productorController),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.landscape, 'Fazenda',
                                         _farmController),
@@ -546,7 +556,7 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
                         ),
                         Center(
                           child: SizedBox(
-                            width: 600,
+                            width: 1000, // Aumente o valor da largura aqui
                             child: Card(
                               color: mainColor,
                               elevation: 5,
@@ -566,20 +576,19 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
                                             color: Colors.white, fontSize: 22),
                                       ),
                                     ),
-                                    DataTableWidget(
-                                      initialRows: _results,
-                                    ),
+                                    DataTableWidget(initialRows: _results),
                                     SizedBox(height: 15, width: 5),
                                     Center(
                                       child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
-                                          },
-                                          text: "Salvar Rascunho"),
+                                        onPressed: () async {
+                                          await _criarArquivoJson();
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .adicionaRascunho(
+                                                  _fileNameController.text);
+                                        },
+                                        text: "Salvar Rascunho",
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -762,6 +771,167 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
     if (_index == 4) {
       return Scaffold(
         body: Container(
+          color: secondaryColor, // secondaryColor
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 30),
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _index--;
+                                        });
+
+                                        // Implement your functionality here
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: mainColor, // mainColor
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(180.0),
+                                        ),
+                                        minimumSize: Size(150, 50),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.arrow_back_ios,
+                                              color: Colors.white, size: 20),
+                                          SizedBox(width: 3),
+                                          Text(
+                                            "Voltar",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _index++;
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: mainColor, // mainColor
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(180.0),
+                                        ),
+                                        minimumSize: Size(150, 50),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Próximo",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                              ),
+                                              SizedBox(width: 3),
+                                              Icon(Icons.arrow_forward_ios,
+                                                  color: Colors.white,
+                                                  size: 20),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 30),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Center(
+                          child: SizedBox(
+                            width: 1500, // Aumente o valor da largura aqui
+                            child: Card(
+                              color: mainColor, // mainColor
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                                side: BorderSide(
+                                    color: mainColor, width: 10), // mainColor
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        "Interpretação dos resultados",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 22),
+                                      ),
+                                    ),
+                                    TableOfInterpretation(
+                                        _criteriaByMacrophominaControllers,
+                                        _criteriaByFactorControllers),
+                                    SizedBox(height: 15, width: 5),
+                                    Center(
+                                      child: RoundedButton(
+                                          onPressed: () async {
+                                            await _criarArquivoJson();
+                                            Provider.of<FileNameProvider>(
+                                                    listen: false, context)
+                                                .adicionaRascunho(
+                                                    _fileNameController.text);
+                                          },
+                                          text: "Salvar Radscunho"),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 1),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_index == 5) {
+      return Scaffold(
+        body: Container(
           color: secondaryColor,
           child: Column(
             children: [
@@ -835,10 +1005,11 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
                                             _contractorController.text,
                                             _materialController.text,
                                             _dateController.text,
-                                            _produtorController.text,
+                                            _productorController.text,
                                             _farmController.text,
-                                            _responsavelControler.text,
                                             _results,
+                                            _criteriaByMacrophominaControllers,
+                                            _criteriaByFactorControllers,
                                             _observations,
                                             _images,
                                             _attrachmentsControllers);
@@ -921,7 +1092,7 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
                                                 .adicionaRascunho(
                                                     _fileNameController.text);
                                           },
-                                          text: "Salvar Rascunho"),
+                                          text: "Salvar Radscunho"),
                                     ),
                                   ],
                                 ),
@@ -953,7 +1124,6 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
     String dataEntrada = "";
     String produtor = "";
     String fazenda = "";
-    String responsavel = "";
 
     if (_fileNameController.text.isEmpty == false) {
       nomeArquivo = _fileNameController.text;
@@ -983,14 +1153,11 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
     if (_dateController.text.isEmpty == false) {
       dataEntrada = _dateController.text;
     }
-    if (_produtorController.text.isEmpty == false) {
-      produtor = _produtorController.text;
+    if (_productorController.text.isEmpty == false) {
+      produtor = _productorController.text;
     }
     if (_farmController.text.isEmpty == false) {
       fazenda = _farmController.text;
-    }
-    if (_responsavelControler.text.isEmpty == false) {
-      responsavel = _responsavelControler.text;
     }
 
     final results = [];
@@ -998,15 +1165,21 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
     for (final r in _results) {
       final cells = [];
       for (final c in r.cells) {
-        if (c.child is TableTextCell) {
-          final cell = c.child as TableTextCell;
-          cells.add(cell.controller.text);
-        } else {
-          final cell = c.child as OptionDropdownCell;
-          cells.add(cell.controller.selectedValue);
-        }
+        final cell = c.child as TableTextCell;
+        cells.add(cell.controller.text);
       }
       results.add(cells);
+    }
+
+    final criterios1 = [];
+    final criterios2 = [];
+
+    for (final i in _criteriaByFactorControllers) {
+      criterios1.add(i.text);
+    }
+
+    for (final i in _criteriaByMacrophominaControllers) {
+      criterios2.add(i.text);
     }
 
     final observacoes = [];
@@ -1037,8 +1210,9 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
         "Data_de_entrada": dataEntrada,
         "Produtor": produtor,
         "Fazenda": fazenda,
-        'Responsavel': responsavel,
       },
+      "criterios1": criterios1,
+      "criterios2": criterios2,
       "resultados": results,
       "observacoes": observacoes,
       "anexos": anexos,

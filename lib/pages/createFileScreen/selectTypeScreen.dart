@@ -4,6 +4,7 @@ import 'controleDeQualidade/controleDeQualidade.dart';
 import 'sanidadeDeSementes/sanidadeDeSementes.dart';
 import 'diagnose/diagnose.dart';
 import 'diferenciacaoDeRaca/diferenciaçãoDeRaça.dart';
+import 'laudoMicrobiológico/laudoMicrobiológico.dart';
 
 String selectedLaudo = 'Controle de qualidade';
 
@@ -109,8 +110,7 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                           ),
                                         );
                                       }
-                                      if (selectedLaudo ==
-                                          'Laudo Diagnose') {
+                                      if (selectedLaudo == 'Laudo Diagnose') {
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -122,7 +122,7 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                           ),
                                         );
                                       }
-                                        if (selectedLaudo ==
+                                      if (selectedLaudo ==
                                           'Laudo Raça de nematóides') {
                                         Navigator.push(
                                           context,
@@ -131,6 +131,19 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                             pageBuilder: (context, animation,
                                                 secondaryAnimation) {
                                               return DifereciacaoDeRaca("");
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      if (selectedLaudo ==
+                                          'Laudo Microbiológico') {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            transitionDuration: Duration.zero,
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) {
+                                              return Microbiologico("");
                                             },
                                           ),
                                         );

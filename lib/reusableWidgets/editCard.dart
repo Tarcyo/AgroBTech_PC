@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:midas/providers/fileNameProvider.dart';
 import 'dart:convert';
+import 'package:midas/pages/createFileScreen/laudoMicrobiológico/laudoMicrobiológico.dart';
 
 class EditCard extends StatelessWidget {
   final String _nomeDoArquivo;
@@ -154,7 +155,33 @@ class EditCard extends StatelessWidget {
                             context,
                             PageRouteBuilder(
                               transitionDuration: Duration(milliseconds: 600),
-                              pageBuilder: (_, __, ___) => DifereciacaoDeRaca(content),
+                              pageBuilder: (_, __, ___) =>
+                                  DifereciacaoDeRaca(content),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.0,
+                                    end: 1.0,
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeInOut,
+                                    ),
+                                  ),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (data['informacoes']['Tipo_de_analise'] ==
+                            "Laudo Microbiológico") {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 600),
+                              pageBuilder: (_, __, ___) =>
+                                  Microbiologico(content),
                               transitionsBuilder: (_, animation, __, child) {
                                 return ScaleTransition(
                                   scale: Tween<double>(
