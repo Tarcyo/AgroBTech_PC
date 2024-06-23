@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:midas/constants.dart';
+import 'package:agro_bio_tech_pc/constants.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:midas/providers/fileNameProvider.dart';
+import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:open_file/open_file.dart';
 import 'package:share_plus/share_plus.dart';
 

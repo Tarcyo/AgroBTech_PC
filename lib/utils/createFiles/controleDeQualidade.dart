@@ -5,7 +5,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:midas/pages/createFileScreen/controleDeQualidade/tableOfResults.dart';
+import 'package:agro_bio_tech_pc/pages/createFileScreen/controleDeQualidade/tableOfResults.dart';
 import 'package:open_file/open_file.dart';
 
 pw.Widget _buildTable(List<dynamic> list) {

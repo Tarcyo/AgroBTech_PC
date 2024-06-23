@@ -4,11 +4,11 @@ import 'tableOfResults.dart';
 import '../../../reusableWidgets/roundedButtom.dart';
 import '../../../reusableWidgets/observationsList.dart';
 import '../../../reusableWidgets/attachmentsList.dart';
-import 'package:midas/utils/createFiles/diferenciaçãoDeRaça.dart';
+import 'package:agro_bio_tech_pc/utils/createFiles/diferenciaçãoDeRaça.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:midas/constants.dart';
-import 'package:midas/providers/fileNameProvider.dart';
+import 'package:agro_bio_tech_pc/constants.dart';
+import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 

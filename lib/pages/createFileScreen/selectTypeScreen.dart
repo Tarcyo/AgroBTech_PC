@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:midas/constants.dart';
+import 'package:agro_bio_tech_pc/constants.dart';
 import 'controleDeQualidade/controleDeQualidade.dart';
 import 'sanidadeDeSementes/sanidadeDeSementes.dart';
 import 'diagnose/diagnose.dart';
 import 'diferenciacaoDeRaca/diferenciaçãoDeRaça.dart';
 import 'laudoMicrobiológico/laudoMicrobiológico.dart';
+import 'laudoNematológico/laudoNematológico.dart';
 
 String selectedLaudo = 'Controle de qualidade';
 
@@ -144,6 +145,19 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                             pageBuilder: (context, animation,
                                                 secondaryAnimation) {
                                               return Microbiologico("");
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      if (selectedLaudo ==
+                                          'Laudo Nematológico') {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            transitionDuration: Duration.zero,
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) {
+                                              return LaudoNematologico("");
                                             },
                                           ),
                                         );

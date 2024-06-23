@@ -56,48 +56,48 @@ class _DataTableWidgetState extends State<DataTableWidget> {
             ),
           ),
           SizedBox(height: screenHeight * 0.030),
-         Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.green,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            addRow();
-                          });
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          size: screenHeight * 0.02,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                        removeRow();
-                        },
-                        icon: Icon(
-                          Icons.remove,
-                          size: screenHeight * 0.02,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.green,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      addRow();
+                    });
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    size: screenHeight * 0.02,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 300,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    removeRow();
+                  },
+                  icon: Icon(
+                    Icons.remove,
+                    size: screenHeight * 0.02,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

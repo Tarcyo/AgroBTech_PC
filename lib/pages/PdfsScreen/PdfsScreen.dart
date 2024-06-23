@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:midas/constants.dart';
-import 'package:midas/reusableWidgets/pdfCardList.dart';
+import 'package:agro_bio_tech_pc/constants.dart';
+import 'package:agro_bio_tech_pc/reusableWidgets/pdfCardList.dart';
 import 'package:provider/provider.dart';
-import 'package:midas/providers/fileNameProvider.dart';
+import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import '../createFileScreen/selectTypeScreen.dart';
 class PdfsScreen extends StatelessWidget {
   @override

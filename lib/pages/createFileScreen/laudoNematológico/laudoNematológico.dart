@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import '../../../reusableWidgets/insertCamp.dart';
+import 'tableOfResults.dart';
 import '../../../reusableWidgets/roundedButtom.dart';
-import '../../../reusableWidgets/resultList.dart';
-import '../../../reusableWidgets/observationsList.dart';
-import '../../../reusableWidgets/attachmentsList.dart';
-import 'package:agro_bio_tech_pc/utils/createFiles/diagnose.dart';
+import 'package:agro_bio_tech_pc/utils/createFiles/laudoNematológico.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:agro_bio_tech_pc/constants.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
-class Diagnose extends StatefulWidget {
-  Diagnose(this._savedData, {Key? key}) : super(key: key);
+
+class LaudoNematologico extends StatefulWidget {
+  LaudoNematologico(this._savedData, {Key? key}) : super(key: key);
   final String _savedData;
 
   @override
-  State<Diagnose> createState() =>
-      _DiagnoseState(_savedData);
+  State<LaudoNematologico> createState() => _LaudoNematologicoState(_savedData);
 }
 
-class _DiagnoseState extends State<Diagnose> {
-  final String _savedData;
-  
-  _DiagnoseState(this._savedData) {
+class _LaudoNematologicoState extends State<LaudoNematologico> {
+  final dynamic _savedData;
+
+  _LaudoNematologicoState(this._savedData) {
     if (_savedData.isEmpty == false) {
       final data = json.decode(_savedData);
       print("Aqui:" + _savedData);
@@ -33,11 +31,19 @@ class _DiagnoseState extends State<Diagnose> {
       _contractorController.text = data['informacoes']['Contratante'];
       _materialController.text = data['informacoes']['Material'];
       _dateController.text = data['informacoes']['Data_de_entrada'];
-      _cnpjController.text = data['informacoes']['CNPJ'];
+      _produtorController.text = data['informacoes']['Produtor'];
       _farmController.text = data['informacoes']['Fazenda'];
+      _responsavelControler.text = data['informacoes']['Responsavel'];
 
-      for(final result in data["resultados"]){
-        _results.add(TextEditingController(text: result));
+      DataRow linha = DataRow(cells: []);
+
+      for (final i in data['resultados']) {
+        for (final j in i) {
+          linha.cells
+              .add(DataCell(TableTextCell(TextEditingController(text: j))));
+        }
+        _results.add(linha);
+        linha = DataRow(cells: []);
       }
 
       for (final i in data['observacoes']) {
@@ -58,23 +64,26 @@ class _DiagnoseState extends State<Diagnose> {
   }
 
   // Informações:
-  TextEditingController _analyzeController = TextEditingController(text: "Diagnose Fitopatológica");
+  TextEditingController _analyzeController =
+      TextEditingController(text: "Laudo Nematológico");
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _contractorController = TextEditingController();
   TextEditingController _materialController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  TextEditingController _cnpjController = TextEditingController();
+  TextEditingController _produtorController = TextEditingController();
+  TextEditingController _responsavelControler = TextEditingController();
+
   TextEditingController _farmController = TextEditingController();
 
   // Resultados
-  List<TextEditingController> _results = [];
+  List<DataRow> _results = [];
 
   //Observações
   List<TextEditingController> _observations = [];
 
   //Anexos
-  List<Widget> _attrachments = [];
+ // List<Widget> _attrachments = [];
   List<File> _images = [];
   List<TextEditingController> _attrachmentsControllers = [];
 
@@ -117,6 +126,117 @@ class _DiagnoseState extends State<Diagnose> {
 
   @override
   Widget build(BuildContext context) {
+    if (_index == 0) {
+      return Scaffold(
+        body: Container(
+          color: secondaryColor,
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 30),
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    ElevatedButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: mainColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(180.0),
+                                        ),
+                                        minimumSize: Size(150, 50),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.arrow_back_ios,
+                                              color: Colors.white, size: 20),
+                                          SizedBox(width: 3),
+                                          Text(
+                                            "Voltar",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _index = _index + 1;
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: mainColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(180.0),
+                                        ),
+                                        minimumSize: Size(150, 50),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Próximo",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                              ),
+                                              SizedBox(width: 3),
+                                              Icon(Icons.arrow_forward_ios,
+                                                  color: Colors.white,
+                                                  size: 20),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(width: 30),
+                              ],
+                            )
+                          ],
+                        ),
+                        SizedBox(width: 1),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     if (_index == 1) {
       return Scaffold(
         body: Container(
@@ -253,22 +373,23 @@ class _DiagnoseState extends State<Diagnose> {
                                     _buildInfoRow(Icons.assignment,
                                         'Nome do arquivo', _fileNameController),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.pin, 'Número laudo',
-                                        _numberController),
+                                    _buildInfoRow(
+                                        Icons.biotech,
+                                        'Material Analisado',
+                                        _materialController),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.business, 'Contratante',
+                                    _buildInfoRow(Icons.business, 'Cliente',
                                         _contractorController),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.biotech, 'Material',
-                                        _materialController),
+                                    _buildInfoRow(
+                                        Icons.engineering,
+                                        'Reponsavel pela entrega',
+                                        _responsavelControler),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.calendar_today,
                                         'Data de entrada', _dateController),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.inventory, 'Produtor',
-                                        _cnpjController),
-                                    SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.landscape, 'Fazenda',
+                                    _buildInfoRow(Icons.landscape, 'Fazenda ',
                                         _farmController),
                                     SizedBox(height: 15, width: 5),
                                     Row(
@@ -366,13 +487,29 @@ class _DiagnoseState extends State<Diagnose> {
                                     SizedBox(height: 20),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
                                         await _criarArquivoJson();
                                         Provider.of<FileNameProvider>(
                                                 listen: false, context)
                                             .adicionaRascunho(
+                                                _fileNameController.text);
+                                        await createPDF(
+                                            context,
+                                            _fileNameController.text,
+                                            _analyzeController.text,
+                                            _numberController.text,
+                                            _contractorController.text,
+                                            _materialController.text,
+                                            _dateController.text,
+                                            _produtorController.text,
+                                            _farmController.text,
+                                            _responsavelControler.text,
+                                            _results,
+                                            _observations,
+                                            _images,
+                                            _attrachmentsControllers);
+                                        Provider.of<FileNameProvider>(
+                                                listen: false, context)
+                                            .adicionaPdf(
                                                 _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -384,36 +521,31 @@ class _DiagnoseState extends State<Diagnose> {
                                         minimumSize: Size(150, 50),
                                       ),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
+                                          Text(
+                                            "Exportar",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
                                           ),
+                                          SizedBox(width: 3),
+                                          Icon(Icons.picture_as_pdf,
+                                              color: Colors.white, size: 20),
                                         ],
                                       ),
                                     )
                                   ],
                                 ),
-                                SizedBox(width: 30),
+                                SizedBox(width: 3),
                               ],
                             )
                           ],
                         ),
                         Center(
                           child: SizedBox(
-                            width: 600,
+                            width: 1500,
                             child: Card(
                               color: mainColor,
                               elevation: 5,
@@ -433,350 +565,10 @@ class _DiagnoseState extends State<Diagnose> {
                                             color: Colors.white, fontSize: 22),
                                       ),
                                     ),
-                                    ResultList(controllers: _results),
-                                 
+                                    DataTableWidget(
+                                      initialRows: _results,
+                                    ),
                                     SizedBox(height: 15, width: 5),
-                                    Center(
-                                      child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
-                                          },
-                                          text: "Salvar Rascunho"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 1),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    if (_index == 3) {
-      return Scaffold(
-        body: Container(
-          color: secondaryColor,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
-                        Center(
-                          child: SizedBox(
-                            width: 600,
-                            child: Card(
-                              color: mainColor,
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
-                                side: BorderSide(color: mainColor, width: 10),
-                              ),
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        "Observações",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 22),
-                                      ),
-                                    ),
-                                    ObservationsList(
-                                        controllers: _observations),
-                                    SizedBox(height: 100, width: 5),
-                                    Center(
-                                      child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
-                                          },
-                                          text: "Salvar Rascunho"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 1),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    if (_index == 4) {
-      return Scaffold(
-        body: Container(
-          color: secondaryColor,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
-                                        await createPDF(
-                                            context,
-                                            _fileNameController.text,
-                                            _analyzeController.text,
-                                            _numberController.text,
-                                            _contractorController.text,
-                                            _materialController.text,
-                                            _dateController.text,
-                                            _cnpjController.text,
-                                            _farmController.text,
-                                            _results,
-                                            _observations,
-                                            _images,
-                                            _attrachmentsControllers);
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaPdf(
-                                                _fileNameController.text);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Exportar",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.picture_as_pdf,
-                                                  color: Colors.white,
-                                                  size: 40),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
-                        Center(
-                          child: SizedBox(
-                            width: 600,
-                            child: Card(
-                              color: mainColor,
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
-                                side: BorderSide(color: mainColor, width: 10),
-                              ),
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        "Anexos",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 22),
-                                      ),
-                                    ),
-                                    AttachmentsList(
-                                      attachments: _attrachments,
-                                      images: _images,
-                                      observationsControllers:
-                                          _attrachmentsControllers,
-                                    ),
-                                    SizedBox(height: 100, width: 5),
                                     Center(
                                       child: RoundedButton(
                                           onPressed: () async {
@@ -816,8 +608,9 @@ class _DiagnoseState extends State<Diagnose> {
     String contratante = "";
     String material = "";
     String dataEntrada = "";
-    String cnpj = "";
+    String produtor = "";
     String fazenda = "";
+    String responsavel = "";
 
     if (_fileNameController.text.isEmpty == false) {
       nomeArquivo = _fileNameController.text;
@@ -847,19 +640,28 @@ class _DiagnoseState extends State<Diagnose> {
     if (_dateController.text.isEmpty == false) {
       dataEntrada = _dateController.text;
     }
-    if (_cnpjController.text.isEmpty == false) {
-      cnpj = _cnpjController.text;
+    if (_produtorController.text.isEmpty == false) {
+      produtor = _produtorController.text;
     }
     if (_farmController.text.isEmpty == false) {
       fazenda = _farmController.text;
     }
-
-    final results = [];
-    for(final r in _results){
-      results.add(r.text);
+    if (_responsavelControler.text.isEmpty == false) {
+      responsavel = _responsavelControler.text;
     }
 
-   
+    final results = [];
+
+    for (final r in _results) {
+      final cells = [];
+      for (final c in r.cells) {
+        if (c.child is TableTextCell) {
+          final cell = c.child as TableTextCell;
+          cells.add(cell.controller.text);
+        }
+      }
+      results.add(cells);
+    }
 
     final observacoes = [];
 
@@ -887,8 +689,9 @@ class _DiagnoseState extends State<Diagnose> {
         "Contratante": contratante,
         "Material": material,
         "Data_de_entrada": dataEntrada,
-        "CNPJ": cnpj,
+        "Produtor": produtor,
         "Fazenda": fazenda,
+        'Responsavel': responsavel,
       },
       "resultados": results,
       "observacoes": observacoes,
