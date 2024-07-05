@@ -63,7 +63,7 @@ Future<void> createPDF(
     if (r.text.isEmpty) {
       resultsText.add("-");
     } else {
-      resultsText.add(r.text+"%");
+      resultsText.add(r.text + "%");
     }
   }
 
@@ -506,7 +506,7 @@ Future<void> createPDF(
                                   mainAxisAlignment:
                                       pw.MainAxisAlignment.center,
                                   children: [
-                                    pw.Text(resultsText[0] ,
+                                    pw.Text(resultsText[0],
                                         style: pw.TextStyle(
                                           fontSize: 10,
                                         )),
@@ -1008,9 +1008,9 @@ Future<void> createPDF(
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
-  String folderPath = '${documentsDirectory.path}\\meus pdfs';
+  String folderPath =
+      '${documentsDirectory.path}/gerador de laudos/pdfs/sanidade De Sementes';
   await Directory(folderPath).create(recursive: true);
-
   bool salvou = true;
 
   try {

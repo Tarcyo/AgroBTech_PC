@@ -100,9 +100,9 @@ class _TabBarControllerState extends State<TabBarController> {
         )
         .toList();
     return PopScope(
-      canPop: true,
+      canPop: false,
       onPopInvoked: (canPopNow) async {
-        if (_navigatorKeys[_selectedTab].currentState?.canPop() ?? false) {
+        if (_navigatorKeys[_selectedTab].currentState?.canPop() ?? canPopNow) {
           _navigatorKeys[_selectedTab].currentState?.pop();
           return;
         }
@@ -133,7 +133,6 @@ class _TabBarControllerState extends State<TabBarController> {
                       ),
                       child: Row(
                         children: [
-                       
                           SizedBox(width: 8),
                         ],
                       ),

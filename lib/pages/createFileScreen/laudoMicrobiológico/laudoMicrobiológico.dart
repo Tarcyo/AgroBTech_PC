@@ -149,117 +149,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
 
   @override
   Widget build(BuildContext context) {
-    if (_index == 0) {
-      return Scaffold(
-        body: Container(
-          color: secondaryColor,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(width: 1),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
     if (_index == 1) {
       return Scaffold(
         body: Container(
@@ -324,10 +213,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                           _index = _index + 1;
                                         });
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: mainColor,
@@ -421,10 +306,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                         RoundedButton(
                                             onPressed: () async {
                                               await _criarArquivoJson();
-                                              Provider.of<FileNameProvider>(
-                                                      listen: false, context)
-                                                  .adicionaRascunho(
-                                                      _fileNameController.text);
                                             },
                                             text: "Salvar Rascunho"),
                                       ],
@@ -513,10 +394,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                           _index = _index + 1;
                                         });
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: mainColor,
@@ -582,10 +459,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                       child: RoundedButton(
                                         onPressed: () async {
                                           await _criarArquivoJson();
-                                          Provider.of<FileNameProvider>(
-                                                  listen: false, context)
-                                              .adicionaRascunho(
-                                                  _fileNameController.text);
                                         },
                                         text: "Salvar Rascunho",
                                       ),
@@ -671,10 +544,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                     ElevatedButton(
                                       onPressed: () async {
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
+
                                         setState(() {
                                           _index = _index + 1;
                                         });
@@ -744,10 +614,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                       child: RoundedButton(
                                           onPressed: () async {
                                             await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
                                           },
                                           text: "Salvar Rascunho"),
                                     ),
@@ -904,10 +770,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                       child: RoundedButton(
                                           onPressed: () async {
                                             await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
                                           },
                                           text: "Salvar Radscunho"),
                                     ),
@@ -993,10 +855,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                     ElevatedButton(
                                       onPressed: () async {
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
                                         await createPDF(
                                             context,
                                             _fileNameController.text,
@@ -1015,7 +873,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                             _attrachmentsControllers);
                                         Provider.of<FileNameProvider>(
                                                 listen: false, context)
-                                            .adicionaPdf(
+                                            .adicionaMicrobiologicoPdf(
                                                 _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -1087,10 +945,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                       child: RoundedButton(
                                           onPressed: () async {
                                             await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
                                           },
                                           text: "Salvar Radscunho"),
                                     ),
@@ -1230,8 +1084,12 @@ class _MicrobiologicoState extends State<Microbiologico> {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
       // Criar a pasta "rascunhos" se não existir
-      String rascunhosPath = '${documentsDirectory.path}/rascunhos';
+      String rascunhosPath =
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/microbiologico';
       await Directory(rascunhosPath).create(recursive: true);
+
+      Provider.of<FileNameProvider>(listen: false, context)
+          .adicionaMicrobiologicoRascunho(_fileNameController.text);
 
       // Criar o arquivo JSON
       File file = File('$rascunhosPath/$nome.json');

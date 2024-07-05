@@ -91,7 +91,6 @@ Future<void> createPDF(
     String fazenda,
     String responsavel,
     List<DataRow> resultados,
-    
     List<TextEditingController> observacaoes,
     List<File> imagens,
     List<TextEditingController> descricoes) async {
@@ -449,7 +448,8 @@ Future<void> createPDF(
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
-  String folderPath = '${documentsDirectory.path}\\meus pdfs';
+  String folderPath =
+      '${documentsDirectory.path}/gerador de laudos/pdfs/diferenciação De Raça';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

@@ -6,16 +6,67 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'providers/fileNameProvider.dart';
 import 'constants.dart';
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
 
-  final files = await _listFilesInRascunhos();
-  final filesNames = _obterNomesArquivos(files);
-  final pdfs = await _listFilesInMeusPdfs();
-  final pdfNames = _obterNomesArquivos(pdfs);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Directory documentsDirectory = await getApplicationDocumentsDirectory();
+
+  // Obter o caminho da pasta "rascunhos"
+  String path = '${documentsDirectory.path}/gerador de laudos';
+
+  var files = await _listFiles(path + "/rascunhos/controle De Qualidade");
+  final controleDeQualidadeR = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/rascunhos/diagnose");
+  final diagnoseR = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/rascunhos/diferenciação De Raça");
+  final racaR = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/rascunhos/microbiologico");
+  final microR = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/rascunhos/laudo nematológico");
+  final nemaR = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/rascunhos/sanidade De Sementes");
+  final saniR = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/pdfs/controle De Qualidade");
+  final controleDeQualidadeP = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/pdfs/diagnose");
+  final diagnoseP = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/pdfs/diferenciação De Raça");
+  final racaP = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/pdfs/microbiologico");
+  final microP = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/pdfs/laudo nematológico");
+  final nemaP = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/pdfs/sanidade De Sementes");
+  final saniP = _obterNomesArquivos(files);
+
   runApp(
     ChangeNotifierProvider(
-      create: (context) => FileNameProvider(filesNames,pdfNames),
+      create: (context) => FileNameProvider(
+        controleDeQualidadeR,
+        controleDeQualidadeP,
+        diagnoseR,
+        diagnoseP,
+        racaR,
+        racaP,
+        microR,
+        microP,
+        nemaR,
+        nemaP,
+        saniP,
+        saniR,
+      ),
       child: const AgroBioTech(),
     ),
   );
@@ -26,7 +77,6 @@ class AgroBioTech extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: mainColor,
     ));
@@ -35,10 +85,9 @@ class AgroBioTech extends StatelessWidget {
 
     return MaterialApp(
       title: 'Agro Bio Tech: Gerador de laudos',
-      
       theme: ThemeData(
         fontFamily: "Quicksand",
-        primaryColor: mainColor, 
+        primaryColor: mainColor,
       ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
@@ -46,46 +95,14 @@ class AgroBioTech extends StatelessWidget {
   }
 }
 
-Future<List<FileSystemEntity>> _listFilesInRascunhos() async {
-  try {
-  
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-
- 
-    String rascunhosPath = '${documentsDirectory.path}/rascunhos';
-
-   
-    if (await Directory(rascunhosPath).exists()) {
-      
-      List<FileSystemEntity> files = Directory(rascunhosPath).listSync();
-
-      if (files.isNotEmpty) {
-        return files;
-      } else {
-        print('Nenhum arquivo encontrado na pasta "rascunhos".');
-      }
-    } else {
-      print('A pasta "rascunhos" não existe.');
-    }
-  } catch (e) {
-    print('Erro ao listar arquivos: $e');
-  }
-  return [];
-}
-
-Future<List<FileSystemEntity>> _listFilesInMeusPdfs() async {
+Future<List<FileSystemEntity>> _listFiles(String path) async {
   try {
     // Obter o diretório de documentos
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-
-    // Obter o caminho da pasta "rascunhos"
-    String rascunhosPath = '${documentsDirectory.path}/meus pdfs';
-    
 
     // Verificar se a pasta "rascunhos" existe
-    if (await Directory(rascunhosPath).exists()) {
+    if (await Directory(path).exists()) {
       // Listar todos os arquivos na pasta "rascunhos"
-      List<FileSystemEntity> files = Directory(rascunhosPath).listSync();
+      List<FileSystemEntity> files = Directory(path).listSync();
 
       // Verificar se há arquivos
       if (files.isNotEmpty) {
@@ -94,7 +111,7 @@ Future<List<FileSystemEntity>> _listFilesInMeusPdfs() async {
         print('Nenhum arquivo encontrado na pasta "meus pdfs".');
       }
     } else {
-      print('A pasta "meus pdfs" não existe.');
+      print('A pasta' + path + ' não existe.');
     }
   } catch (e) {
     print('Erro ao listar arquivos: $e');

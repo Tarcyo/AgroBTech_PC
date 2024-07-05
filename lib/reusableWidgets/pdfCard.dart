@@ -9,10 +9,9 @@ import 'package:share_plus/share_plus.dart';
 
 class PdfCard extends StatelessWidget {
   final String _nomeDoArquivo;
+  final String _tipoArquivo;
 
-  PdfCard({
-    required String text,
-  }) : _nomeDoArquivo = text;
+  PdfCard(this._nomeDoArquivo, this._tipoArquivo);
 
   @override
   Widget build(BuildContext context) {
@@ -139,9 +138,48 @@ class PdfCard extends StatelessWidget {
                                       onPressed: () async {
                                         // Implementar aqui a lógica para sair
                                         await _deleteFile();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .removePdf(_nomeDoArquivo);
+                                        if (_tipoArquivo ==
+                                            "Controle de qualidade") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeControleDeQualidadePdf(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (_tipoArquivo ==
+                                            "Sanidade de sementes") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeSanidadePdf(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (_tipoArquivo ==
+                                            "Laudo Nematológico") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeNematologicoPdf(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (_tipoArquivo ==
+                                            "Laudo Microbiológico") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeMicrobiologicoPdf(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (_tipoArquivo == "Laudo Diagnose") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeDiagnosePdf(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (_tipoArquivo ==
+                                            "Raça de Nematóides") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeDiferenciacaoDeRacaPdf(
+                                                  _nomeDoArquivo);
+                                        }
+
                                         Navigator.of(context).pop();
                                       },
                                       child: Text(
@@ -189,13 +227,33 @@ class PdfCard extends StatelessWidget {
   }
 
   Future<String> _getFilePath() async {
+    String pasta = "/";
+    if (_tipoArquivo == "Controle de qualidade") {
+      pasta = 'controle De Qualidade';
+    }
+    if (_tipoArquivo == "Sanidade de sementes") {
+      pasta = 'sanidade De Sementes';
+    }
+    if (_tipoArquivo == "Laudo Nematológico") {
+      pasta = "laudo nematológico";
+    }
+    if (_tipoArquivo == "Laudo Microbiológico") {
+      pasta = "microbiologico";
+    }
+    if (_tipoArquivo == "Laudo Diagnose") {
+      pasta = "diagnose";
+    }
+    if (_tipoArquivo == "Raça de Nematóides") {
+      pasta = "diferenciação De Raça";
+    }
     final String fileName = _nomeDoArquivo + ".pdf";
     try {
       // Obter o diretório de documentos
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
       // Obter o caminho da pasta "rascunhos"
-      String rascunhosPath = '${documentsDirectory.path}/meus pdfs';
+      String rascunhosPath =
+          '${documentsDirectory.path}/gerador de laudos/pdfs/' + pasta;
 
       // Verificar se a pasta "rascunhos" existe
       if (await Directory(rascunhosPath).exists()) {
@@ -222,13 +280,33 @@ class PdfCard extends StatelessWidget {
 
   Future<void> _deleteFile() async {
     final String fileName = _nomeDoArquivo + ".pdf";
+    String pasta = "/";
+    if (_tipoArquivo == "Controle de qualidade") {
+      pasta = 'controle De Qualidade';
+    }
+    if (_tipoArquivo == "Sanidade de sementes") {
+      pasta = 'sanidade De Sementes';
+    }
+    if (_tipoArquivo == "Laudo Nematológico") {
+      pasta = "laudo nematológico";
+    }
+    if (_tipoArquivo == "Laudo Microbiológico") {
+      pasta = "microbiologico";
+    }
+    if (_tipoArquivo == "Laudo Diagnose") {
+      pasta = "diagnose";
+    }
+    if (_tipoArquivo == "Raça de Nematóides") {
+      pasta = "diferenciação De Raça";
+    }
 
     try {
       // Obter o diretório de documentos
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
       // Obter o caminho da pasta "rascunhos"
-      String rascunhosPath = '${documentsDirectory.path}/meus pdfs';
+      String rascunhosPath =
+          '${documentsDirectory.path}/gerador de laudos/pdfs/' + pasta;
 
       // Verificar se o arquivo existe
       File fileToDelete = File('$rascunhosPath/$fileName');

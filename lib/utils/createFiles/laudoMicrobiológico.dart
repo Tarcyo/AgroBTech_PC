@@ -1168,7 +1168,8 @@ Future<void> createPDF(
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
-  String folderPath = '${documentsDirectory.path}\\meus pdfs';
+  String folderPath =
+      '${documentsDirectory.path}/gerador de laudos/pdfs/microbiologico';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

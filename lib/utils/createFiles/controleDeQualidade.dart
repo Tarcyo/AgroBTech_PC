@@ -560,13 +560,13 @@ Future<void> createPDF(
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
-  String folderPath = '${documentsDirectory.path}\\meus pdfs';
+  String folderPath = '${documentsDirectory.path}/gerador de laudos/pdfs/controle De Qualidade';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;
 
   try {
-    final path = '$folderPath/' + nomeArquivo + ".pdf";
+    final path = '$folderPath/' +""+nomeArquivo + ".pdf";
 
     // Save the PDF
     final file = File(path);

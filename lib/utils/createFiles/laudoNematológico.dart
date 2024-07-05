@@ -150,7 +150,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][0],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto ),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -163,7 +166,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][1],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -177,7 +183,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][2],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -190,7 +199,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][3],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -203,7 +215,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][4],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -216,7 +231,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][5],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -229,7 +247,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][6],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -242,7 +263,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][7],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -255,7 +279,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][8],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -268,7 +295,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][9],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -281,7 +311,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][10],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -294,7 +327,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][11],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -308,7 +344,10 @@ Future<void> createPDF(
           child: pw.Center(
             child: pw.Text(
               dataResults[i][12],
-              style: pw.TextStyle(fontSize: 7, fontWeight: pw.FontWeight.bold,color: corDoTexto),
+              style: pw.TextStyle(
+                  fontSize: 7,
+                  fontWeight: pw.FontWeight.bold,
+                  color: corDoTexto),
             ),
           ),
         ),
@@ -1127,7 +1166,8 @@ Future<void> createPDF(
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
-  String folderPath = '${documentsDirectory.path}\\meus pdfs';
+  String folderPath =
+      '${documentsDirectory.path}/gerador de laudos/pdfs/laudo nematológico';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

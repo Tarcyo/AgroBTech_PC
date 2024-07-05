@@ -12,7 +12,6 @@ import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class SanidadeDeSementes extends StatefulWidget {
   SanidadeDeSementes(this._savedData, {Key? key}) : super(key: key);
   final String _savedData;
@@ -137,117 +136,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
 
   @override
   Widget build(BuildContext context) {
-    if (_index == 0) {
-      return Scaffold(
-        body: Container(
-          color: secondaryColor,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(width: 1),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
     if (_index == 1) {
       return Scaffold(
         body: Container(
@@ -312,10 +200,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                           _index = _index + 1;
                                         });
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: mainColor,
@@ -409,10 +293,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                         RoundedButton(
                                             onPressed: () async {
                                               await _criarArquivoJson();
-                                              Provider.of<FileNameProvider>(
-                                                      listen: false, context)
-                                                  .adicionaRascunho(
-                                                      _fileNameController.text);
                                             },
                                             text: "Salvar Rascunho"),
                                       ],
@@ -501,10 +381,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                           _index = _index + 1;
                                         });
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: mainColor,
@@ -572,10 +448,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                       child: RoundedButton(
                                           onPressed: () async {
                                             await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
                                           },
                                           text: "Salvar Rascunho"),
                                     ),
@@ -660,10 +532,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                     ElevatedButton(
                                       onPressed: () async {
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
+
                                         setState(() {
                                           _index = _index + 1;
                                         });
@@ -733,10 +602,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                       child: RoundedButton(
                                           onPressed: () async {
                                             await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
                                           },
                                           text: "Salvar Rascunho"),
                                     ),
@@ -821,10 +686,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                     ElevatedButton(
                                       onPressed: () async {
                                         await _criarArquivoJson();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaRascunho(
-                                                _fileNameController.text);
+
                                         await createPDF(
                                             context,
                                             _fileNameController.text,
@@ -841,7 +703,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                             _attrachmentsControllers);
                                         Provider.of<FileNameProvider>(
                                                 listen: false, context)
-                                            .adicionaPdf(
+                                            .adicionaSanidadePdf(
                                                 _fileNameController.text);
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -913,10 +775,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
                                       child: RoundedButton(
                                           onPressed: () async {
                                             await _criarArquivoJson();
-                                            Provider.of<FileNameProvider>(
-                                                    listen: false, context)
-                                                .adicionaRascunho(
-                                                    _fileNameController.text);
                                           },
                                           text: "Salvar Rascunho"),
                                     ),
@@ -1001,7 +859,6 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     final anexos = [];
 
     for (final i in _images) {
-    
       anexos.add(i.path);
     }
 
@@ -1039,8 +896,11 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
       // Criar a pasta "rascunhos" se não existir
-      String rascunhosPath = '${documentsDirectory.path}/rascunhos';
+      String rascunhosPath =
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/sanidade De Sementes';
       await Directory(rascunhosPath).create(recursive: true);
+      Provider.of<FileNameProvider>(listen: false, context)
+          .adicionaSanidadeRascunho(_fileNameController.text);
 
       // Criar o arquivo JSON
       File file = File('$rascunhosPath/$nome.json');
@@ -1065,529 +925,5 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
         ),
       );
     }
-  }
-}
-
-class RemoveURLDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 320, // Definindo o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.error,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Tem certeza que deseja excluir o site?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 8), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Excluir',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    SizedBox(width: 5), // Espaçamento entre texto e ícone
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class AddURLDialog extends StatelessWidget {
-  final TextEditingController _newUrlController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(180.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 320, // Aumentando o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima se necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.link,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Digite a URL do novo site',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        RoundedTextField(controller: _newUrlController),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18 // Definindo a cor do texto como branco
-                      ),
-                ),
-              ),
-            ),
-            SizedBox(width: 5), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(_newUrlController.text);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Adicionar',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18 // Definindo a cor do texto como branco
-                          // Definindo a cor do texto como branco
-                          ),
-                    ),
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class RemoveTokenDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 300, // Definindo o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.key,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Tem certeza que deseja excluir o token?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 8), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Excluir',
-                      style: TextStyle(
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    SizedBox(width: 5), // Espaçamento entre texto e ícone
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class AddTokenDialog extends StatelessWidget {
-  final TextEditingController _newUrlController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 350, // Definindo o tamanho máximo do Container
-            minWidth: 150, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.key,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Digite o novo Token',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        RoundedTextField(controller: _newUrlController),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 5), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(_newUrlController.text);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Adicionar',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class DeleteConfirmationDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 300, // Definindo o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.error,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Tem certeza que deseja excluir a commodity?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 10), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Excluir',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    SizedBox(width: 5), // Espaçamento entre texto e ícone
-                    Icon(
-                      Icons.delete,
-                      size: 35,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
   }
 }

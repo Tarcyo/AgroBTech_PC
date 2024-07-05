@@ -62,15 +62,17 @@ Future<void> createPDF(
   List<pw.Widget> resutadosWidgets = [];
   for (final r in resultados) {
     resutadosWidgets.add(pw.SizedBox(height: 15, width: 15));
-    resutadosWidgets.add(pw.Text(
-      r.text,style: pw.TextStyle(color: PdfColors.black,fontWeight: pw.FontWeight.bold,)
-    ));
+    resutadosWidgets.add(pw.Text(r.text,
+        style: pw.TextStyle(
+          color: PdfColors.black,
+          fontWeight: pw.FontWeight.bold,
+        )));
   }
 
   List<pw.Widget> observacoesWidgets = [];
   for (int i = 0; i < observacaoes.length; i++) {
     observacoesWidgets.add(
-      pw.Text((i+1).toString() + ") " + observacaoes[i].text,
+      pw.Text((i + 1).toString() + ") " + observacaoes[i].text,
           style: const pw.TextStyle(
             fontSize: 9,
           )),
@@ -481,12 +483,12 @@ Future<void> createPDF(
     ),
   );
 
-  // Get the documents directory
   // Obter o diretório de documentos
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
-  String folderPath = '${documentsDirectory.path}\\meus pdfs';
+  String folderPath =
+      '${documentsDirectory.path}/gerador de laudos/pdfs/diagnose';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

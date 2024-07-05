@@ -5,18 +5,21 @@ import '../pages/createFileScreen/controleDeQualidade/controleDeQualidade.dart';
 import '../pages/createFileScreen/sanidadeDeSementes/sanidadeDeSementes.dart';
 import '../pages/createFileScreen/diagnose/diagnose.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'dart:convert';
 import 'package:agro_bio_tech_pc/pages/createFileScreen/laudoMicrobiológico/laudoMicrobiológico.dart';
 import 'package:agro_bio_tech_pc/pages/createFileScreen/laudoNematológico/laudoNematológico.dart';
+import 'package:path_provider/path_provider.dart';
+
 class EditCard extends StatelessWidget {
   final String _nomeDoArquivo;
+  final String _tipoArquivo;
 
-  EditCard({
-    required String text,
-  }) : _nomeDoArquivo = text;
+  EditCard(
+    this._nomeDoArquivo,
+    this._tipoArquivo,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -278,10 +281,59 @@ class EditCard extends StatelessWidget {
                                       ),
                                       onPressed: () async {
                                         // Implementar aqui a lógica para sair
+                                        final content =
+                                            await _getFileContentInRascunhos();
                                         await _deleteFile();
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .removeRascunho(_nomeDoArquivo);
+
+                                        final data = json.decode(content);
+                                        if (data['informacoes']
+                                                ['Tipo_de_analise'] ==
+                                            "Controle de qualidade") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeControleDeQualidadeRascunho(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (data['informacoes']
+                                                ['Tipo_de_analise'] ==
+                                            "Sanidade de sementes") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeSanidadeRascunho(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (data['informacoes']
+                                                ['Tipo_de_analise'] ==
+                                            "Diagnose Fitopatológica") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeDiagnoseRascunho(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (data['informacoes']
+                                                ['Tipo_de_analise'] ==
+                                            "Diferenciação de raças") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeDiferenciacaoDeRacaRascunho(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (data['informacoes']
+                                                ['Tipo_de_analise'] ==
+                                            "Laudo Microbiológico") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeMicrobiologicoRascunho(
+                                                  _nomeDoArquivo);
+                                        }
+                                        if (data['informacoes']
+                                                ['Tipo_de_analise'] ==
+                                            "Laudo Nematológico") {
+                                          Provider.of<FileNameProvider>(
+                                                  listen: false, context)
+                                              .removeNematologicoRascunho(
+                                                  _nomeDoArquivo);
+                                        }
                                         Navigator.of(context).pop();
                                       },
                                       child: Text(
@@ -329,30 +381,40 @@ class EditCard extends StatelessWidget {
   }
 
   Future<String> _getFileContentInRascunhos() async {
-    final String fileName = _nomeDoArquivo + ".json";
+    String pasta = "/";
+    if (_tipoArquivo == "Controle de qualidade") {
+      pasta = 'controle De Qualidade';
+    }
+    if (_tipoArquivo == "Sanidade de sementes") {
+      pasta = 'sanidade De Sementes';
+    }
+    if (_tipoArquivo == "Laudo Nematológico") {
+      pasta = "laudo nematológico";
+    }
+    if (_tipoArquivo == "Laudo Microbiológico") {
+      pasta = "microbiologico";
+    }
+    if (_tipoArquivo == "Laudo Diagnose") {
+      pasta = "diagnose";
+    }
+    if (_tipoArquivo == "Raça de Nematóides") {
+      pasta = "diferenciação De Raça";
+    }
     try {
-      // Obter o diretório de documentos
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
       // Obter o caminho da pasta "rascunhos"
-      String rascunhosPath = '${documentsDirectory.path}/rascunhos';
-
-      // Verificar se a pasta "rascunhos" existe
-      if (await Directory(rascunhosPath).exists()) {
-        // Construir o caminho completo do arquivo
-        String filePath = '$rascunhosPath/$fileName';
-
-        // Verificar se o arquivo existe
-        if (await File(filePath).exists()) {
-          // Ler o conteúdo do arquivo
-          String fileContent = await File(filePath).readAsString();
-          return fileContent;
-        } else {
-          print('O arquivo "$fileName" não existe na pasta "rascunhos".');
-          return "";
-        }
+      String path = '${documentsDirectory.path}/gerador de laudos/rascunhos/' +
+          pasta +
+          "/" +
+          _nomeDoArquivo +
+          ".json";
+      if (await File(path).exists()) {
+        // Ler o conteúdo do arquivo
+        String fileContent = await File(path).readAsString();
+        return fileContent;
       } else {
-        print('A pasta "rascunhos" não existe.');
+        print('O arquivo "$path" não existe na pasta".');
         return "";
       }
     } catch (e) {
@@ -362,6 +424,25 @@ class EditCard extends StatelessWidget {
   }
 
   Future<void> _deleteFile() async {
+    String pasta = "/";
+    if (_tipoArquivo == "Controle de qualidade") {
+      pasta = 'controle De Qualidade';
+    }
+    if (_tipoArquivo == "Sanidade de sementes") {
+      pasta = 'sanidade De Sementes';
+    }
+    if (_tipoArquivo == "Laudo Nematológico") {
+      pasta = "laudo nematológico";
+    }
+    if (_tipoArquivo == "Laudo Microbiológico") {
+      pasta = "microbiologico";
+    }
+    if (_tipoArquivo == "Laudo Diagnose") {
+      pasta = "diagnose";
+    }
+    if (_tipoArquivo == "Raça de Nematóides") {
+      pasta = "diferenciação De Raça";
+    }
     final String fileName = _nomeDoArquivo + ".json";
 
     try {
@@ -369,10 +450,11 @@ class EditCard extends StatelessWidget {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
       // Obter o caminho da pasta "rascunhos"
-      String rascunhosPath = '${documentsDirectory.path}/rascunhos';
+      String rascunhosPath =
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/';
 
       // Verificar se o arquivo existe
-      File fileToDelete = File('$rascunhosPath/$fileName');
+      File fileToDelete = File(rascunhosPath + pasta + '/' + fileName);
       if (await fileToDelete.exists()) {
         // Excluir o arquivo
         await fileToDelete.delete();
