@@ -11,6 +11,7 @@ import 'package:agro_bio_tech_pc/constants.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:excel/excel.dart';
 
 class DifereciacaoDeRaca extends StatefulWidget {
   DifereciacaoDeRaca(this._savedData, {Key? key}) : super(key: key);
@@ -907,6 +908,186 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
+    await createExcelFile();
+  }
+
+  Future<void> createExcelFile() async {
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['Sheet1'];
+
+    CellStyle infoStyle = CellStyle(
+      backgroundColorHex: "#E0FFFF", // Ciano claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle resultStyle = CellStyle(
+      backgroundColorHex: "#FFC0CB", // Rosa claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle observationStyle = CellStyle(
+      backgroundColorHex: "#98FB98", // Verde pálido
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle attachmentStyle = CellStyle(
+      backgroundColorHex: "#D3D3D3", // Cinza claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    // Informações
+    sheetObject.cell(CellIndex.indexByString("A1")).value = "informações";
+    sheetObject.cell(CellIndex.indexByString("A1")).cellStyle = infoStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("A1"), CellIndex.indexByString("H1"));
+
+    List<String> columnTitlesInfo = [
+      'nomeArquivo',
+      'tipoAnalise',
+      'numeroLaudo',
+      'contratante',
+      'material',
+      'dataEntrada',
+      'cnpj',
+      'fazenda'
+    ];
+
+    for (int i = 0; i < columnTitlesInfo.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 1));
+      cell.value = columnTitlesInfo[i];
+      cell.cellStyle = infoStyle;
+    }
+
+    List<List<String>> valuesInfo = [
+      [
+        _fileNameController.text,
+        _analyzeController.text,
+        _numberController.text,
+        _contractorController.text,
+        _materialController.text,
+        _dateController.text,
+        _produtorController.text,
+        _farmController.text,
+      ],
+    ];
+
+    for (int i = 0; i < valuesInfo.length; i++) {
+      for (int j = 0; j < valuesInfo[i].length; j++) {
+        var cell = sheetObject
+            .cell(CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 2));
+        cell.value = valuesInfo[i][j];
+        cell.cellStyle = infoStyle;
+      }
+    }
+
+    // Resultados
+    sheetObject.cell(CellIndex.indexByString("I1")).value = "resultados";
+    sheetObject.cell(CellIndex.indexByString("I1")).cellStyle = resultStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("I1"), CellIndex.indexByString("O1"));
+
+    List<String> columnTitlesResults = [
+      'ID lab',
+      'ID cliente',
+      'Pickett',
+      'Peking',
+      'PI88788',
+      'PI90763',
+      'Raça estimada'
+    ];
+
+    for (int i = 0; i < columnTitlesResults.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: i + 8, rowIndex: 1));
+      cell.value = columnTitlesResults[i];
+      cell.cellStyle = resultStyle;
+    }
+
+    final results = [];
+
+    for (final r in _results) {
+      final cells = [];
+      for (final c in r.cells) {
+        if (c.child is TableTextCell) {
+          final cell = c.child as TableTextCell;
+          cells.add(cell.controller.text);
+        } else {
+          final cell = c.child as OptionDropdownCell;
+          cells.add(cell.controller.selectedValue);
+        }
+      }
+      results.add(cells);
+    }
+
+    for (int i = 0; i < results.length; i++) {
+      for (int j = 0; j < results[i].length; j++) {
+        var cell = sheetObject.cell(
+            CellIndex.indexByColumnRow(columnIndex: j + 8, rowIndex: i + 2));
+        cell.value = results[i][j];
+        cell.cellStyle = resultStyle;
+      }
+    }
+
+    // Observações
+    sheetObject.cell(CellIndex.indexByString("P1")).value = "observações";
+    sheetObject.cell(CellIndex.indexByString("P1")).cellStyle =
+        observationStyle;
+
+    List<String> valuesObservacoes = [];
+    for (final i in _observations) {
+      valuesObservacoes.add(i.text);
+    }
+
+    for (int i = 0; i < valuesObservacoes.length; i++) {
+      var cell = sheetObject.cell(
+          CellIndex.indexByColumnRow(columnIndex: 12 + 3, rowIndex: i + 1));
+      cell.value = valuesObservacoes[i];
+      cell.cellStyle = observationStyle;
+    }
+
+    // Anexos
+    sheetObject.cell(CellIndex.indexByString("Q1")).value = "anexos";
+    sheetObject.cell(CellIndex.indexByString("Q1")).cellStyle = attachmentStyle;
+
+    List<String> anexosSubtitles = [];
+
+    for (final i in _attrachmentsControllers) {
+      anexosSubtitles.add(i.text);
+    }
+
+    List<String> anexosValues = [];
+    for (final i in _images) {
+      anexosValues.add(i.path);
+    }
+
+    for (int i = 0; i < anexosSubtitles.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 16 + i, rowIndex: 1));
+      cell.value = anexosSubtitles[i];
+      cell.cellStyle = attachmentStyle;
+
+      var valueCell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 16 + i, rowIndex: 2));
+      valueCell.value = anexosValues[i];
+      valueCell.cellStyle = attachmentStyle;
+    }
+
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String filePath =
+        '${documentsDirectory.path}/gerador de laudos/planilhas/diferenciação De Raça/' +
+            _fileNameController.text +
+            '.xlsx';
+
+    File(filePath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(excel.encode()!);
+
+    print('Arquivo Excel criado em: $filePath');
   }
 
   Future<void> _createAndWriteToFile(String nome, String jsonData) async {
@@ -920,8 +1101,7 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
       await Directory(rascunhosPath).create(recursive: true);
 
       Provider.of<FileNameProvider>(listen: false, context)
-          .adicionaDiferenciacaoDeRacaRascunho(
-             _fileNameController.text );
+          .adicionaDiferenciacaoDeRacaRascunho(_fileNameController.text);
 
       // Criar o arquivo JSON
       File file = File('$rascunhosPath/$nome.json');
@@ -946,529 +1126,5 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
         ),
       );
     }
-  }
-}
-
-class RemoveURLDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 320, // Definindo o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.error,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Tem certeza que deseja excluir o site?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 8), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Excluir',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    SizedBox(width: 5), // Espaçamento entre texto e ícone
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class AddURLDialog extends StatelessWidget {
-  final TextEditingController _newUrlController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(180.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 320, // Aumentando o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima se necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.link,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Digite a URL do novo site',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        RoundedTextField(controller: _newUrlController),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18 // Definindo a cor do texto como branco
-                      ),
-                ),
-              ),
-            ),
-            SizedBox(width: 5), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(_newUrlController.text);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Adicionar',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18 // Definindo a cor do texto como branco
-                          // Definindo a cor do texto como branco
-                          ),
-                    ),
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class RemoveTokenDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 300, // Definindo o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.key,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Tem certeza que deseja excluir o token?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 8), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Excluir',
-                      style: TextStyle(
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    SizedBox(width: 5), // Espaçamento entre texto e ícone
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class AddTokenDialog extends StatelessWidget {
-  final TextEditingController _newUrlController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 350, // Definindo o tamanho máximo do Container
-            minWidth: 150, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.key,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Digite o novo Token',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        RoundedTextField(controller: _newUrlController),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 5), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(_newUrlController.text);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Adicionar',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class DeleteConfirmationDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Ajustando o raio da borda do dialog
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
-          borderRadius: BorderRadius.circular(20), // Raio da borda do Container
-          border: Border.all(
-            // Adicionando uma borda ao redor do conteúdo
-            color: Colors.white, // Definindo a cor da borda como azul
-            width: 4.0, // Ajustando a largura da borda conforme necessário
-          ),
-        ),
-        constraints: BoxConstraints(
-            maxWidth: 300, // Definindo o tamanho máximo do Container
-            minWidth: 100, // Definindo um tamanho mínimo opcional
-            maxHeight: 250, // Ajustando a altura máxima conforme necessário
-            minHeight: 250 // Definindo uma altura mínima opcional
-            ),
-        child: contentBox(context),
-      ),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(
-          Icons.error,
-          color: Colors.white,
-          size: 50,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Tem certeza que deseja excluir a commodity?',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20, // Definindo a cor do texto como branco
-          ),
-          textAlign: TextAlign.center, // Alinhando o texto centralmente
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Alinhando os botões nos cantos opostos
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white, // Definindo a cor do texto como branco
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 10), // Adicionando um espaçamento entre os botões
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Excluir',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors
-                            .white, // Definindo a cor do texto como branco
-                      ),
-                    ),
-                    SizedBox(width: 5), // Espaçamento entre texto e ícone
-                    Icon(
-                      Icons.delete,
-                      size: 35,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
   }
 }

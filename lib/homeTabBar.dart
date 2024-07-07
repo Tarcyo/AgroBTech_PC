@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'tabBarController.dart';
 import 'pages/PdfsScreen/PdfsScreen.dart';
 import 'pages/DraftScreen/DraftScreen.dart';
-
-
+import 'pages/SpreadsheetScreen/SpreadsheetScreen.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,28 +19,14 @@ class HomePage extends StatelessWidget {
           tab: const DraftScreenTab(),
           icon: Icons.edit_document,
         ),
+        PersistentTabItem(
+          title: 'Planilhas',
+          tab: const SpreadsheetScreenTab(),
+          icon: Icons.grid_on,
+        )
       ],
     );
   }
-}
-
-class SettingsScreenTab extends StatefulWidget {
-  const SettingsScreenTab({Key? key}) : super(key: key);
-
-  @override
-  _SettingsScreenTabState createState() => _SettingsScreenTabState();
-}
-
-class _SettingsScreenTabState extends State<SettingsScreenTab>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return PdfScreenTab();
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class PdfScreenTab extends StatefulWidget {
@@ -76,6 +61,25 @@ class _DraftScreenTabState extends State<DraftScreenTab>
   Widget build(BuildContext context) {
     super.build(context);
     return DraftScreen();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class SpreadsheetScreenTab extends StatefulWidget {
+  const SpreadsheetScreenTab({Key? key}) : super(key: key);
+
+  @override
+  _SpreadsheetScreenTabState createState() => _SpreadsheetScreenTabState();
+}
+
+class _SpreadsheetScreenTabState extends State<SpreadsheetScreenTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return SpreadsheetScreen();
   }
 
   @override

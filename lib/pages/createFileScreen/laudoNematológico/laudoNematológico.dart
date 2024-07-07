@@ -9,6 +9,7 @@ import 'package:agro_bio_tech_pc/constants.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:excel/excel.dart';
 
 class LaudoNematologico extends StatefulWidget {
   LaudoNematologico(this._savedData, {Key? key}) : super(key: key);
@@ -576,6 +577,127 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
+    await createExcelFile();
+  }
+
+  Future<void> createExcelFile() async {
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['Sheet1'];
+
+    CellStyle infoStyle = CellStyle(
+      backgroundColorHex: "#E0FFFF", // Ciano claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle resultStyle = CellStyle(
+      backgroundColorHex: "#FFC0CB", // Rosa claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    // Informações
+    sheetObject.cell(CellIndex.indexByString("A1")).value = "informações";
+    sheetObject.cell(CellIndex.indexByString("A1")).cellStyle = infoStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("A1"), CellIndex.indexByString("F1"));
+
+    List<String> columnTitlesInfo = [
+      'nomeArquivo',
+      'tipoAnalise',
+      'contratante',
+      'material',
+      'dataEntrada',
+      'fazenda'
+    ];
+
+    for (int i = 0; i < columnTitlesInfo.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 1));
+      cell.value = columnTitlesInfo[i];
+      cell.cellStyle = infoStyle;
+    }
+
+    List<List<String>> valuesInfo = [
+      [
+        _fileNameController.text,
+        _analyzeController.text,
+        _contractorController.text,
+        _materialController.text,
+        _dateController.text,
+        _farmController.text,
+      ],
+    ];
+
+    for (int i = 0; i < valuesInfo.length; i++) {
+      for (int j = 0; j < valuesInfo[i].length; j++) {
+        var cell = sheetObject
+            .cell(CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 2));
+        cell.value = valuesInfo[i][j];
+        cell.cellStyle = infoStyle;
+      }
+    }
+
+    // Resultados
+    sheetObject.cell(CellIndex.indexByString("G1")).value = "resultados";
+    sheetObject.cell(CellIndex.indexByString("G1")).cellStyle = resultStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("G1"), CellIndex.indexByString("S1"));
+
+    List<String> columnTitlesResults = [
+      'ID lab',
+      'ID Amostra',
+      'Material Analisado',
+      " Meloidogyne sp.",
+      "Pratylenchus sp.",
+      "Pratylenchus brachyurus",
+      "Pratylenchus zeae",
+      "Heterodera sp.",
+      "Tubixaba sp.",
+      "Rotylechulus reniformis",
+      " Helicotylenchus dihystera",
+      "Cistos viáveis",
+      "Cistos inviáveis"
+    ];
+
+    for (int i = 0; i < columnTitlesResults.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: i + 6, rowIndex: 1));
+      cell.value = columnTitlesResults[i];
+      cell.cellStyle = resultStyle;
+    }
+
+    final results = [];
+
+    for (final r in _results) {
+      final cells = [];
+      for (final c in r.cells) {
+        final cell = c.child as TableTextCell;
+        cells.add(cell.controller.text);
+      }
+      results.add(cells);
+    }
+
+    for (int i = 0; i < results.length; i++) {
+      for (int j = 0; j < results[i].length; j++) {
+        var cell = sheetObject.cell(
+            CellIndex.indexByColumnRow(columnIndex: j + 6, rowIndex: i + 2));
+        cell.value = results[i][j];
+        cell.cellStyle = resultStyle;
+      }
+    }
+
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String filePath =
+        '${documentsDirectory.path}/gerador de laudos/planilhas/laudo nematológico/' +
+            _fileNameController.text +
+            '.xlsx';
+
+    File(filePath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(excel.encode()!);
+
+    print('Arquivo Excel criado em: $filePath');
   }
 
   Future<void> _createAndWriteToFile(String nome, String jsonData) async {

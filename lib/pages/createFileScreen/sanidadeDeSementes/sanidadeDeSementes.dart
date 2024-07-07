@@ -11,6 +11,7 @@ import 'package:agro_bio_tech_pc/constants.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:excel/excel.dart';
 
 class SanidadeDeSementes extends StatefulWidget {
   SanidadeDeSementes(this._savedData, {Key? key}) : super(key: key);
@@ -888,6 +889,179 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
+    await createExcelFile();
+  }
+
+  Future<void> createExcelFile() async {
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['Sheet1'];
+
+    CellStyle infoStyle = CellStyle(
+      backgroundColorHex: "#E0FFFF", // Ciano claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle resultStyle = CellStyle(
+      backgroundColorHex: "#FFC0CB", // Rosa claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle observationStyle = CellStyle(
+      backgroundColorHex: "#98FB98", // Verde pálido
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    CellStyle attachmentStyle = CellStyle(
+      backgroundColorHex: "#D3D3D3", // Cinza claro
+      fontColorHex: "#000000", // Preto
+      bold: true,
+    );
+
+    // Informações
+    sheetObject.cell(CellIndex.indexByString("A1")).value = "informações";
+    sheetObject.cell(CellIndex.indexByString("A1")).cellStyle = infoStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("A1"), CellIndex.indexByString("H1"));
+
+    List<String> columnTitlesInfo = [
+      'nomeArquivo',
+      'tipoAnalise',
+      'numeroLaudo',
+      'contratante',
+      'material',
+      'dataEntrada',
+      'produtor',
+      'fazenda'
+    ];
+
+    for (int i = 0; i < columnTitlesInfo.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 1));
+      cell.value = columnTitlesInfo[i];
+      cell.cellStyle = infoStyle;
+    }
+
+    List<List<String>> valuesInfo = [
+      [
+        _fileNameController.text,
+        _analyzeController.text,
+        _numberController.text,
+        _contractorController.text,
+        _materialController.text,
+        _dateController.text,
+        _productorController.text,
+        _farmController.text,
+      ],
+    ];
+
+    for (int i = 0; i < valuesInfo.length; i++) {
+      for (int j = 0; j < valuesInfo[i].length; j++) {
+        var cell = sheetObject
+            .cell(CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 2));
+        cell.value = valuesInfo[i][j];
+        cell.cellStyle = infoStyle;
+      }
+    }
+
+    // Resultados
+    sheetObject.cell(CellIndex.indexByString("I1")).value = "resultados";
+    sheetObject.cell(CellIndex.indexByString("I1")).cellStyle = resultStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("I1"), CellIndex.indexByString("X1"));
+
+    List<String> columnTitlesResults = [
+      'Cercospora kikuchii',
+      'Colletotrichum truncatum',
+      'Fusarium spp',
+      'Macrophomina phaseolina',
+      'Phomopsis sp',
+      'Rhizoctonia solani',
+      'Sclerotinia sclerotiorum',
+      'Aspergillus spp',
+      'Acremonium rolfsii',
+      'Penicillium spp',
+      'Alternaria spp',
+      'Cladosporium spp',
+      'Rhizopus spp',
+      'Trichoderma spp',
+      'Bacillus subtilis',
+      'Outros'
+    ];
+
+    for (int i = 0; i < columnTitlesResults.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: i + 8, rowIndex: 1));
+      cell.value = columnTitlesResults[i];
+      cell.cellStyle = resultStyle;
+    }
+
+    for (int i = 0; i < _results.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 8 + i, rowIndex: 2));
+      cell.value = _results[i].text;
+      cell.cellStyle = resultStyle;
+    }
+
+    // Observações
+    sheetObject.cell(CellIndex.indexByString("Y1")).value = "observações";
+    sheetObject.cell(CellIndex.indexByString("Y1")).cellStyle =
+        observationStyle;
+
+    List<String> valuesObservacoes = [];
+    for (final i in _observations) {
+      valuesObservacoes.add(i.text);
+    }
+
+    for (int i = 0; i < valuesObservacoes.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 12+12, rowIndex: i + 1));
+      cell.value = valuesObservacoes[i];
+      cell.cellStyle = observationStyle;
+    }
+
+    // Anexos
+    sheetObject.cell(CellIndex.indexByString("Z1")).value = "anexos";
+    sheetObject.cell(CellIndex.indexByString("Z1")).cellStyle = attachmentStyle;
+    sheetObject.merge(
+        CellIndex.indexByString("N1"), CellIndex.indexByString("P1"));
+
+    List<String> anexosSubtitles = [];
+
+    for (final i in _attrachmentsControllers) {
+      anexosSubtitles.add(i.text);
+    }
+
+    List<String> anexosValues = [];
+    for (final i in _images) {
+      anexosValues.add(i.path);
+    }
+
+    for (int i = 0; i < anexosSubtitles.length; i++) {
+      var cell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 13+12 + i, rowIndex: 1));
+      cell.value = anexosSubtitles[i];
+      cell.cellStyle = attachmentStyle;
+
+      var valueCell = sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 13+12 + i, rowIndex: 2));
+      valueCell.value = anexosValues[i];
+      valueCell.cellStyle = attachmentStyle;
+    }
+
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String filePath =
+        '${documentsDirectory.path}/gerador de laudos/planilhas/sanidade De Sementes/' +
+            _fileNameController.text +
+            '.xlsx';
+
+    File(filePath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(excel.encode()!);
+
+    print('Arquivo Excel criado em: $filePath');
   }
 
   Future<void> _createAndWriteToFile(String nome, String jsonData) async {
