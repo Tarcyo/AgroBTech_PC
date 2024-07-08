@@ -1016,8 +1016,8 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     }
 
     for (int i = 0; i < valuesObservacoes.length; i++) {
-      var cell = sheetObject
-          .cell(CellIndex.indexByColumnRow(columnIndex: 12+12, rowIndex: i + 1));
+      var cell = sheetObject.cell(
+          CellIndex.indexByColumnRow(columnIndex: 12 + 12, rowIndex: i + 1));
       cell.value = valuesObservacoes[i];
       cell.cellStyle = observationStyle;
     }
@@ -1040,13 +1040,13 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     }
 
     for (int i = 0; i < anexosSubtitles.length; i++) {
-      var cell = sheetObject
-          .cell(CellIndex.indexByColumnRow(columnIndex: 13+12 + i, rowIndex: 1));
+      var cell = sheetObject.cell(
+          CellIndex.indexByColumnRow(columnIndex: 13 + 12 + i, rowIndex: 1));
       cell.value = anexosSubtitles[i];
       cell.cellStyle = attachmentStyle;
 
-      var valueCell = sheetObject
-          .cell(CellIndex.indexByColumnRow(columnIndex: 13+12 + i, rowIndex: 2));
+      var valueCell = sheetObject.cell(
+          CellIndex.indexByColumnRow(columnIndex: 13 + 12 + i, rowIndex: 2));
       valueCell.value = anexosValues[i];
       valueCell.cellStyle = attachmentStyle;
     }
@@ -1060,6 +1060,8 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
+    Provider.of<FileNameProvider>(listen: false, context)
+        .adicionaSanidadePlanilha(_fileNameController.text);
 
     print('Arquivo Excel criado em: $filePath');
   }

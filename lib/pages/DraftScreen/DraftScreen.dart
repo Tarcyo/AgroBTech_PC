@@ -221,7 +221,7 @@ class _DraftScreenState extends State<DraftScreen> {
               ),
               Center(
                 child: Text(
-                  "Meus rascunhos:",
+                  "Meus Rascunhos:",
                   style: TextStyle(color: mainColor, fontSize: 20),
                 ),
               ),

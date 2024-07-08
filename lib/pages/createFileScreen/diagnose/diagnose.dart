@@ -948,8 +948,7 @@ class _DiagnoseState extends State<Diagnose> {
     // Resultados
 
     sheetObject.cell(CellIndex.indexByString("I1")).value = "Resultados";
-    sheetObject.cell(CellIndex.indexByString("I1")).cellStyle =
-        resultStyle;
+    sheetObject.cell(CellIndex.indexByString("I1")).cellStyle = resultStyle;
 
     List<String> valuesObservacoes1 = [];
     for (final i in _results) {
@@ -975,7 +974,7 @@ class _DiagnoseState extends State<Diagnose> {
 
     for (int i = 0; i < valuesObservacoes.length; i++) {
       var cell = sheetObject
-          .cell(CellIndex.indexByColumnRow(columnIndex:9, rowIndex: i + 1));
+          .cell(CellIndex.indexByColumnRow(columnIndex: 9, rowIndex: i + 1));
       cell.value = valuesObservacoes[i];
       cell.cellStyle = observationStyle;
     }
@@ -1018,6 +1017,8 @@ class _DiagnoseState extends State<Diagnose> {
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
+    Provider.of<FileNameProvider>(listen: false, context)
+        .adicionaDiagnosePlanilha(_fileNameController.text);
 
     print('Arquivo Excel criado em: $filePath');
   }

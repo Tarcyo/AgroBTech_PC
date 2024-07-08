@@ -1086,6 +1086,8 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
+    Provider.of<FileNameProvider>(listen: false, context)
+        .adicionaDiferenciacaoDeRacaPlanilha(_fileNameController.text);
 
     print('Arquivo Excel criado em: $filePath');
   }

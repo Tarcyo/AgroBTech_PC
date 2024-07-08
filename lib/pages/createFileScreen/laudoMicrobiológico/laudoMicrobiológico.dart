@@ -1300,6 +1300,8 @@ class _MicrobiologicoState extends State<Microbiologico> {
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
+    Provider.of<FileNameProvider>(listen: false, context)
+        .adicionaMicrobiologicoPlanilha(_fileNameController.text);
 
     print('Arquivo Excel criado em: $filePath');
   }

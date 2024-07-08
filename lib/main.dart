@@ -51,6 +51,24 @@ void main() async {
   files = await _listFiles(path + "/pdfs/sanidade De Sementes");
   final saniP = _obterNomesArquivos(files);
 
+  files = await _listFiles(path + "/planilhas/controle De Qualidade");
+  final controS = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/planilhas/diagnose");
+  final digS = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/planilhas/diferenciação De Raça");
+  final difrS = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/planilhas/microbiologico");
+  final microS = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/planilhas/laudo nematológico");
+  final nemaS = _obterNomesArquivos(files);
+
+  files = await _listFiles(path + "/planilhas/sanidade De Sementes");
+  final saniS = _obterNomesArquivos(files);
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => FileNameProvider(
@@ -66,6 +84,12 @@ void main() async {
         nemaP,
         saniP,
         saniR,
+        controS,
+        digS,
+        difrS,
+        microS,
+        nemaS,
+        saniS,
       ),
       child: const AgroBioTech(),
     ),

@@ -1170,6 +1170,8 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
+    Provider.of<FileNameProvider>(listen: false, context)
+        .adicionaControleDeQualidadePlanilha(_fileNameController.text);
 
     print('Arquivo Excel criado em: $filePath');
   }

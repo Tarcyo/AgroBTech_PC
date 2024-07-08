@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:agro_bio_tech_pc/constants.dart';
-import 'package:agro_bio_tech_pc/reusableWidgets/editCardList.dart';
+import 'package:agro_bio_tech_pc/reusableWidgets/planilhaCardLis.dart';
 import 'package:provider/provider.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import '../createFileScreen/selectTypeScreen.dart';
@@ -27,13 +27,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
             children: [
               Consumer<FileNameProvider>(
                 builder: (context, provider, child) {
-                  if (provider.controleDeQualidadeRascunhos.isEmpty == false)
-                    return EditCardList(
-                        provider.controleDeQualidadeRascunhos, _index);
+                  if (provider.controleDeQualidadePlanilhas.isEmpty == false)
+                    return PlanilhaCardList(
+                        provider.controleDeQualidadePlanilhas, _index);
                   else
                     return Center(
                         child: Text(
-                      "Nenhum Rascunho encontrado!",
+                      "Nenhuma planilha encontrada!",
                       style: TextStyle(fontSize: 18),
                     ));
                 },
@@ -50,12 +50,12 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
             children: [
               Consumer<FileNameProvider>(
                 builder: (context, provider, child) {
-                  if (provider.sanidadeRascunhos.isEmpty == false)
-                    return EditCardList(provider.sanidadeRascunhos, _index);
+                  if (provider.sanidadePlanilhas.isEmpty == false)
+                    return PlanilhaCardList(provider.sanidadePlanilhas, _index);
                   else
                     return Center(
                         child: Text(
-                      "Nenhum Rascunho encontrado!",
+                      "Nenhuma planilha encontrada!",
                       style: TextStyle(fontSize: 18),
                     ));
                 },
@@ -72,12 +72,12 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
             children: [
               Consumer<FileNameProvider>(
                 builder: (context, provider, child) {
-                  if (provider.nematologicoRascunhos.isEmpty == false)
-                    return EditCardList(provider.nematologicoRascunhos, _index);
+                  if (provider.nematologicoPlanilhas.isEmpty == false)
+                    return PlanilhaCardList(provider.nematologicoPlanilhas, _index);
                   else
                     return Center(
                         child: Text(
-                      "Nenhum Rascunho encontrado!",
+                      "Nenhuma planilha encontrada!",
                       style: TextStyle(fontSize: 18),
                     ));
                 },
@@ -94,13 +94,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
             children: [
               Consumer<FileNameProvider>(
                 builder: (context, provider, child) {
-                  if (provider.microbiologicoRascunhos.isEmpty == false)
-                    return EditCardList(
-                        provider.microbiologicoRascunhos, _index);
+                  if (provider.microbiologicoPlanilhas.isEmpty == false)
+                    return PlanilhaCardList(
+                        provider.microbiologicoPlanilhas, _index);
                   else
                     return Center(
                         child: Text(
-                      "Nenhum Rascunho encontrado!",
+                      "Nenhuma planilha encontrada!",
                       style: TextStyle(fontSize: 18),
                     ));
                 },
@@ -117,12 +117,12 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
             children: [
               Consumer<FileNameProvider>(
                 builder: (context, provider, child) {
-                  if (provider.diagnoseRascunhos.isEmpty == false)
-                    return EditCardList(provider.diagnoseRascunhos, _index);
+                  if (provider.diagnosePlanilhas.isEmpty == false)
+                    return PlanilhaCardList(provider.diagnosePlanilhas, _index);
                   else
                     return Center(
                         child: Text(
-                      "Nenhum Rascunho encontrado!",
+                      "Nenhuma planilha encontrada!",
                       style: TextStyle(fontSize: 18),
                     ));
                 },
@@ -139,13 +139,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
             children: [
               Consumer<FileNameProvider>(
                 builder: (context, provider, child) {
-                  if (provider.diferenciacaoDeRacaRascunhos.isEmpty == false)
-                    return EditCardList(
-                        provider.diferenciacaoDeRacaRascunhos, _index);
+                  if (provider.diferenciacaoDeRacaPlanilhas.isEmpty == false)
+                    return PlanilhaCardList(
+                        provider.diferenciacaoDeRacaPlanilhas, _index);
                   else
                     return Center(
                         child: Text(
-                      "Nenhum Rascunho encontrado!",
+                      "Nenhuma planilha encontrada!",
                       style: TextStyle(fontSize: 18),
                     ));
                 },
@@ -221,7 +221,7 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
               ),
               Center(
                 child: Text(
-                  "Meus rascunhos:",
+                  "Minhas Planilhas:",
                   style: TextStyle(color: mainColor, fontSize: 20),
                 ),
               ),
