@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class RoundedButton extends StatelessWidget {
+class RoundedAddButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
 
-  const RoundedButton({Key? key, required this.onPressed, required this.text})
+  const RoundedAddButton({Key? key, required this.onPressed, required this.text})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 130, // Reduzindo a largura do botão
+      width: 110, // Reduzindo a largura do botão
       height: 30, // Reduzindo a altura do botão
       decoration: BoxDecoration(
         color: Colors.white,
@@ -22,9 +22,17 @@ class RoundedButton extends StatelessWidget {
         style: ButtonStyle(
             foregroundColor:
                 MaterialStateProperty.all<Color>(Color(0xFF00C2A0))),
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 20), // Reduzindo o tamanho da fonte
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            Text(
+              text,
+              style: TextStyle(fontSize: 20), // Reduzindo o tamanho da fonte
+            ),
+            SizedBox(width: 10,),
+            Icon(Icons.add)
+          ],
         ),
       ),
     );
