@@ -1,5 +1,5 @@
-name: agro_bio_tech_pc
-description: Gerador de laudos
+name: midas
+description: midas
 publish_to: "none"
 version: 1.0.0+1
 
@@ -22,22 +22,10 @@ environment:
 
 
 dependencies:
-  path_provider: ^2.1.2 
-  provider: ^6.1.2
-  pdf: ^3.11.1
-  share_plus: ^9.0.0
-  image_picker: ^1.1.2
-  open_file: ^3.3.2
-  excel: ^2.0.6
-  intl: ^0.18.1
-  flutter_localizations:
-    sdk: flutter
+  fl_chart: ^0.36.0
+  http: ^1.2.2
+  provider: ^6.0.0
 
-
-
-
-dev_dependencies:
-  flutter_launcher_icons: ^0.13.1
 
 
   

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:midas/constants.dart';
 
-class VeryLargeInsertCamp extends StatelessWidget {
-  final TextEditingController controller;
+class VeryLargeFixedTextWidget extends StatelessWidget {
+  final String text;
 
-  const VeryLargeInsertCamp({Key? key, required this.controller})
+  const VeryLargeFixedTextWidget({Key? key, required this.text})
       : super(key: key);
 
   @override
@@ -13,12 +14,11 @@ class VeryLargeInsertCamp extends StatelessWidget {
       left: 0, // Define a posição esquerda
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-        
           return Container(
             width: double.infinity, // Largura adaptativa
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: mainColor,
               borderRadius: BorderRadius.circular(180.0),
               boxShadow: [
                 BoxShadow(
@@ -29,19 +29,13 @@ class VeryLargeInsertCamp extends StatelessWidget {
                 ),
               ],
             ),
-            child: Center(
-              child: TextField(
-                controller: controller,
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.start,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '',
-                ),
-                keyboardType: TextInputType.multiline,
-                style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+            child: Row(children: [
+              SizedBox(width: 20,),
+              Text(
+                text,
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
-            ),
+            ]),
           );
         },
       ),

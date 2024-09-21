@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class RoundedTextField extends StatelessWidget {
+class HalfroundedTextField extends StatelessWidget {
   final TextEditingController controller;
 
-  const RoundedTextField({Key? key, required this.controller})
+  const HalfroundedTextField({Key? key, required this.controller})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500, // Aumentando a largura
-      height: 30, // Ajustando a altura
+      width: 250, // Aumentando a largura
+      height: 20, // Ajustando a altura
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0), // Ajustando o raio
@@ -33,7 +33,7 @@ class RoundedTextField extends StatelessWidget {
             hintText: '', // Texto de dica
           ),
           keyboardType: TextInputType.multiline, // Habilitando teclado de várias linhas
-          style: TextStyle(fontSize: 12, color: Colors.grey[900]), // Configurando estilo do texto
+          style: TextStyle(fontSize: 14, color: Colors.grey[900]), // Configurando estilo do texto
         ),
       ),
     );
