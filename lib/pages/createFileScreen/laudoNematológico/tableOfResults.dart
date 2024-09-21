@@ -46,7 +46,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
               scrollDirection: Axis.horizontal,
               controller: _horizontalScrollController,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   DataTable(
                     horizontalMargin: 10,
@@ -224,10 +224,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                   ),
                   Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment:
+                          MainAxisAlignment.center, // Centraliza os botões
                       children: [
+                        SizedBox(width: 220), // Espaçamento entre os botões
+
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
                           height: 50,
                           width: 50,
                           decoration: BoxDecoration(
@@ -244,8 +246,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                             ),
                           ),
                         ),
+                        SizedBox(width: 70), // Espaçamento entre os botões
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
                           height: 50,
                           width: 50,
                           decoration: BoxDecoration(
@@ -329,7 +331,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Deseja remover a ultima linha?",
+                "Deseja remover a última linha?",
                 style: TextStyle(color: Colors.grey[800], fontSize: 16),
               ),
             ],

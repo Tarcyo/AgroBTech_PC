@@ -432,11 +432,10 @@ Future<void> createPDF(
                   child: pw.SizedBox(
                     height: 200,
                     width: 1000,
-                    // Defina a altura desejada aqui
                     child: pw.Container(
                       decoration: pw.BoxDecoration(
                         border: pw.Border.all(
-                          color: PdfColors.black, // Cor da borda preta
+                          color: PdfColors.black,
                         ),
                       ),
                       child: pw.Row(
@@ -527,18 +526,32 @@ Future<void> createPDF(
                                     child: pw.Row(children: [
                                       pw.Expanded(
                                         child: pw.Container(
-                                          decoration: pw.BoxDecoration(
-                                            border: pw.Border.all(
-                                              color: PdfColors.black,
+                                            decoration: pw.BoxDecoration(
+                                              border: pw.Border.all(
+                                                color: PdfColors.black,
+                                              ),
                                             ),
-                                          ),
-                                          child: pw.Center(
-                                            child: pw.Text(
-                                              "Fusarium solani",
-                                              style: pw.TextStyle(fontSize: 9),
-                                            ),
-                                          ),
-                                        ),
+                                            child: pw.Column(
+                                                mainAxisAlignment:
+                                                    pw.MainAxisAlignment.center,
+                                                crossAxisAlignment: pw
+                                                    .CrossAxisAlignment.center,
+                                                children: [
+                                                  pw.Text(
+                                                    "Fusarium",
+                                                    style: pw.TextStyle(
+                                                        fontSize: 9,
+                                                        fontStyle: pw
+                                                            .FontStyle.italic),
+                                                  ),
+                                                  pw.Text(
+                                                    "solani",
+                                                    style: pw.TextStyle(
+                                                        fontSize: 9,
+                                                        fontStyle: pw
+                                                            .FontStyle.italic),
+                                                  ),
+                                                ])),
                                       ),
                                       pw.Expanded(
                                         child: pw.Container(
@@ -547,12 +560,27 @@ Future<void> createPDF(
                                               color: PdfColors.black,
                                             ),
                                           ),
-                                          child: pw.Center(
-                                            child: pw.Text(
-                                              "Fusarium oxysporium",
-                                              style: pw.TextStyle(fontSize: 9),
-                                            ),
-                                          ),
+                                          child: pw.Column(
+                                              mainAxisAlignment:
+                                                  pw.MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  pw.CrossAxisAlignment.center,
+                                              children: [
+                                                pw.Text(
+                                                  "Fusarium",
+                                                  style: pw.TextStyle(
+                                                      fontSize: 9,
+                                                      fontStyle:
+                                                          pw.FontStyle.italic),
+                                                ),
+                                                pw.Text(
+                                                  "oxysporium",
+                                                  style: pw.TextStyle(
+                                                      fontSize: 9,
+                                                      fontStyle:
+                                                          pw.FontStyle.italic),
+                                                ),
+                                              ]),
                                         ),
                                       ),
                                     ]),
@@ -637,7 +665,9 @@ Future<void> createPDF(
                                   child: pw.Center(
                                     child: pw.Text(
                                       "Rhizoctonia spp",
-                                      style: pw.TextStyle(fontSize: 9),
+                                      style: pw.TextStyle(
+                                          fontSize: 9,
+                                          fontStyle: pw.FontStyle.italic),
                                     ),
                                   ),
                                 ),
@@ -688,7 +718,9 @@ Future<void> createPDF(
                                   child: pw.Center(
                                     child: pw.Text(
                                       "Macrophomina phaseolina",
-                                      style: pw.TextStyle(fontSize: 9),
+                                      style: pw.TextStyle(
+                                          fontSize: 9,
+                                          fontStyle: pw.FontStyle.italic),
                                     ),
                                   ),
                                 ),
@@ -702,7 +734,7 @@ Future<void> createPDF(
                                   ),
                                   child: pw.Center(
                                     child: pw.Text(
-                                      "microescleródios/g de solo",
+                                      "Microescleródios/g de solo",
                                       style: pw.TextStyle(fontSize: 9),
                                     ),
                                   ),
@@ -894,39 +926,78 @@ Future<void> createPDF(
                                     child: pw.Row(children: [
                                       pw.SizedBox(width: 15),
                                       pw.Column(
-                                          mainAxisAlignment:
-                                              pw.MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              pw.CrossAxisAlignment.center,
-                                          children: [
-                                            pw.Text(
-                                              "Fusarium solani ou Fusarium oxysporum superior a 3000 UFC/g solo",
-                                              style: pw.TextStyle(fontSize: 6),
-                                              textAlign: pw.TextAlign.center,
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.center,
+                                        children: [
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Fusarium solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico apenas para o nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " ou ",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: "Fusarium oxysporum",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para o nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text:
+                                                      " superior a 3000 UFC/g solo",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                            pw.Text(
-                                              "E",
-                                              style: pw.TextStyle(
-                                                  fontSize: 6,
-                                                  fontWeight:
-                                                      pw.FontWeight.bold),
-                                              textAlign: pw.TextAlign.center,
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.Text(
+                                            "E",
+                                            style: pw.TextStyle(
+                                              fontSize: 6,
+                                              fontWeight: pw.FontWeight.bold,
                                             ),
-                                            pw.Text(
-                                              "Rhizoctonia solani superior a 50%",
-                                              style: pw.TextStyle(
-                                                fontSize: 6,
-                                              ),
-                                              textAlign: pw.TextAlign.center,
-
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Rhizoctonia solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para o nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " superior a 50%",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                          ])
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                        ],
+                                      )
                                     ]),
                                   ),
                                 ),
@@ -990,39 +1061,78 @@ Future<void> createPDF(
                                     child: pw.Row(children: [
                                       pw.SizedBox(width: 15),
                                       pw.Column(
-                                          mainAxisAlignment:
-                                              pw.MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              pw.CrossAxisAlignment.center,
-                                          children: [
-                                            pw.Text(
-                                              "Fusarium solani ou Fusarium oxysporum superior a 3000 UFC/g solo",
-                                              style: pw.TextStyle(fontSize: 6),
-                                              textAlign: pw.TextAlign.center,
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.center,
+                                        children: [
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Fusarium solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " ou ",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: "Fusarium oxysporum",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text:
+                                                      " superior a 3000 UFC/g solo",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                            pw.Text(
-                                              "E",
-                                              style: pw.TextStyle(
-                                                  fontSize: 6,
-                                                  fontWeight:
-                                                      pw.FontWeight.bold),
-                                              textAlign: pw.TextAlign.center,
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.Text(
+                                            "E",
+                                            style: pw.TextStyle(
+                                              fontSize: 6,
+                                              fontWeight: pw.FontWeight.bold,
                                             ),
-                                            pw.Text(
-                                              "Rhizoctonia solani inferior a 50%",
-                                              style: pw.TextStyle(
-                                                fontSize: 6,
-                                              ),
-                                              textAlign: pw.TextAlign.center,
-
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Rhizoctonia solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " inferior a 50%",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                          ])
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                        ],
+                                      )
                                     ]),
                                   ),
                                 ),
@@ -1086,40 +1196,78 @@ Future<void> createPDF(
                                     child: pw.Row(children: [
                                       pw.SizedBox(width: 15),
                                       pw.Column(
-                                          mainAxisAlignment:
-                                              pw.MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              pw.CrossAxisAlignment.center,
-                                          children: [
-                                            pw.Text(
-                                              "Fusarium solani ou Fusarium oxysporum entre 1500 e 3000 UFC/g solo",
-                                              style: pw.TextStyle(fontSize: 6),
-                                              textAlign: pw.TextAlign.center,
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.center,
+                                        children: [
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Fusarium solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " ou ",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: "Fusarium oxysporum",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text:
+                                                      " entre 1500 e 3000 UFC/g solo",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                            pw.Text(
-                                              "E",
-                                              style: pw.TextStyle(
-                                                  fontSize: 6,
-                                                  fontWeight:
-                                                      pw.FontWeight.bold),
-                                              textAlign: pw.TextAlign.center,
-
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.Text(
+                                            "E",
+                                            style: pw.TextStyle(
+                                              fontSize: 6,
+                                              fontWeight: pw.FontWeight.bold,
                                             ),
-                                            pw.Text(
-                                              "Rhizoctonia solani inferior a 50%",
-                                              style: pw.TextStyle(
-                                                fontSize: 6,
-                                              ),
-                                              textAlign: pw.TextAlign.center,
-
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Rhizoctonia solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " inferior a 50%",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                          ])
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                        ],
+                                      )
                                     ]),
                                   ),
                                 ),
@@ -1183,40 +1331,78 @@ Future<void> createPDF(
                                     child: pw.Row(children: [
                                       pw.SizedBox(width: 15),
                                       pw.Column(
-                                          mainAxisAlignment:
-                                              pw.MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              pw.CrossAxisAlignment.center,
-                                          children: [
-                                            pw.Text(
-                                              "Fusarium solani ou Fusarium oxysporum inferior a 1500 UFC/g  solo",
-                                              style: pw.TextStyle(fontSize: 6),
-                                              textAlign: pw.TextAlign.center,
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.center,
+                                        children: [
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Fusarium solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " ou ",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: "Fusarium oxysporum",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text:
+                                                      " inferior a 1500 UFC/g solo",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                            pw.Text(
-                                              "E",
-                                              style: pw.TextStyle(
-                                                  fontSize: 6,
-                                                  fontWeight:
-                                                      pw.FontWeight.bold),
-                                              textAlign: pw.TextAlign.center,
-
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.Text(
+                                            "E",
+                                            style: pw.TextStyle(
+                                              fontSize: 6,
+                                              fontWeight: pw.FontWeight.bold,
                                             ),
-                                            pw.Text(
-                                              "hizoctonia solani inferior a 50%",
-                                              style: pw.TextStyle(
-                                                fontSize: 6,
-                                              ),
-                                              textAlign: pw.TextAlign.center,
-
-                                              softWrap:
-                                                  true, // Permite quebras de linha
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                          pw.RichText(
+                                            text: pw.TextSpan(
+                                              children: [
+                                                pw.TextSpan(
+                                                  text: "Rhizoctonia solani",
+                                                  style: pw.TextStyle(
+                                                    fontSize: 6,
+                                                    fontStyle: pw.FontStyle
+                                                        .italic, // Itálico para nome científico
+                                                  ),
+                                                ),
+                                                pw.TextSpan(
+                                                  text: " inferior a 50%",
+                                                  style:
+                                                      pw.TextStyle(fontSize: 6),
+                                                ),
+                                              ],
                                             ),
-                                          ])
+                                            textAlign: pw.TextAlign.center,
+                                            softWrap: true,
+                                          ),
+                                        ],
+                                      )
                                     ]),
                                   ),
                                 ),

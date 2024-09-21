@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/services.dart'; // Importar o pacote necessário
+import 'package:agro_bio_tech_pc/reusableWidgets/dateCamp.dart';
 
 
 class Diagnose extends StatefulWidget {
@@ -118,6 +119,33 @@ class _DiagnoseState extends State<Diagnose> {
       ],
     );
   }
+  Widget _buildDateInfoRow(
+      IconData icon,
+      String label,
+      TextEditingController controller,
+      final List<TextInputFormatter> inputFormatters) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, color: Colors.white),
+            SizedBox(width: 10),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 3),
+        RoundedDatePickerField(_dateController),
+      ],
+    );
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +290,7 @@ class _DiagnoseState extends State<Diagnose> {
                                     _buildInfoRow(Icons.biotech, 'Material',
                                         _materialController,[]),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.calendar_today,
+                                    _buildDateInfoRow(Icons.calendar_today,
                                         'Data de entrada', _dateController,[]),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.inventory, 'Produtor',
