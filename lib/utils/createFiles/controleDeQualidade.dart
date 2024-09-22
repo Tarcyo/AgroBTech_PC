@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:agro_bio_tech_pc/pages/createFileScreen/controleDeQualidade/tableOfResults.dart';
-import 'package:open_file/open_file.dart';
+import 'package:agro_bio_tech_pc/pages/createFileScreen/PdfviewScreen.dart';
 
 Future<pw.Widget> _buildTable(List<dynamic> list) async {
   print(list);
@@ -194,12 +193,12 @@ Future<void> createPDF(
       (await rootBundle.load('assets/images/rubrica.png')).buffer.asUint8List();
   final rubrica = pw.MemoryImage(imageData);
 
-
   final pdf = pw.Document();
 
   final tableOfResults = await _buildTable(dataResults);
 
-  final fontData = await rootBundle.load("assets/fonts/Quicksand/Quicksand.ttf");
+  final fontData =
+      await rootBundle.load("assets/fonts/Quicksand/Quicksand.ttf");
   final customFont = pw.Font.ttf(fontData);
 
   // Definindo o tema global com a fonte personalizada
@@ -584,6 +583,7 @@ Future<void> createPDF(
 
   // Get the documents directory
   // Obter o diretório de documentos
+  String path = "";
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
@@ -594,14 +594,11 @@ Future<void> createPDF(
   bool salvou = true;
 
   try {
-    final path = '$folderPath/' + "" + nomeArquivo + ".pdf";
+    path = '$folderPath/' + "" + nomeArquivo + ".pdf";
 
     // Save the PDF
     final file = File(path);
     await file.writeAsBytes(await pdf.save());
-
-    Share.shareXFiles([XFile(path)], text: 'Compartilhando PDF');
-    OpenFile.open(path);
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       backgroundColor: Colors.red, // Cor de fundo verde
@@ -624,5 +621,15 @@ Future<void> createPDF(
       ),
       duration: Duration(seconds: 3),
     ));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PdfViewer(path)),
+    ).then((value) {
+      if (value == 1) {
+        Navigator.of(context).pop();
+      } else if (value == 2) {
+        Navigator.of(context).pop(1);
+      }
+    });
   }
 }

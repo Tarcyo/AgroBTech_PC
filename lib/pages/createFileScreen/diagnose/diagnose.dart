@@ -732,7 +732,7 @@ class _DiagnoseState extends State<Diagnose> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                "Exportar",
+                                                "Gerar o laudo",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 20),

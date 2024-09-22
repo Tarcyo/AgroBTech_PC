@@ -896,7 +896,7 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                "Exportar",
+                                                "Gerar o laudo",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 20),

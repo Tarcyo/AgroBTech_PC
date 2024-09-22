@@ -10,7 +10,7 @@ import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:excel/excel.dart';
-import 'package:flutter/services.dart'; 
+import 'package:flutter/services.dart';
 import 'package:agro_bio_tech_pc/reusableWidgets/dateCamp.dart';
 
 class LaudoNematologico extends StatefulWidget {
@@ -39,11 +39,19 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
       _responsavelControler.text = data['informacoes']['Responsavel'];
 
       DataRow linha = DataRow(cells: []);
+      int index = 0;
 
       for (final i in data['resultados']) {
         for (final j in i) {
-          linha.cells
-              .add(DataCell(TableTextCell(TextEditingController(text: j))));
+          if (index > 1) {
+            linha.cells.add(DataCell(TableTextCell(
+                TextEditingController(text: j),
+                [FilteringTextInputFormatter.digitsOnly])));
+          } else {
+            linha.cells.add(
+                DataCell(TableTextCell(TextEditingController(text: j), [])));
+          }
+          index++;
         }
         _results.add(linha);
         linha = DataRow(cells: []);
@@ -289,27 +297,29 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
                                       ],
                                     ),
                                     SizedBox(width: 10, height: 15),
-                                    _buildInfoRow(Icons.assignment,
-                                        'Nome do arquivo', _fileNameController,[]),
+                                    _buildInfoRow(
+                                        Icons.assignment,
+                                        'Nome do arquivo',
+                                        _fileNameController, []),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(
                                         Icons.biotech,
                                         'Material Analisado',
-                                        _materialController,[]),
+                                        _materialController, []),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.business, 'Cliente',
-                                        _contractorController,[]),
+                                        _contractorController, []),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(
                                         Icons.engineering,
                                         'Reponsavel pela entrega',
-                                        _responsavelControler,[]),
+                                        _responsavelControler, []),
                                     SizedBox(height: 15, width: 5),
                                     _buildDateInfoRow(Icons.calendar_today,
-                                        'Data de entrada', _dateController,[]),
+                                        'Data de entrada', _dateController, []),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(Icons.landscape, 'Fazenda',
-                                        _farmController,[]),
+                                        _farmController, []),
                                     SizedBox(height: 15, width: 5),
                                     Row(
                                       mainAxisAlignment:
@@ -437,7 +447,7 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Exportar",
+                                            "Gerar o laudo",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 20),

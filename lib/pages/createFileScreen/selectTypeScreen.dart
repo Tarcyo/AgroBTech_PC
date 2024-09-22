@@ -96,7 +96,11 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                               return ControleDeQualidade("");
                                             },
                                           ),
-                                        );
+                                        ).then((value){
+                                          if(value==1){
+                                            Navigator.of(context).pop();
+                                          }
+                                        });
                                       }
                                       if (selectedLaudo ==
                                           'Sanidade de sementes') {

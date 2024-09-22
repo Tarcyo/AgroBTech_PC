@@ -245,7 +245,7 @@ class ExitConfirmationDialog extends StatelessWidget {
         margin: EdgeInsets.all(20),
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Color(0xFF00C2A0), // Definindo a cor de fundo como verde
+          color: mainColor, // Definindo a cor de fundo como verde
           borderRadius: BorderRadius.circular(20), // Raio da borda do Container
           border: Border.all(
             // Adicionando uma borda ao redor do conteúdo

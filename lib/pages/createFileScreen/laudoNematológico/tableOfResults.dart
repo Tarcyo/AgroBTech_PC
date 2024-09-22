@@ -280,19 +280,30 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     setState(() {
       rows.add(
         DataRow(cells: [
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
-          DataCell(TableTextCell(TextEditingController())),
+          DataCell(TableTextCell(TextEditingController(), [])),
+          DataCell(TableTextCell(TextEditingController(), [])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
+          DataCell(TableTextCell(TextEditingController(),
+              [FilteringTextInputFormatter.digitsOnly])),
         ]),
       );
     });
@@ -390,8 +401,9 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
 class TableTextCell extends StatelessWidget {
   final TextEditingController controller;
+  final List<TextInputFormatter> formatter;
 
-  TableTextCell(this.controller);
+  TableTextCell(this.controller, this.formatter);
 
   @override
   Widget build(BuildContext context) {
@@ -403,7 +415,7 @@ class TableTextCell extends StatelessWidget {
       controller: controller,
       keyboardType: TextInputType.number, // Teclado numérico
       inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly, // Permite apenas números
+        ...formatter, // Permite apenas números
       ],
     );
   }
