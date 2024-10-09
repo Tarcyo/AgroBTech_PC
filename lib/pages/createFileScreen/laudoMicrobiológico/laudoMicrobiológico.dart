@@ -45,9 +45,8 @@ class _MicrobiologicoState extends State<Microbiologico> {
         for (final j in i) {
           final numericRegex = RegExp(r'^[0-9]+([.,][0-9]+)?$');
           if (numericRegex.hasMatch(j) == false) {
-            linha.cells.add(DataCell(TableTextCell(
-                TextEditingController(text: j),
-                [])));
+            linha.cells.add(
+                DataCell(TableTextCell(TextEditingController(text: j), [])));
           } else {
             linha.cells.add(DataCell(TableTextCell(
                 TextEditingController(text: j),
@@ -197,6 +196,87 @@ class _MicrobiologicoState extends State<Microbiologico> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo no topo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_back_ios,
+                                    color: Colors.white, size: 20),
+                                SizedBox(width: 3),
+                                Text(
+                                  "Voltar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _index = _index + 1;
+                              });
+                              await _criarArquivoJson();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Próximo",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    SizedBox(width: 3),
+                                    Icon(Icons.arrow_forward_ios,
+                                        color: Colors.white, size: 20),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(width: 30),
+                    ],
+                  ),
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -204,94 +284,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                        await _criarArquivoJson();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -319,41 +311,42 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: 10, height: 15),
+                                    SizedBox(height: 15),
                                     _buildInfoRow(
                                         Icons.assignment,
                                         'Nome do arquivo',
                                         _fileNameController, []),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     _buildInfoRow(Icons.pin, 'Número laudo',
                                         _numberController, [
                                       FilteringTextInputFormatter.digitsOnly
                                     ]),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     _buildInfoRow(Icons.business, 'Contratante',
                                         _contractorController, []),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     _buildInfoRow(Icons.biotech, 'Material',
                                         _materialController, []),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     _buildDateInfoRow(Icons.calendar_today,
                                         'Data de entrada', _dateController, []),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     _buildInfoRow(Icons.inventory, 'Produtor',
                                         _productorController, []),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     _buildInfoRow(Icons.landscape, 'Fazenda',
                                         _farmController, []),
-                                    SizedBox(height: 15, width: 5),
+                                    SizedBox(height: 15),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         RoundedButton(
-                                            onPressed: () async {
-                                              await _criarArquivoJson();
-                                            },
-                                            text: "Salvar Rascunho"),
+                                          onPressed: () async {
+                                            await _criarArquivoJson();
+                                          },
+                                          text: "Salvar Rascunho",
+                                        ),
                                       ],
                                     )
                                   ],
@@ -362,7 +355,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 1),
+                        SizedBox(height: 1),
                       ],
                     ),
                   ),
@@ -379,6 +372,91 @@ class _MicrobiologicoState extends State<Microbiologico> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo no topo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _index = _index - 1;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_back_ios,
+                                    color: Colors.white, size: 20),
+                                SizedBox(width: 3),
+                                Text(
+                                  "Voltar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _index = _index + 1;
+                              });
+                              await _criarArquivoJson();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Próximo",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    SizedBox(width: 3),
+                                    Icon(Icons.arrow_forward_ios,
+                                        color: Colors.white, size: 20),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(width: 30),
+                    ],
+                  ),
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -386,97 +464,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                        await _criarArquivoJson();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 1000, // Aumente o valor da largura aqui
@@ -515,7 +502,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 1),
+                        SizedBox(height: 1),
                       ],
                     ),
                   ),
@@ -526,12 +513,99 @@ class _MicrobiologicoState extends State<Microbiologico> {
         ),
       );
     }
+
     if (_index == 3) {
       return Scaffold(
         body: Container(
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo no topo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _index = _index - 1;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_back_ios,
+                                    color: Colors.white, size: 20),
+                                SizedBox(width: 3),
+                                Text(
+                                  "Voltar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await _criarArquivoJson();
+
+                              setState(() {
+                                _index = _index + 1;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Próximo",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    SizedBox(width: 3),
+                                    Icon(Icons.arrow_forward_ios,
+                                        color: Colors.white, size: 20),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(width: 30),
+                    ],
+                  ),
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -539,98 +613,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -658,10 +640,11 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                     SizedBox(height: 100, width: 5),
                                     Center(
                                       child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                          },
-                                          text: "Salvar Rascunho"),
+                                        onPressed: () async {
+                                          await _criarArquivoJson();
+                                        },
+                                        text: "Salvar Rascunho",
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -669,7 +652,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 1),
+                        SizedBox(height: 1),
                       ],
                     ),
                   ),
@@ -844,6 +827,109 @@ class _MicrobiologicoState extends State<Microbiologico> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Gerar o laudo no topo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _index = _index - 1;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_back_ios,
+                                    color: Colors.white, size: 20),
+                                SizedBox(width: 3),
+                                Text(
+                                  "Voltar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await _criarArquivoJson();
+                              await createPDF(
+                                context,
+                                _fileNameController.text,
+                                _analyzeController.text,
+                                _numberController.text,
+                                _contractorController.text,
+                                _materialController.text,
+                                _dateController.text,
+                                _productorController.text,
+                                _farmController.text,
+                                _results,
+                                _criteriaByMacrophominaControllers,
+                                _criteriaByFactorControllers,
+                                _observations,
+                                _images,
+                                _attrachmentsControllers,
+                              );
+                              Provider.of<FileNameProvider>(
+                                      listen: false, context)
+                                  .adicionaMicrobiologicoPdf(
+                                      _fileNameController.text);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Gerar o laudo",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    SizedBox(width: 3),
+                                    Icon(Icons.picture_as_pdf,
+                                        color: Colors.white, size: 40),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(width: 30),
+                    ],
+                  ),
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -851,114 +937,6 @@ class _MicrobiologicoState extends State<Microbiologico> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-                                        await createPDF(
-                                            context,
-                                            _fileNameController.text,
-                                            _analyzeController.text,
-                                            _numberController.text,
-                                            _contractorController.text,
-                                            _materialController.text,
-                                            _dateController.text,
-                                            _productorController.text,
-                                            _farmController.text,
-                                            _results,
-                                            _criteriaByMacrophominaControllers,
-                                            _criteriaByFactorControllers,
-                                            _observations,
-                                            _images,
-                                            _attrachmentsControllers);
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaMicrobiologicoPdf(
-                                                _fileNameController.text);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Gerar o laudo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.picture_as_pdf,
-                                                  color: Colors.white,
-                                                  size: 40),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -990,10 +968,11 @@ class _MicrobiologicoState extends State<Microbiologico> {
                                     SizedBox(height: 100, width: 5),
                                     Center(
                                       child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                          },
-                                          text: "Salvar Radscunho"),
+                                        onPressed: () async {
+                                          await _criarArquivoJson();
+                                        },
+                                        text: "Salvar Rascunho",
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1001,7 +980,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 1),
+                        SizedBox(height: 1),
                       ],
                     ),
                   ),

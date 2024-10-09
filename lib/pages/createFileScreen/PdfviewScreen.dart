@@ -176,40 +176,7 @@ class PdfViewer extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                    height: 40), // Espaço entre os botões e o próximo botão
-                // Botão "Próximo" controlado
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop(2);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: mainColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(30.0), // Bordas arredondadas
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15.0,
-                        horizontal: 30.0), // Controle do padding
-                    minimumSize: const Size(
-                        180, 60), // Tamanho mínimo (largura x altura)
-                    maximumSize: const Size(
-                        250, 60), // Tamanho máximo (largura x altura)
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize
-                        .min, // Mantém o tamanho baseado no conteúdo
-                    children: const [
-                      Text(
-                        "Voltar ao inicio",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(width: 10), // Espaço entre o texto e o ícone
-                      Icon(Icons.home, color: Colors.white, size: 30),
-                    ],
-                  ),
-                ),
+               
               ],
             ),
           ),

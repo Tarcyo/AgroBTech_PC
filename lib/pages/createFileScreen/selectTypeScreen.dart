@@ -31,6 +31,28 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
         color: secondaryColor,
         child: Column(
           children: [
+            // Banner
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                color: mainColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  "Bem vindo ao Gerador de Laudos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
@@ -39,45 +61,8 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Row(
-                            children: [
-                              SizedBox(width: 30),
-                              Column(
-                                children: [
-                                  SizedBox(height: 20),
-                                  ElevatedButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: mainColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(180.0),
-                                      ),
-                                      minimumSize: Size(150, 50),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.arrow_back_ios,
-                                            color: Colors.white, size: 20),
-                                        SizedBox(width: 3),
-                                        Text(
-                                          "Voltar",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
                           Row(
                             children: [
                               Column(
@@ -96,8 +81,8 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                                               return ControleDeQualidade("");
                                             },
                                           ),
-                                        ).then((value){
-                                          if(value==1){
+                                        ).then((value) {
+                                          if (value == 1) {
                                             Navigator.of(context).pop();
                                           }
                                         });

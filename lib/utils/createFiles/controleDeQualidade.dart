@@ -580,9 +580,6 @@ Future<void> createPDF(
       },
     ),
   );
-
-  // Get the documents directory
-  // Obter o diretório de documentos
   String path = "";
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
@@ -593,34 +590,57 @@ Future<void> createPDF(
 
   bool salvou = true;
 
-  try {
-    path = '$folderPath/' + "" + nomeArquivo + ".pdf";
+  // Exibe o diálogo de carregamento
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Gerando PDF...",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: CircularProgressIndicator(
+                strokeWidth: 8.0, // Espessura da linha
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 
-    // Save the PDF
+  try {
+    path = '$folderPath/' + nomeArquivo + ".pdf";
+
+    // Salvar o PDF
     final file = File(path);
     await file.writeAsBytes(await pdf.save());
   } catch (e) {
+    salvou = false;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      backgroundColor: Colors.red, // Cor de fundo verde
+      backgroundColor: Colors.red,
       content: Text(
         'Erro ao salvar o PDF!',
         style: TextStyle(fontSize: 18),
       ),
       duration: Duration(seconds: 3),
     ));
-    salvou = false; // Duração do Snackbar
   }
 
-  if (salvou == true) {
+  // Fecha o diálogo de carregamento, garantindo que o `pop` sempre seja chamado.
+  Navigator.of(context, rootNavigator: true).pop();
+
+  if (salvou) {
     // Caminho para o arquivo PDF
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      backgroundColor: Colors.green, // Cor de fundo verde
-      content: Text(
-        'O laudo foi salvo com sucesso!',
-        style: TextStyle(fontSize: 18),
-      ),
-      duration: Duration(seconds: 3),
-    ));
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PdfViewer(path)),

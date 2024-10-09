@@ -3,6 +3,7 @@ import 'tabBarController.dart';
 import 'pages/PdfsScreen/PdfsScreen.dart';
 import 'pages/DraftScreen/DraftScreen.dart';
 import 'pages/SpreadsheetScreen/SpreadsheetScreen.dart';
+import 'pages/createFileScreen/selectTypeScreen.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -10,7 +11,12 @@ class HomePage extends StatelessWidget {
     return TabBarController(
       items: [
         PersistentTabItem(
-          title: 'Meus Laudos',
+          title: 'Novo Laudo',
+          tab: const NewDocTab(),
+          icon: Icons.add,
+        ),
+        PersistentTabItem(
+          title: 'PDFs Salvos',
           tab: const PdfScreenTab(),
           icon: Icons.picture_as_pdf,
         ),
@@ -23,7 +29,7 @@ class HomePage extends StatelessWidget {
           title: 'Planilhas',
           tab: const SpreadsheetScreenTab(),
           icon: Icons.grid_on,
-        )
+        ),
       ],
     );
   }
@@ -42,6 +48,25 @@ class _PdfScreenTabState extends State<PdfScreenTab>
   Widget build(BuildContext context) {
     super.build(context);
     return PdfsScreen();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class NewDocTab extends StatefulWidget {
+  const NewDocTab({Key? key}) : super(key: key);
+
+  @override
+  _NewDocTabState createState() => _NewDocTabState();
+}
+
+class _NewDocTabState extends State<NewDocTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return SelectTypeScreen();
   }
 
   @override

@@ -174,6 +174,87 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo no topo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_back_ios,
+                                    color: Colors.white, size: 20),
+                                SizedBox(width: 3),
+                                Text(
+                                  "Voltar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _index = _index + 1;
+                              });
+                              await _criarArquivoJson();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Próximo",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    SizedBox(width: 3),
+                                    Icon(Icons.arrow_forward_ios,
+                                        color: Colors.white, size: 20),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(width: 30),
+                    ],
+                  )
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -181,94 +262,6 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                        await _criarArquivoJson();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -312,7 +305,7 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(
                                         Icons.engineering,
-                                        'Reponsavel pela entrega',
+                                        'Responsável pela entrega',
                                         _responsavelControler, []),
                                     SizedBox(height: 15, width: 5),
                                     _buildDateInfoRow(Icons.calendar_today,
@@ -326,10 +319,11 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
                                           MainAxisAlignment.center,
                                       children: [
                                         RoundedButton(
-                                            onPressed: () async {
-                                              await _criarArquivoJson();
-                                            },
-                                            text: "Salvar Rascunho"),
+                                          onPressed: () async {
+                                            await _criarArquivoJson();
+                                          },
+                                          text: "Salvar Rascunho",
+                                        ),
                                       ],
                                     )
                                   ],
@@ -355,6 +349,104 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Gerar o laudo no topo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _index = _index - 1;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_back_ios,
+                                    color: Colors.white, size: 20),
+                                SizedBox(width: 3),
+                                Text(
+                                  "Voltar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await _criarArquivoJson();
+
+                              await createPDF(
+                                  context,
+                                  _fileNameController.text,
+                                  _analyzeController.text,
+                                  _numberController.text,
+                                  _contractorController.text,
+                                  _materialController.text,
+                                  _dateController.text,
+                                  _produtorController.text,
+                                  _farmController.text,
+                                  _responsavelControler.text,
+                                  _results,
+                                  _observations,
+                                  _images,
+                                  _attrachmentsControllers);
+                              Provider.of<FileNameProvider>(
+                                      listen: false, context)
+                                  .adicionaNematologicoPdf(
+                                      _fileNameController.text);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180.0),
+                              ),
+                              minimumSize: Size(150, 50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Gerar o laudo",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                SizedBox(width: 3),
+                                Icon(Icons.picture_as_pdf,
+                                    color: Colors.white, size: 20),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(width: 3),
+                    ],
+                  )
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -362,109 +454,6 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-
-                                        await createPDF(
-                                            context,
-                                            _fileNameController.text,
-                                            _analyzeController.text,
-                                            _numberController.text,
-                                            _contractorController.text,
-                                            _materialController.text,
-                                            _dateController.text,
-                                            _produtorController.text,
-                                            _farmController.text,
-                                            _responsavelControler.text,
-                                            _results,
-                                            _observations,
-                                            _images,
-                                            _attrachmentsControllers);
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaNematologicoPdf(
-                                                _fileNameController.text);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Gerar o laudo",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                          SizedBox(width: 3),
-                                          Icon(Icons.picture_as_pdf,
-                                              color: Colors.white, size: 20),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 3),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 1500,

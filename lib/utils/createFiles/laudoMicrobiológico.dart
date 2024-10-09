@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart';
 import 'package:agro_bio_tech_pc/pages/createFileScreen/laudoMicrobiológico/tableOfResults.dart';
+import 'package:agro_bio_tech_pc/pages/createFileScreen/PdfviewScreen.dart';
 
 Future<void> createPDF(
     BuildContext context,
@@ -1574,48 +1573,76 @@ Future<void> createPDF(
       },
     ),
   );
-
-  // Get the documents directory
-  // Obter o diretório de documentos
+  String path = "";
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/microbiologico';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/controle De Qualidade';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;
 
-  try {
-    final path = '$folderPath/' + nomeArquivo + ".pdf";
+  // Exibe o diálogo de carregamento
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Gerando PDF...",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: CircularProgressIndicator(
+                strokeWidth: 8.0, // Espessura da linha
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 
-    // Save the PDF
+  try {
+    path = '$folderPath/' + nomeArquivo + ".pdf";
+
+    // Salvar o PDF
     final file = File(path);
     await file.writeAsBytes(await pdf.save());
-
-    Share.shareXFiles([XFile(path)], text: 'Compartilhando PDF');
-    OpenFile.open(path);
   } catch (e) {
+    salvou = false;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      backgroundColor: Colors.red, // Cor de fundo verde
+      backgroundColor: Colors.red,
       content: Text(
         'Erro ao salvar o PDF!',
         style: TextStyle(fontSize: 18),
       ),
       duration: Duration(seconds: 3),
     ));
-    salvou = false; // Duração do Snackbar
   }
 
-  if (salvou == true) {
+  // Fecha o diálogo de carregamento, garantindo que o `pop` sempre seja chamado.
+  Navigator.of(context, rootNavigator: true).pop();
+
+  if (salvou) {
     // Caminho para o arquivo PDF
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      backgroundColor: Colors.green, // Cor de fundo verde
-      content: Text(
-        'O laudo foi salvo com sucesso!',
-        style: TextStyle(fontSize: 18),
-      ),
-      duration: Duration(seconds: 3),
-    ));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PdfViewer(path)),
+    ).then((value) {
+      if (value == 1) {
+        Navigator.of(context).pop();
+      } else if (value == 2) {
+        Navigator.of(context).pop(1);
+      }
+    });
   }
 }

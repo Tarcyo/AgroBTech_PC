@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/services.dart';
-import 'package:agro_bio_tech_pc/utils/tools/CNPJFilter.dart';
+import 'package:agro_bio_tech_pc/tools/CNPJFilter.dart';
 import 'package:agro_bio_tech_pc/reusableWidgets/dateCamp.dart';
 
 class ControleDeQualidade extends StatefulWidget {
@@ -51,7 +51,7 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
             linha.cells.add(DataCell(TableTextCell(
                 isNumeric: true,
                 TextEditingController(text: partes[0]),
-                TextEditingController(text: "×"+partes[1]))));
+                TextEditingController(text: "×" + partes[1]))));
           } else {
             linha.cells.add(DataCell(TableTextCell(
                 TextEditingController(text: j),
@@ -288,120 +288,85 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo (fixos na parte superior)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 30),
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                            minimumSize: Size(150, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.arrow_back_ios,
+                                  color: Colors.white, size: 20),
+                              SizedBox(width: 3),
+                              Text(
+                                "Voltar",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              _index = _index + 1;
+                            });
+
+                            await _criarArquivoJson();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                            minimumSize: Size(150, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Próximo",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              SizedBox(width: 3),
+                              Icon(Icons.arrow_forward_ios,
+                                  color: Colors.white, size: 20),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 30),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Conteúdo rolável (SingleChildScrollView)
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        if (_fileNameController.text.isEmpty ||
-                                            _numberController.text.isEmpty ||
-                                            _contractorController
-                                                .text.isEmpty ||
-                                            _materialController.text.isEmpty ||
-                                            _dateController.text.isEmpty) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              backgroundColor: Colors.red,
-                                              content: Text(
-                                                  "Nenhum campo pode ser nulo!"),
-                                              duration: Duration(seconds: 3),
-                                            ),
-                                          );
-                                          return;
-                                        } else {
-                                          setState(() {
-                                            _index = _index + 1;
-                                          });
-                                        }
-
-                                        await _criarArquivoJson();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -431,44 +396,66 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                     ),
                                     SizedBox(width: 10, height: 15),
                                     _buildInfoRow(
-                                        Icons.assignment,
-                                        'Nome do arquivo',
-                                        _fileNameController, []),
-                                    SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.pin, 'Número laudo',
-                                        _numberController, [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ]),
-                                    SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.business, 'Contratante',
-                                        _contractorController, []),
-                                    SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.biotech, 'Material',
-                                        _materialController, []),
-                                    SizedBox(height: 15, width: 5),
-                                    _buildDateInfoRow(Icons.calendar_today,
-                                        'Data de entrada', _dateController, []),
+                                      Icons.assignment,
+                                      'Nome do arquivo',
+                                      _fileNameController,
+                                      [],
+                                    ),
                                     SizedBox(height: 15, width: 5),
                                     _buildInfoRow(
-                                        Icons.account_balance,
-                                        'CNPJ',
-                                        _cnpjController,
-                                        [CnpjInputFormatter()]),
+                                      Icons.pin,
+                                      'Número laudo',
+                                      _numberController,
+                                      [FilteringTextInputFormatter.digitsOnly],
+                                    ),
                                     SizedBox(height: 15, width: 5),
-                                    _buildInfoRow(Icons.landscape, 'Fazenda',
-                                        _farmController, []),
+                                    _buildInfoRow(
+                                      Icons.business,
+                                      'Contratante',
+                                      _contractorController,
+                                      [],
+                                    ),
+                                    SizedBox(height: 15, width: 5),
+                                    _buildInfoRow(
+                                      Icons.biotech,
+                                      'Material',
+                                      _materialController,
+                                      [],
+                                    ),
+                                    SizedBox(height: 15, width: 5),
+                                    _buildDateInfoRow(
+                                      Icons.calendar_today,
+                                      'Data de entrada',
+                                      _dateController,
+                                      [],
+                                    ),
+                                    SizedBox(height: 15, width: 5),
+                                    _buildInfoRow(
+                                      Icons.account_balance,
+                                      'CNPJ',
+                                      _cnpjController,
+                                      [CnpjInputFormatter()],
+                                    ),
+                                    SizedBox(height: 15, width: 5),
+                                    _buildInfoRow(
+                                      Icons.landscape,
+                                      'Fazenda',
+                                      _farmController,
+                                      [],
+                                    ),
                                     SizedBox(height: 15, width: 5),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         RoundedButton(
-                                            onPressed: () async {
-                                              await _criarArquivoJson();
-                                            },
-                                            text: "Salvar Rascunho"),
+                                          onPressed: () async {
+                                            await _criarArquivoJson();
+                                          },
+                                          text: "Salvar Rascunho",
+                                        ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -492,104 +479,88 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo (fixos na parte superior)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 30),
+                        ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              _index = _index - 1;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                            minimumSize: Size(150, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.arrow_back_ios,
+                                  color: Colors.white, size: 20),
+                              SizedBox(width: 3),
+                              Text(
+                                "Voltar",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              _index = _index + 1;
+                            });
+                            await _criarArquivoJson();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                            minimumSize: Size(150, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Próximo",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              SizedBox(width: 3),
+                              Icon(Icons.arrow_forward_ios,
+                                  color: Colors.white, size: 20),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 30),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Conteúdo rolável (SingleChildScrollView)
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                        await _criarArquivoJson();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -605,6 +576,7 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    // Texto "Resultados" no quadro central
                                     Center(
                                       child: Text(
                                         "Resultados",
@@ -618,10 +590,11 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                     SizedBox(height: 15, width: 5),
                                     Center(
                                       child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                          },
-                                          text: "Salvar Rascunho"),
+                                        onPressed: () async {
+                                          await _criarArquivoJson();
+                                        },
+                                        text: "Salvar Rascunho",
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -640,111 +613,96 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
         ),
       );
     }
+
     if (_index == 3) {
       return Scaffold(
         body: Container(
           color: secondaryColor,
           child: Column(
             children: [
+              // Botões Voltar e Próximo (fixos na parte superior)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 30),
+                        ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              _index = _index - 1;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                            minimumSize: Size(150, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.arrow_back_ios,
+                                  color: Colors.white, size: 20),
+                              SizedBox(width: 3),
+                              Text(
+                                "Voltar",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            await _criarArquivoJson();
+
+                            setState(() {
+                              _index = _index + 1;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                            minimumSize: Size(150, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Próximo",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              SizedBox(width: 3),
+                              Icon(Icons.arrow_forward_ios,
+                                  color: Colors.white, size: 20),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 30),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Conteúdo rolável (SingleChildScrollView)
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-
-                                        setState(() {
-                                          _index = _index + 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Próximo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                  size: 20),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -772,10 +730,11 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                     SizedBox(height: 100, width: 5),
                                     Center(
                                       child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                          },
-                                          text: "Salvar Rascunho"),
+                                        onPressed: () async {
+                                          await _criarArquivoJson();
+                                        },
+                                        text: "Salvar Rascunho",
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -794,129 +753,119 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
         ),
       );
     }
+
     if (_index == 4) {
       return Scaffold(
         body: Container(
           color: secondaryColor,
           child: Column(
             children: [
+              // Área fixa dos botões (Sempre visível)
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 30),
+                        Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _index = _index - 1;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: mainColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(180.0),
+                                ),
+                                minimumSize: Size(150, 50),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.arrow_back_ios,
+                                      color: Colors.white, size: 20),
+                                  SizedBox(width: 3),
+                                  Text(
+                                    "Voltar",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await _criarArquivoJson();
+
+                                await createPDF(
+                                    context,
+                                    _fileNameController.text,
+                                    _analyzeController.text,
+                                    _numberController.text,
+                                    _contractorController.text,
+                                    _materialController.text,
+                                    _dateController.text,
+                                    _cnpjController.text,
+                                    _farmController.text,
+                                    _results,
+                                    _observations,
+                                    _images,
+                                    _attrachmentsControllers);
+
+                                Provider.of<FileNameProvider>(context,
+                                        listen: false)
+                                    .adicionaControleDeQualidadePdf(
+                                        _fileNameController.text);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: mainColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(180.0),
+                                ),
+                                minimumSize: Size(150, 50),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Gerar o laudo",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  SizedBox(width: 3),
+                                  Icon(Icons.picture_as_pdf,
+                                      color: Colors.white, size: 40),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 30),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Área rolável (SingleChildScrollView)
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(width: 30),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _index = _index - 1;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_back_ios,
-                                              color: Colors.white, size: 20),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            "Voltar",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _criarArquivoJson();
-
-                                        await createPDF(
-                                            context,
-                                            _fileNameController.text,
-                                            _analyzeController.text,
-                                            _numberController.text,
-                                            _contractorController.text,
-                                            _materialController.text,
-                                            _dateController.text,
-                                            _cnpjController.text,
-                                            _farmController.text,
-                                            _results,
-                                            _observations,
-                                            _images,
-                                            _attrachmentsControllers);
-
-                                        // Criar a pasta "rascunhos" se não existir
-
-                                        Provider.of<FileNameProvider>(
-                                                listen: false, context)
-                                            .adicionaControleDeQualidadePdf(
-                                                _fileNameController.text);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: mainColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(180.0),
-                                        ),
-                                        minimumSize: Size(150, 50),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Gerar o laudo",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(width: 3),
-                                              Icon(Icons.picture_as_pdf,
-                                                  color: Colors.white,
-                                                  size: 40),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 30),
-                              ],
-                            )
-                          ],
-                        ),
                         Center(
                           child: SizedBox(
                             width: 600,
@@ -948,10 +897,11 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
                                     SizedBox(height: 100, width: 5),
                                     Center(
                                       child: RoundedButton(
-                                          onPressed: () async {
-                                            await _criarArquivoJson();
-                                          },
-                                          text: "Salvar Rascunho"),
+                                        onPressed: () async {
+                                          await _criarArquivoJson();
+                                        },
+                                        text: "Salvar Rascunho",
+                                      ),
                                     ),
                                   ],
                                 ),
