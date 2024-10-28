@@ -4,7 +4,7 @@ import 'tableOfResults.dart';
 import '../../../reusableWidgets/roundedButtom.dart';
 import '../../../reusableWidgets/observationsList.dart';
 import '../../../reusableWidgets/attachmentsList.dart';
-import 'package:agro_bio_tech_pc/utils/createFiles/sanidadeDeSementes copy.dart';
+import 'package:agro_bio_tech_pc/utils/createFiles/sanidadeDeSementes.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:agro_bio_tech_pc/constants.dart';

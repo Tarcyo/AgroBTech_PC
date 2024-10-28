@@ -93,6 +93,36 @@ Future<void> createPDF(
     List<TextEditingController> observacaoes,
     List<File> imagens,
     List<TextEditingController> descricoes) async {
+  if (nomeArquivo.isEmpty) {
+    return;
+  }
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Gerando PDF...",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: CircularProgressIndicator(
+                strokeWidth: 8.0, // Espessura da linha
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+
   final String dataEmissao = DateTime.now().day.toString() +
       "/" +
       DateTime.now().month.toString() +
@@ -141,7 +171,11 @@ Future<void> createPDF(
     for (final c in r.cells) {
       if (c.child is TableTextCell) {
         final cell = c.child as TableTextCell;
-        cells.add(cell.controller.text);
+        if (cell.controller.text.isEmpty == false) {
+          cells.add(cell.controller.text);
+        } else {
+          cells.add(" - ");
+        }
         print("Resultado: " + cell.controller.text);
       } else if (c.child is OptionDropdownCell) {
         final cell = c.child as OptionDropdownCell;
@@ -191,12 +225,21 @@ Future<void> createPDF(
 
   final pdf = pw.Document();
 
+  final fontData = await rootBundle.load("assets/fonts/Arial/Arial.ttf");
+  final customFont = pw.Font.ttf(fontData);
+
+  // Definindo o tema global com a fonte personalizada
+  final theme = pw.ThemeData.withFont(
+    base: customFont, // Define a fonte padrão para o texto
+  );
+
   pdf.addPage(
     index: 0,
     pw.MultiPage(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       maxPages: 27,
       pageTheme: pw.PageTheme(
+        theme: theme,
         clip: true,
         buildBackground: (context) {
           return pw.SizedBox(width: 13);
@@ -442,43 +485,17 @@ Future<void> createPDF(
     ),
   );
 
-    String path = "";
+  String path = "";
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/controle De Qualidade';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/diferenciação De Raça';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;
 
   // Exibe o diálogo de carregamento
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return const Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Gerando PDF...",
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: CircularProgressIndicator(
-                strokeWidth: 8.0, // Espessura da linha
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 
   try {
     path = '$folderPath/' + nomeArquivo + ".pdf";

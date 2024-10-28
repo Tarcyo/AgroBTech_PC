@@ -11,18 +11,43 @@ flutter:
   assets:
     - assets/images/
   fonts:
-    - family: Quicksand
-      fonts:
-        - asset: assets/fonts/Quicksand/Quicksand.ttf
-       
+   - family: Quicksand
+     fonts:
+       - asset: assets/fonts/Quicksand/Quicksand.ttf
+   - family: Arial
+     fonts:
+       - asset: assets/fonts/Arial/Arial.ttf
+       - asset: assets/fonts/Arial/ArialItalic.ttf
+         style: italic
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
+
+dev_dependencies:
+  flutter_launcher_icons: "^0.14.1"
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/icon.png"
+    background_color: "#FFFFFF"
+    theme_color: "#FFFFFF"
+  windows:
+    generate: true
+    image_path: "assets/images/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/icon.png"
 
 
 
 dependencies:
   path_provider: ^2.1.2 
+  printing: ^5.10.0
   provider: ^6.1.2
   pdf: ^3.11.1
   share_plus: ^9.0.0
@@ -37,8 +62,6 @@ dependencies:
 
 
 
-dev_dependencies:
-  flutter_launcher_icons: ^0.13.1
 
 
   

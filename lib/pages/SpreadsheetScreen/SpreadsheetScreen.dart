@@ -3,6 +3,9 @@ import 'package:agro_bio_tech_pc/constants.dart';
 import 'package:agro_bio_tech_pc/reusableWidgets/planilhaCardLis.dart';
 import 'package:provider/provider.dart';
 import 'package:agro_bio_tech_pc/providers/fileNameProvider.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:agro_bio_tech_pc/reusableWidgets/searchingBar.dart';
 
 class SpreadsheetScreen extends StatefulWidget {
   @override
@@ -13,6 +16,52 @@ ScrollController sc = ScrollController();
 
 class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
   String _index = "Controle de qualidade";
+
+  final _controllerControleDeQualidade = TextEditingController();
+  final _controllerSanidade = TextEditingController();
+  final _controllerNematologico = TextEditingController();
+  final _controllerRaca = TextEditingController();
+  final _controllerMicro = TextEditingController();
+  final _controllerDiagnose = TextEditingController();
+
+  Future<List<String>> searchFiles(String searchString, String type) async {
+  try {
+    // Obtém o diretório de Documentos
+    final directory = await getApplicationDocumentsDirectory();
+    final documentsPath =
+        directory.path + "/gerador de laudos/planilhas/" + type;
+
+    // Cria uma lista para armazenar os nomes dos arquivos encontrados
+    List<String> matchingFiles = [];
+
+    // Verifica se o diretório existe
+    if (Directory(documentsPath).existsSync()) {
+      // Obtém a lista de arquivos na pasta Documentos
+      final directoryContents = Directory(documentsPath).listSync();
+
+      for (var file in directoryContents) {
+        // Verifica se o item é um arquivo
+        if (file is File) {
+          // Obtém o nome do arquivo sem a extensão
+          String fileName = file.uri.pathSegments.last.split('.').first;
+
+          // Verifica se o nome do arquivo contém a string de pesquisa
+          if (fileName.contains(searchString)) {
+            matchingFiles.add(fileName);
+          }
+        }
+      }
+    } else {
+      print("O diretório $documentsPath não existe.");
+    }
+
+    return matchingFiles;
+  } catch (e) {
+    // Caso ocorra algum erro, imprime no console e retorna uma lista vazia
+    print("Erro ao buscar arquivos: $e");
+    return [];
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +74,25 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBarWidget(
+                controller: _controllerControleDeQualidade,
+                onClearPressed: () async {
+                  _controllerControleDeQualidade.text = "";
+                  final res = await searchFiles(
+                      _controllerControleDeQualidade.text,
+                      "controle De Qualidade");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaControleDeQualidadePlanilhas(res);
+                },
+                onSearchPressed: () async {
+                  final res = await searchFiles(
+                      _controllerControleDeQualidade.text,
+                      "controle De Qualidade");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaControleDeQualidadePlanilhas(res);
+                },
+                onChanged: (value) {},
+              ),
               Consumer<FileNameProvider>(builder: (context, provider, child) {
                 if (provider.controleDeQualidadePlanilhas.isNotEmpty)
                   return PlanilhaCardList(
@@ -46,6 +114,23 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBarWidget(
+                controller: _controllerSanidade,
+                onClearPressed: () async {
+                  _controllerSanidade.text = "";
+                  final res = await searchFiles(
+                      _controllerSanidade.text, "sanidade De Sementes");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaSanidadePlanilhas(res);
+                },
+                onSearchPressed: () async {
+                  final res = await searchFiles(
+                      _controllerSanidade.text, "sanidade De Sementes");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaSanidadePlanilhas(res);
+                },
+                onChanged: (value) {},
+              ),
               Consumer<FileNameProvider>(builder: (context, provider, child) {
                 if (provider.sanidadePlanilhas.isNotEmpty)
                   return PlanilhaCardList(provider.sanidadePlanilhas, _index);
@@ -66,6 +151,23 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBarWidget(
+                controller: _controllerNematologico,
+                onClearPressed: () async {
+                  _controllerNematologico.text = "";
+                  final res = await searchFiles(
+                      _controllerNematologico.text, "laudo nematológico");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaNematologicoPlanilhas(res);
+                },
+                onSearchPressed: () async {
+                  final res = await searchFiles(
+                      _controllerNematologico.text, "laudo nematológico");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaNematologicoPlanilhas(res);
+                },
+                onChanged: (value) {},
+              ),
               Consumer<FileNameProvider>(builder: (context, provider, child) {
                 if (provider.nematologicoPlanilhas.isNotEmpty)
                   return PlanilhaCardList(
@@ -87,6 +189,23 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBarWidget(
+                controller: _controllerMicro,
+                onClearPressed: () async {
+                  _controllerMicro.text = "";
+                  final res = await searchFiles(
+                      _controllerMicro.text, "microbiologico");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaMicrobiologicoPlanilhas(res);
+                },
+                onSearchPressed: () async {
+                  final res = await searchFiles(
+                      _controllerMicro.text, "microbiologico");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaMicrobiologicoPlanilhas(res);
+                },
+                onChanged: (value) {},
+              ),
               Consumer<FileNameProvider>(builder: (context, provider, child) {
                 if (provider.microbiologicoPlanilhas.isNotEmpty)
                   return PlanilhaCardList(
@@ -108,6 +227,23 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBarWidget(
+                controller: _controllerDiagnose,
+                onClearPressed: () async {
+                  _controllerDiagnose.text = "";
+                  final res =
+                      await searchFiles(_controllerDiagnose.text, "diagnose");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaDiagnosePlanilhas(res);
+                },
+                onSearchPressed: () async {
+                  final res =
+                      await searchFiles(_controllerDiagnose.text, "diagnose");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaDiagnosePlanilhas(res);
+                },
+                onChanged: (value) {},
+              ),
               Consumer<FileNameProvider>(builder: (context, provider, child) {
                 if (provider.diagnosePlanilhas.isNotEmpty)
                   return PlanilhaCardList(provider.diagnosePlanilhas, _index);
@@ -128,6 +264,23 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SearchBarWidget(
+                controller: _controllerRaca,
+                onClearPressed: () async {
+                  _controllerRaca.text = "";
+                  final res = await searchFiles(
+                      _controllerRaca.text, "diferenciação De Raça");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaDiferenciacaoDeRacaPlanilhas(res);
+                },
+                onSearchPressed: () async {
+                  final res = await searchFiles(
+                      _controllerRaca.text, "diferenciação De Raça");
+                  Provider.of<FileNameProvider>(context, listen: false)
+                      .atualizaDiferenciacaoDeRacaPlanilhas(res);
+                },
+                onChanged: (value) {},
+              ),
               Consumer<FileNameProvider>(builder: (context, provider, child) {
                 if (provider.diferenciacaoDeRacaPlanilhas.isNotEmpty)
                   return PlanilhaCardList(
@@ -177,7 +330,7 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: ScrollbarTheme(
                 data: ScrollbarThemeData(
-                  thumbColor: MaterialStateProperty.all<Color>(mainColor),
+                  thumbColor: WidgetStateProperty.all<Color>(mainColor),
                 ),
                 child: Scrollbar(
                   controller: sc,
@@ -197,9 +350,10 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: _index == "Controle de qualidade"
-                                    ? mainColor
-                                    : Colors.white,
+                                backgroundColor:
+                                    _index == "Controle de qualidade"
+                                        ? mainColor
+                                        : Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
@@ -222,9 +376,10 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: _index == "Sanidade de sementes"
-                                    ? mainColor
-                                    : Colors.white,
+                                backgroundColor:
+                                    _index == "Sanidade de sementes"
+                                        ? mainColor
+                                        : Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
@@ -297,9 +452,10 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: _index == "Laudo Microbiológico"
-                                    ? mainColor
-                                    : Colors.white,
+                                backgroundColor:
+                                    _index == "Laudo Microbiológico"
+                                        ? mainColor
+                                        : Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),

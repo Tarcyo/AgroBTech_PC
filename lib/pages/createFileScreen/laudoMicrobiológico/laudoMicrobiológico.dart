@@ -85,7 +85,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
 
   // Informações:
   TextEditingController _analyzeController =
-      TextEditingController(text: "Laudo Microbiológico");
+      TextEditingController(text:"Laudo Microbiológico");
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _contractorController = TextEditingController();
@@ -100,16 +100,16 @@ class _MicrobiologicoState extends State<Microbiologico> {
   // Análise dos reultados
 
   List<TextEditingController> _criteriaByMacrophominaControllers = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
+    TextEditingController(text: " Superiora 80 Microescleródios,g\nde solo"),
+    TextEditingController(text: "Entre 40 a 80 Microescleródios,g\nde solo"),
+    TextEditingController(text: " Entre 20 e 40 Microescleródios,g\n desolo"),
+    TextEditingController(text: " Inferior a 20 Microescleródios,g\n de solo"),
   ];
   List<TextEditingController> _criteriaByFactorControllers = [
-    TextEditingController(text: ""),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
+    TextEditingController(text: "Fusarium solani ou Fusariumoxysporumsuperiora3000UFC/g solo\nE\nRhizoctoniasolanisuperiora50%"),
+    TextEditingController(text: "FusariumsolaniouFusariumoxysporumsuperiora3000UFC/g solo\nE\nRhizoctoniasolani inferiora50%"),
+    TextEditingController(text: " FusariumsolaniouFusariumoxysporumentre1500e3000UFC/g solo\nE\nRhizoctoniasolani inferiora50%"),
+    TextEditingController(text: "FusariumsolaniouFusariumoxysporuminferiora1500UFC/g solo\nE\nRhizoctoniasolani inferiora50"),
   ];
 
   //Observações

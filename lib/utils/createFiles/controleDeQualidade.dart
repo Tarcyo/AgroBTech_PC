@@ -8,7 +8,6 @@ import 'package:agro_bio_tech_pc/pages/createFileScreen/controleDeQualidade/tabl
 import 'package:agro_bio_tech_pc/pages/createFileScreen/PdfviewScreen.dart';
 
 Future<pw.Widget> _buildTable(List<dynamic> list) async {
-  print(list);
   final headers = [
     'ID lab',
     'ID cliente',
@@ -90,6 +89,35 @@ Future<void> createPDF(
     List<TextEditingController> observacaoes,
     List<File> imagens,
     List<TextEditingController> descricoes) async {
+  if(nomeArquivo.isEmpty){
+    return;
+  }
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Gerando PDF...",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: CircularProgressIndicator(
+                strokeWidth: 8.0, // Espessura da linha
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
   final String dataEmissao = DateTime.now().day.toString() +
       "/" +
       DateTime.now().month.toString() +
@@ -198,7 +226,7 @@ Future<void> createPDF(
   final tableOfResults = await _buildTable(dataResults);
 
   final fontData =
-      await rootBundle.load("assets/fonts/Quicksand/Quicksand.ttf");
+      await rootBundle.load("assets/fonts/Arial/Arial.ttf");
   final customFont = pw.Font.ttf(fontData);
 
   // Definindo o tema global com a fonte personalizada
@@ -591,32 +619,6 @@ Future<void> createPDF(
   bool salvou = true;
 
   // Exibe o diálogo de carregamento
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return const Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Gerando PDF...",
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: CircularProgressIndicator(
-                strokeWidth: 8.0, // Espessura da linha
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 
   try {
     path = '$folderPath/' + nomeArquivo + ".pdf";

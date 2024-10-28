@@ -61,6 +61,36 @@ Future<void> createPDF(
     List<TextEditingController> observacaoes,
     List<File> imagens,
     List<TextEditingController> descricoes) async {
+  if (nomeArquivo.isEmpty) {
+    return;
+  }
+  // Exibe o diálogo de carregamento
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Gerando PDF...",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: CircularProgressIndicator(
+                strokeWidth: 8.0, // Espessura da linha
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
   final String dataEmissao = DateTime.now().day.toString() +
       "/" +
       DateTime.now().month.toString() +
@@ -109,7 +139,11 @@ Future<void> createPDF(
 
     for (final c in r.cells) {
       final cell = c.child as TableTextCell;
-      cells.add(cell.controller.text);
+      if (cell.controller.text.isEmpty) {
+        cells.add(" - ");
+      } else {
+        cells.add(cell.controller.text);
+      }
     }
     dataResults.add(cells);
   }
@@ -393,12 +427,21 @@ Future<void> createPDF(
 
   final pdf = pw.Document();
 
+  final fontData = await rootBundle.load("assets/fonts/Arial/Arial.ttf");
+  final customFont = pw.Font.ttf(fontData);
+
+  // Definindo o tema global com a fonte personalizada
+  final theme = pw.ThemeData.withFont(
+    base: customFont, // Define a fonte padrão para o texto
+  );
+
   pdf.addPage(
     index: 0,
     pw.MultiPage(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       maxPages: 27,
       pageTheme: pw.PageTheme(
+        theme: theme,
         margin: pw.EdgeInsets.all(15),
         clip: true,
         buildBackground: (context) {
@@ -517,30 +560,119 @@ Future<void> createPDF(
                           fontSize: 8,
                           color: PdfColors.black)))),
           pw.SizedBox(height: 3),
-
           pw.Center(
-            child: pw.SizedBox(
-              height: 85 + (dataResults.length * 50),
-              width: 5000,
-              child: pw.Container(
-                decoration: pw.BoxDecoration(),
-                child: pw.Row(
-                  children: [
-                    // Coluna 1
-                    pw.Expanded(
-                      flex: 8,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
+            child:
+            pw.SizedBox(
+            height:  50+(dataResults.length * 50),
+            width: 5000,
+            child: pw.Container(
+              decoration: pw.BoxDecoration(),
+              child: pw.Row(
+                children: [
+                  // Coluna 1
+                  pw.Expanded(
+                    flex: 8,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
                               ),
-                              child: pw.Center(
+                            ),
+                            child: pw.Center(
+                              child: pw.Column(
+                                mainAxisAlignment:
+                                    pw.MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                    pw.CrossAxisAlignment.center,
+                                children: [
+                                  pw.Text(
+                                    " Id.",
+                                    style: pw.TextStyle(
+                                        fontSize: 7,
+                                        fontWeight: pw.FontWeight.bold),
+                                  ),
+                                  pw.Text(
+                                    "laboratório",
+                                    style: pw.TextStyle(
+                                        fontSize: 7,
+                                        fontWeight: pw.FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Idlaboratorio,
+                      ],
+                    ),
+                  ),
+            
+                  // Coluna 2
+                  pw.Expanded(
+                    flex: 7,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Column(
+                                mainAxisAlignment:
+                                    pw.MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                    pw.CrossAxisAlignment.center,
+                                children: [
+                                  pw.Text(
+                                    " Id. ",
+                                    style: pw.TextStyle(
+                                        fontSize: 7,
+                                        fontWeight: pw.FontWeight.bold),
+                                  ),
+                                  pw.Text(
+                                    "Amostra",
+                                    style: pw.TextStyle(
+                                        fontSize: 7,
+                                        fontWeight: pw.FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...IDENTIFICACAODAAMOSTRA
+                      ],
+                    ),
+                  ),
+            
+                  pw.Expanded(
+                    flex: 8,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
                                 child: pw.Column(
                                   mainAxisAlignment:
                                       pw.MainAxisAlignment.center,
@@ -548,13 +680,13 @@ Future<void> createPDF(
                                       pw.CrossAxisAlignment.center,
                                   children: [
                                     pw.Text(
-                                      " Id.",
+                                      "Material",
                                       style: pw.TextStyle(
                                           fontSize: 7,
                                           fontWeight: pw.FontWeight.bold),
                                     ),
                                     pw.Text(
-                                      "laboratório",
+                                      "Utilizado",
                                       style: pw.TextStyle(
                                           fontSize: 7,
                                           fontWeight: pw.FontWeight.bold),
@@ -564,27 +696,30 @@ Future<void> createPDF(
                               ),
                             ),
                           ),
-                          // Espaço para conteúdo
-                          ...Idlaboratorio,
-                        ],
-                      ),
+                        ),
+                        // Espaço para conteúdo
+                        ...MATERIALANALISADO
+                      ],
                     ),
-
-                    // Coluna 2
-                    pw.Expanded(
-                      flex: 7,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
+                  ),
+            
+                  // Coluna 3
+                  pw.Expanded(
+                    flex: 10,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
                               ),
-                              child: pw.Center(
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
                                 child: pw.Column(
                                   mainAxisAlignment:
                                       pw.MainAxisAlignment.center,
@@ -592,13 +727,445 @@ Future<void> createPDF(
                                       pw.CrossAxisAlignment.center,
                                   children: [
                                     pw.Text(
-                                      " Id. ",
+                                      "Meloidogyne",
+                                      style: pw.TextStyle(
+                                          fontSize: 7,
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "sp",
+                                      style: pw.TextStyle(
+                                          fontSize: 7,
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Meloidogyne
+                      ],
+                    ),
+                  ),
+                  // Coluna 4
+                  pw.Expanded(
+                    flex: 9,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Pratylenchus",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "sp",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Pratylenchussp
+                      ],
+                    ),
+                  ),
+                  // Coluna 5
+                  pw.Expanded(
+                    flex: 9,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Pratylenchus",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "brachyurus",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Pratylenchusbrachyurus
+                      ],
+                    ),
+                  ),
+                  // Coluna 6
+                  pw.Expanded(
+                    flex: 9,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Pratylenchus",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "zeae",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Pratylenchuszeae
+                      ],
+                    ),
+                  ),
+                  // Coluna 7
+                  pw.Expanded(
+                    flex: 9,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Heterodera",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "sp.",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Heteroderasp
+                      ],
+                    ),
+                  ),
+                  // Coluna 8
+                  pw.Expanded(
+                    flex: 9,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Tubixaba",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "sp.",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Tubixabasp
+                      ],
+                    ),
+                  ),
+                  // Coluna 9
+                  pw.Expanded(
+                    flex: 9,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Rotylechulus",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "reniformis",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Rotylechulusreniformis
+                      ],
+                    ),
+                  ),
+                  // Coluna 10
+                  pw.Expanded(
+                    flex: 12,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Helicotylenchus",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "dihystera",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Helicotylenchusdihystera
+                      ],
+                    ),
+                  ),
+                  // Coluna 11
+                  pw.Expanded(
+                    flex: 8,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Cistos",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                    pw.Text(
+                                      "viáveis",
+                                      style: pw.TextStyle(
+                                          fontStyle: pw.FontStyle.italic,
+                                          fontSize: 7,
+                                          fontWeight: pw.FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Espaço para conteúdo
+                        ...Cistosviaveis
+                      ],
+                    ),
+                  ),
+                  // Coluna 12
+                  pw.Expanded(
+                    flex: 6,
+                    child: pw.Column(
+                      children: [
+                        // Título da coluna
+                        pw.Expanded(
+                          child: pw.Container(
+                            decoration: pw.BoxDecoration(
+                              color: PdfColor.fromHex("C4D69B"),
+                              border: pw.Border.all(
+                                color: PdfColors.black,
+                              ),
+                            ),
+                            child: pw.Center(
+                              child: pw.Transform.rotate(
+                                angle: 90 * (3.14159 / 180),
+                                child: pw.Column(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.center,
+                                  children: [
+                                    pw.Text(
+                                      "Cistos",
                                       style: pw.TextStyle(
                                           fontSize: 7,
                                           fontWeight: pw.FontWeight.bold),
                                     ),
                                     pw.Text(
-                                      "Amostra",
+                                      "inviáveis",
                                       style: pw.TextStyle(
                                           fontSize: 7,
                                           fontWeight: pw.FontWeight.bold),
@@ -608,540 +1175,19 @@ Future<void> createPDF(
                               ),
                             ),
                           ),
-                          // Espaço para conteúdo
-                          ...IDENTIFICACAODAAMOSTRA
-                        ],
-                      ),
+                        ),
+            
+                        ...Cistosinviaveis
+                      ],
                     ),
-
-                    pw.Expanded(
-                      flex: 8,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Material",
-                                        style: pw.TextStyle(
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "Utilizado",
-                                        style: pw.TextStyle(
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...MATERIALANALISADO
-                        ],
-                      ),
-                    ),
-
-                    // Coluna 3
-                    pw.Expanded(
-                      flex: 10,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Meloidogyne",
-                                        style: pw.TextStyle(
-                                            fontSize: 7,
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "sp",
-                                        style: pw.TextStyle(
-                                            fontSize: 7,
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Meloidogyne
-                        ],
-                      ),
-                    ),
-                    // Coluna 4
-                    pw.Expanded(
-                      flex: 9,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Pratylenchus",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "sp",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Pratylenchussp
-                        ],
-                      ),
-                    ),
-                    // Coluna 5
-                    pw.Expanded(
-                      flex: 9,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Pratylenchus",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "brachyurus",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Pratylenchusbrachyurus
-                        ],
-                      ),
-                    ),
-                    // Coluna 6
-                    pw.Expanded(
-                      flex: 9,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Pratylenchus",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "zeae",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Pratylenchuszeae
-                        ],
-                      ),
-                    ),
-                    // Coluna 7
-                    pw.Expanded(
-                      flex: 9,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Heterodera",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "sp.",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Heteroderasp
-                        ],
-                      ),
-                    ),
-                    // Coluna 8
-                    pw.Expanded(
-                      flex: 9,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Tubixaba",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "sp.",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Tubixabasp
-                        ],
-                      ),
-                    ),
-                    // Coluna 9
-                    pw.Expanded(
-                      flex: 9,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Rotylechulus",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "reniformis",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Rotylechulusreniformis
-                        ],
-                      ),
-                    ),
-                    // Coluna 10
-                    pw.Expanded(
-                      flex: 12,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Helicotylenchus",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "dihystera",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Helicotylenchusdihystera
-                        ],
-                      ),
-                    ),
-                    // Coluna 11
-                    pw.Expanded(
-                      flex: 8,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Cistos",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "viáveis",
-                                        style: pw.TextStyle(
-                                            fontStyle: pw.FontStyle.italic,
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Espaço para conteúdo
-                          ...Cistosviaveis
-                        ],
-                      ),
-                    ),
-                    // Coluna 12
-                    pw.Expanded(
-                      flex: 6,
-                      child: pw.Column(
-                        children: [
-                          // Título da coluna
-                          pw.Expanded(
-                            child: pw.Container(
-                              decoration: pw.BoxDecoration(
-                                color: PdfColor.fromHex("C4D69B"),
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                ),
-                              ),
-                              child: pw.Center(
-                                child: pw.Transform.rotate(
-                                  angle: 90 * (3.14159 / 180),
-                                  child: pw.Column(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.center,
-                                    children: [
-                                      pw.Text(
-                                        "Cistos",
-                                        style: pw.TextStyle(
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                      pw.Text(
-                                        "inviáveis",
-                                        style: pw.TextStyle(
-                                            fontSize: 7,
-                                            fontWeight: pw.FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          ...Cistosinviaveis
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+                        ),
+            
+            
+             
           ),
           pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
             pw.Column(
@@ -1178,43 +1224,15 @@ Future<void> createPDF(
     ),
   );
 
-    String path = "";
+  String path = "";
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/controle De Qualidade';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/laudo nematológico';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;
-
-  // Exibe o diálogo de carregamento
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return const Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Gerando PDF...",
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: CircularProgressIndicator(
-                strokeWidth: 8.0, // Espessura da linha
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 
   try {
     path = '$folderPath/' + nomeArquivo + ".pdf";

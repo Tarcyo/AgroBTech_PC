@@ -21,7 +21,7 @@ class RoundedButton extends StatelessWidget {
         onPressed: onPressed,
         style: ButtonStyle(
             foregroundColor:
-                MaterialStateProperty.all<Color>(Color(0xFF00C2A0))),
+                WidgetStateProperty.all<Color>(Color(0xFF00C2A0))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
