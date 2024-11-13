@@ -82,14 +82,14 @@ class _PdfsScreenState extends State<PdfsScreen> {
                   _controllerControleDeQualidade.text = "";
                   final res = await searchFiles(
                       _controllerControleDeQualidade.text,
-                      "controle De Qualidade");
+                      "controle de qualidade");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaControleDeQualidadePdfs(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
                       _controllerControleDeQualidade.text,
-                      "controle De Qualidade");
+                      "controle de qualidade");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaControleDeQualidadePdfs(res);
                 },
@@ -120,13 +120,13 @@ class _PdfsScreenState extends State<PdfsScreen> {
                 onClearPressed: () async {
                   _controllerSanidade.text = "";
                   final res = await searchFiles(
-                      _controllerSanidade.text, "sanidade De Sementes");
+                      _controllerSanidade.text, "sanidade de sementes");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaSanidadePdfs(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerSanidade.text, "sanidade De Sementes");
+                      _controllerSanidade.text, "sanidade de sementes");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaSanidadePdfs(res);
                 },
@@ -157,13 +157,13 @@ class _PdfsScreenState extends State<PdfsScreen> {
                 onClearPressed: () async {
                   _controllerNematologico.text = "";
                   final res = await searchFiles(
-                      _controllerNematologico.text, "laudo nematológico");
+                      _controllerNematologico.text, "nematológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaNematologicoPdfs(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerNematologico.text, "laudo nematológico");
+                      _controllerNematologico.text, "nematológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaNematologicoPdfs(res);
                 },
@@ -194,13 +194,13 @@ class _PdfsScreenState extends State<PdfsScreen> {
                 onClearPressed: () async {
                   _controllerMicro.text = "";
                   final res = await searchFiles(
-                      _controllerMicro.text, "microbiologico");
+                      _controllerMicro.text, "microbiológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaMicrobiologicoPdfs(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerMicro.text, "microbiologico");
+                      _controllerMicro.text, "microbiológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaMicrobiologicoPdfs(res);
                 },
@@ -268,13 +268,13 @@ class _PdfsScreenState extends State<PdfsScreen> {
                 onClearPressed: () async {
                   _controllerRaca.text = "";
                   final res = await searchFiles(
-                      _controllerRaca.text, "diferenciação De Raça");
+                      _controllerRaca.text, "diferenciação de raça");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaDiferenciacaoDeRacaPdfs(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerRaca.text, "diferenciação De Raça");
+                      _controllerRaca.text, "diferenciação de raça");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaDiferenciacaoDeRacaPdfs(res);
                 },

@@ -383,22 +383,22 @@ class EditCard extends StatelessWidget {
   Future<String> _getFileContentInRascunhos() async {
     String pasta = "/";
     if (_tipoArquivo == "Controle de qualidade") {
-      pasta = 'controle De Qualidade';
+      pasta = 'controle de qualidade';
     }
     if (_tipoArquivo == "Sanidade de sementes") {
-      pasta = 'sanidade De Sementes';
+      pasta = 'sanidade de sementes';
     }
     if (_tipoArquivo == "Laudo Nematológico") {
-      pasta = "laudo nematológico";
+      pasta = "nematológico";
     }
     if (_tipoArquivo == "Laudo Microbiológico") {
-      pasta = "microbiologico";
+      pasta = "microbiológico";
     }
     if (_tipoArquivo == "Laudo Diagnose") {
       pasta = "diagnose";
     }
     if (_tipoArquivo == "Raça de Nematóides") {
-      pasta = "diferenciação De Raça";
+      pasta = "diferenciação de raça";
     }
     try {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -426,22 +426,22 @@ class EditCard extends StatelessWidget {
   Future<void> _deleteFile() async {
     String pasta = "/";
     if (_tipoArquivo == "Controle de qualidade") {
-      pasta = 'controle De Qualidade';
+      pasta = 'controle de qualidade';
     }
     if (_tipoArquivo == "Sanidade de sementes") {
-      pasta = 'sanidade De Sementes';
+      pasta = 'sanidade de sementes';
     }
     if (_tipoArquivo == "Laudo Nematológico") {
-      pasta = "laudo nematológico";
+      pasta = "nematológico";
     }
     if (_tipoArquivo == "Laudo Microbiológico") {
-      pasta = "microbiologico";
+      pasta = "microbiológico";
     }
     if (_tipoArquivo == "Laudo Diagnose") {
       pasta = "diagnose";
     }
     if (_tipoArquivo == "Raça de Nematóides") {
-      pasta = "diferenciação De Raça";
+      pasta = "diferenciação de raça";
     }
     final String fileName = _nomeDoArquivo + ".json";
 

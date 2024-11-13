@@ -23,58 +23,58 @@ void main() async {
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
   String path = '${documentsDirectory.path}/gerador de laudos';
 
-  var files = await _listFiles(path + "/rascunhos/controle De Qualidade");
+  var files = await _listFiles(path + "/rascunhos/controle de qualidade");
   final controleDeQualidadeR = _obterNomesArquivos(files);
 
   files = await _listFiles(path + "/rascunhos/diagnose");
   final diagnoseR = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/rascunhos/diferenciação De Raça");
+  files = await _listFiles(path + "/rascunhos/diferenciação de raça");
   final racaR = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/rascunhos/microbiologico");
+  files = await _listFiles(path + "/rascunhos/microbiológico");
   final microR = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/rascunhos/laudo nematológico");
+  files = await _listFiles(path + "/rascunhos/nematológico");
   final nemaR = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/rascunhos/sanidade De Sementes");
+  files = await _listFiles(path + "/rascunhos/sanidade de sementes");
   final saniR = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/pdfs/controle De Qualidade");
+  files = await _listFiles(path + "/pdfs/controle de qualidade");
   final controleDeQualidadeP = _obterNomesArquivos(files);
 
   files = await _listFiles(path + "/pdfs/diagnose");
   final diagnoseP = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/pdfs/diferenciação De Raça");
+  files = await _listFiles(path + "/pdfs/diferenciação de raça");
   final racaP = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/pdfs/microbiologico");
+  files = await _listFiles(path + "/pdfs/microbiológico");
   final microP = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/pdfs/laudo nematológico");
+  files = await _listFiles(path + "/pdfs/nematológico");
   final nemaP = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/pdfs/sanidade De Sementes");
+  files = await _listFiles(path + "/pdfs/sanidade de sementes");
   final saniP = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/planilhas/controle De Qualidade");
+  files = await _listFiles(path + "/planilhas/controle de qualidade");
   final controS = _obterNomesArquivos(files);
 
   files = await _listFiles(path + "/planilhas/diagnose");
   final digS = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/planilhas/diferenciação De Raça");
+  files = await _listFiles(path + "/planilhas/diferenciação de raça");
   final difrS = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/planilhas/microbiologico");
+  files = await _listFiles(path + "/planilhas/microbiológico");
   final microS = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/planilhas/laudo nematológico");
+  files = await _listFiles(path + "/planilhas/nematológico");
   final nemaS = _obterNomesArquivos(files);
 
-  files = await _listFiles(path + "/planilhas/sanidade De Sementes");
+  files = await _listFiles(path + "/planilhas/sanidade de sementes");
   final saniS = _obterNomesArquivos(files);
 
   runApp(

@@ -613,7 +613,7 @@ Future<void> createPDF(
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/controle De Qualidade';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/controle de qualidade';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

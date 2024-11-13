@@ -1102,10 +1102,10 @@ class _MicrobiologicoState extends State<Microbiologico> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
-    await createExcelFile();
+    await _createExcelFile();
   }
 
-  Future<void> createExcelFile() async {
+  Future<void> _createExcelFile() async {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 
@@ -1318,7 +1318,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
 
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String filePath =
-        '${documentsDirectory.path}/gerador de laudos/planilhas/microbiologico/' +
+        '${documentsDirectory.path}/gerador de laudos/planilhas/microbiológico/' +
             _fileNameController.text +
             '.xlsx';
 
@@ -1338,7 +1338,7 @@ class _MicrobiologicoState extends State<Microbiologico> {
 
       // Criar a pasta "rascunhos" se não existir
       String rascunhosPath =
-          '${documentsDirectory.path}/gerador de laudos/rascunhos/microbiologico';
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/microbiológico';
       await Directory(rascunhosPath).create(recursive: true);
 
       Provider.of<FileNameProvider>(listen: false, context)

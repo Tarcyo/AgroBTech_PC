@@ -1089,7 +1089,7 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
 
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String filePath =
-        '${documentsDirectory.path}/gerador de laudos/planilhas/diferenciação De Raça/' +
+        '${documentsDirectory.path}/gerador de laudos/planilhas/diferenciação de raça/' +
             _fileNameController.text +
             '.xlsx';
 
@@ -1109,7 +1109,7 @@ class _DifereciacaoDeRacaState extends State<DifereciacaoDeRaca> {
 
       // Criar a pasta "rascunhos" se não existir
       String rascunhosPath =
-          '${documentsDirectory.path}/gerador de laudos/rascunhos/diferenciação De Raça';
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/diferenciação de raça';
       await Directory(rascunhosPath).create(recursive: true);
 
       Provider.of<FileNameProvider>(listen: false, context)

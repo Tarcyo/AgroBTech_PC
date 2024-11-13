@@ -906,10 +906,10 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
-    await createExcelFile();
+    await _createExcelFile();
   }
 
-  Future<void> createExcelFile() async {
+  Future<void> _createExcelFile() async {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 
@@ -1070,7 +1070,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
 
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String filePath =
-        '${documentsDirectory.path}/gerador de laudos/planilhas/sanidade De Sementes/' +
+        '${documentsDirectory.path}/gerador de laudos/planilhas/sanidade de sementes/' +
             _fileNameController.text +
             '.xlsx';
 
@@ -1090,7 +1090,7 @@ class _SanidadeDeSementesState extends State<SanidadeDeSementes> {
 
       // Criar a pasta "rascunhos" se não existir
       String rascunhosPath =
-          '${documentsDirectory.path}/gerador de laudos/rascunhos/sanidade De Sementes';
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/sanidade de sementes';
       await Directory(rascunhosPath).create(recursive: true);
       Provider.of<FileNameProvider>(listen: false, context)
           .adicionaSanidadeRascunho(_fileNameController.text);

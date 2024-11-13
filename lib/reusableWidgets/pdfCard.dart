@@ -229,22 +229,22 @@ class PdfCard extends StatelessWidget {
   Future<String> _getFilePath() async {
     String pasta = "/";
     if (_tipoArquivo == "Controle de qualidade") {
-      pasta = 'controle De Qualidade';
+      pasta = 'controle de qualidade';
     }
     if (_tipoArquivo == "Sanidade de sementes") {
-      pasta = 'sanidade De Sementes';
+      pasta = 'sanidade de sementes';
     }
     if (_tipoArquivo == "Laudo Nematológico") {
-      pasta = "laudo nematológico";
+      pasta = "nematológico";
     }
     if (_tipoArquivo == "Laudo Microbiológico") {
-      pasta = "microbiologico";
+      pasta = "microbiológico";
     }
     if (_tipoArquivo == "Laudo Diagnose") {
       pasta = "diagnose";
     }
     if (_tipoArquivo == "Raça de Nematóides") {
-      pasta = "diferenciação De Raça";
+      pasta = "diferenciação de raça";
     }
     final String fileName = _nomeDoArquivo + ".pdf";
     try {
@@ -282,16 +282,16 @@ class PdfCard extends StatelessWidget {
     final String fileName = _nomeDoArquivo + ".pdf";
     String pasta = "/";
     if (_tipoArquivo == "Controle de qualidade") {
-      pasta = 'controle De Qualidade';
+      pasta = 'controle de qualidade';
     }
     if (_tipoArquivo == "Sanidade de sementes") {
-      pasta = 'sanidade De Sementes';
+      pasta = 'sanidade de sementes';
     }
     if (_tipoArquivo == "Laudo Nematológico") {
-      pasta = "laudo nematológico";
+      pasta = "nematológico";
     }
     if (_tipoArquivo == "Laudo Microbiológico") {
-      pasta = "microbiologico";
+      pasta = "microbiológico";
     }
     if (_tipoArquivo == "Laudo Diagnose") {
       pasta = "diagnose";

@@ -1074,7 +1074,7 @@ Future<void> createPDF(
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/sanidade De Sementes';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/sanidade de sementes';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

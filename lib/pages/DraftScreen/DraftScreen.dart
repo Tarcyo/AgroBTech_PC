@@ -92,7 +92,7 @@ class _DraftScreenState extends State<DraftScreen> {
                 onSearchPressed: () async {
                   final res = await buscarArquivosJsonPorString(
                       _controllerControleDeQualidade.text,
-                      "controle De Qualidade");
+                      "controle de qualidade");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -106,7 +106,7 @@ class _DraftScreenState extends State<DraftScreen> {
 
                   final res = await buscarArquivosJsonPorString(
                       _controllerControleDeQualidade.text,
-                      "controle De Qualidade");
+                      "controle de qualidade");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -145,7 +145,7 @@ class _DraftScreenState extends State<DraftScreen> {
                   _controllerSanidade.text = "";
 
                   final res = await buscarArquivosJsonPorString(
-                      _controllerSanidade.text, "sanidade De Sementes");
+                      _controllerSanidade.text, "sanidade de sementes");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -157,7 +157,7 @@ class _DraftScreenState extends State<DraftScreen> {
                 controller: _controllerSanidade,
                 onSearchPressed: () async {
                   final res = await buscarArquivosJsonPorString(
-                      _controllerSanidade.text, "sanidade De Sementes");
+                      _controllerSanidade.text, "sanidade de sementes");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -195,7 +195,7 @@ class _DraftScreenState extends State<DraftScreen> {
                   _controllerNematologico.text = "";
 
                   final res = await buscarArquivosJsonPorString(
-                      _controllerNematologico.text, "laudo nematológico");
+                      _controllerNematologico.text, "nematológico");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -207,7 +207,7 @@ class _DraftScreenState extends State<DraftScreen> {
                 controller: _controllerNematologico,
                 onSearchPressed: () async {
                   final res = await buscarArquivosJsonPorString(
-                      _controllerNematologico.text, "laudo nematológico");
+                      _controllerNematologico.text, "nematológico");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -245,7 +245,7 @@ class _DraftScreenState extends State<DraftScreen> {
                   _controllerMicro.text = "";
 
                   final res = await buscarArquivosJsonPorString(
-                      _controllerMicro.text, "microbiologico");
+                      _controllerMicro.text, "microbiológico");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -257,7 +257,7 @@ class _DraftScreenState extends State<DraftScreen> {
                 controller: _controllerMicro,
                 onSearchPressed: () async {
                   final res = await buscarArquivosJsonPorString(
-                      _controllerMicro.text, "microbiologico");
+                      _controllerMicro.text, "microbiológico");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -346,7 +346,7 @@ class _DraftScreenState extends State<DraftScreen> {
                   _controllerRaca.text = "";
 
                   final res = await buscarArquivosJsonPorString(
-                      _controllerRaca.text, "laudo nematológico");
+                      _controllerRaca.text, "diferenciação de raça");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);
@@ -358,7 +358,7 @@ class _DraftScreenState extends State<DraftScreen> {
                 controller: _controllerRaca,
                 onSearchPressed: () async {
                   final res = await buscarArquivosJsonPorString(
-                      _controllerRaca.text, "diferenciação De Raça");
+                      _controllerRaca.text, "diferenciação de raça");
                   final List<String> nomesDosArquivos = [];
                   for (final i in res) {
                     nomesDosArquivos.add(i['informacoes']['Nome_Arquivo']);

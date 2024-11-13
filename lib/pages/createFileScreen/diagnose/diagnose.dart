@@ -873,10 +873,10 @@ class _DiagnoseState extends State<Diagnose> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
-    await createExcelFile();
+    await _createExcelFile();
   }
 
-  Future<void> createExcelFile() async {
+  Future<void> _createExcelFile() async {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 

@@ -490,7 +490,7 @@ Future<void> createPDF(
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/diferenciação De Raça';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/diferenciação de raça';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

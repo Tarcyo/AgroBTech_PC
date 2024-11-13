@@ -1022,10 +1022,10 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
     String jsonString = json.encode(dados);
 
     await _createAndWriteToFile(nomeArquivo, jsonString);
-    await createExcelFile();
+    await _createExcelFile();
   }
 
-  Future<void> createExcelFile() async {
+  Future<void> _createExcelFile() async {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 
@@ -1191,7 +1191,7 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
 
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String filePath =
-        '${documentsDirectory.path}/gerador de laudos/planilhas/controle De Qualidade/' +
+        '${documentsDirectory.path}/gerador de laudos/planilhas/controle de qualidade/' +
             _fileNameController.text +
             '.xlsx';
 
@@ -1211,7 +1211,7 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
 
       // Criar a pasta "rascunhos" se não existir
       String rascunhosPath =
-          '${documentsDirectory.path}/gerador de laudos/rascunhos/controle De Qualidade';
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/controle de qualidade';
       await Directory(rascunhosPath).create(recursive: true);
       Provider.of<FileNameProvider>(listen: false, context)
           .adicionaControleDeQualidadeRascunho(_fileNameController.text);

@@ -721,7 +721,7 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
 
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String filePath =
-        '${documentsDirectory.path}/gerador de laudos/planilhas/laudo nematológico/' +
+        '${documentsDirectory.path}/gerador de laudos/planilhas/nematológico/' +
             _fileNameController.text +
             '.xlsx';
 
@@ -741,7 +741,7 @@ class _LaudoNematologicoState extends State<LaudoNematologico> {
 
       // Criar a pasta "rascunhos" se não existir
       String rascunhosPath =
-          '${documentsDirectory.path}/gerador de laudos/rascunhos/laudo nematológico';
+          '${documentsDirectory.path}/gerador de laudos/rascunhos/nematológico';
       await Directory(rascunhosPath).create(recursive: true);
 
       Provider.of<FileNameProvider>(listen: false, context)

@@ -81,14 +81,14 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                   _controllerControleDeQualidade.text = "";
                   final res = await searchFiles(
                       _controllerControleDeQualidade.text,
-                      "controle De Qualidade");
+                      "controle de qualidade");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaControleDeQualidadePlanilhas(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
                       _controllerControleDeQualidade.text,
-                      "controle De Qualidade");
+                      "controle de qualidade");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaControleDeQualidadePlanilhas(res);
                 },
@@ -120,13 +120,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                 onClearPressed: () async {
                   _controllerSanidade.text = "";
                   final res = await searchFiles(
-                      _controllerSanidade.text, "sanidade De Sementes");
+                      _controllerSanidade.text, "sanidade de sementes");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaSanidadePlanilhas(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerSanidade.text, "sanidade De Sementes");
+                      _controllerSanidade.text, "sanidade de sementes");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaSanidadePlanilhas(res);
                 },
@@ -157,13 +157,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                 onClearPressed: () async {
                   _controllerNematologico.text = "";
                   final res = await searchFiles(
-                      _controllerNematologico.text, "laudo nematológico");
+                      _controllerNematologico.text, "nematológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaNematologicoPlanilhas(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerNematologico.text, "laudo nematológico");
+                      _controllerNematologico.text, "nematológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaNematologicoPlanilhas(res);
                 },
@@ -195,13 +195,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                 onClearPressed: () async {
                   _controllerMicro.text = "";
                   final res = await searchFiles(
-                      _controllerMicro.text, "microbiologico");
+                      _controllerMicro.text, "microbiológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaMicrobiologicoPlanilhas(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerMicro.text, "microbiologico");
+                      _controllerMicro.text, "microbiológico");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaMicrobiologicoPlanilhas(res);
                 },
@@ -270,13 +270,13 @@ class _SpreadsheetScreenState extends State<SpreadsheetScreen> {
                 onClearPressed: () async {
                   _controllerRaca.text = "";
                   final res = await searchFiles(
-                      _controllerRaca.text, "diferenciação De Raça");
+                      _controllerRaca.text, "diferenciação de raça");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaDiferenciacaoDeRacaPlanilhas(res);
                 },
                 onSearchPressed: () async {
                   final res = await searchFiles(
-                      _controllerRaca.text, "diferenciação De Raça");
+                      _controllerRaca.text, "diferenciação de raça");
                   Provider.of<FileNameProvider>(context, listen: false)
                       .atualizaDiferenciacaoDeRacaPlanilhas(res);
                 },

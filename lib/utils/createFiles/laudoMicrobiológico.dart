@@ -1622,7 +1622,7 @@ Future<void> createPDF(
 
   // Criar a pasta "rascunhos" se não existir
   String folderPath =
-      '${documentsDirectory.path}/gerador de laudos/pdfs/microbiologico';
+      '${documentsDirectory.path}/gerador de laudos/pdfs/microbiológico';
   await Directory(folderPath).create(recursive: true);
 
   bool salvou = true;

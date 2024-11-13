@@ -229,22 +229,22 @@ class PlanilhaCard extends StatelessWidget {
   Future<String> _getFilePath() async {
     String pasta = "/";
     if (_tipoArquivo == "Controle de qualidade") {
-      pasta = 'controle De Qualidade';
+      pasta = 'controle de qualidade';
     }
     if (_tipoArquivo == "Sanidade de sementes") {
-      pasta = 'sanidade De Sementes';
+      pasta = 'sanidade de sementes';
     }
     if (_tipoArquivo == "Laudo Nematológico") {
-      pasta = "laudo nematológico";
+      pasta = "nematológico";
     }
     if (_tipoArquivo == "Laudo Microbiológico") {
-      pasta = "microbiologico";
+      pasta = "microbiológico";
     }
     if (_tipoArquivo == "Laudo Diagnose") {
       pasta = "diagnose";
     }
     if (_tipoArquivo == "Raça de Nematóides") {
-      pasta = "diferenciação De Raça";
+      pasta = "diferenciação de raça";
     }
     final String fileName = _nomeDoArquivo + ".xlsx";
     try {
@@ -282,22 +282,22 @@ class PlanilhaCard extends StatelessWidget {
     final String fileName = _nomeDoArquivo + ".xlsx";
     String pasta = "/";
     if (_tipoArquivo == "Controle de qualidade") {
-      pasta = 'controle De Qualidade';
+      pasta = 'controle de qualidade';
     }
     if (_tipoArquivo == "Sanidade de sementes") {
-      pasta = 'sanidade De Sementes';
+      pasta = 'sanidade de sementes';
     }
     if (_tipoArquivo == "Laudo Nematológico") {
-      pasta = "laudo nematológico";
+      pasta = "nematológico";
     }
     if (_tipoArquivo == "Laudo Microbiológico") {
-      pasta = "microbiologico";
+      pasta = "microbiológico";
     }
     if (_tipoArquivo == "Laudo Diagnose") {
       pasta = "diagnose";
     }
     if (_tipoArquivo == "Raça de Nematóides") {
-      pasta = "diferenciação De Raça";
+      pasta = "diferenciação de raça";
     }
 
     try {
@@ -307,6 +307,8 @@ class PlanilhaCard extends StatelessWidget {
       // Obter o caminho da pasta "rascunhos"
       String rascunhosPath =
           '${documentsDirectory.path}/gerador de laudos/planilhas/' + pasta;
+      print("O caminho daqui:"+rascunhosPath);
+      print("O tipo de arquivo:"+_tipoArquivo);
 
       // Verificar se o arquivo existe
       File fileToDelete = File('$rascunhosPath/$fileName');
