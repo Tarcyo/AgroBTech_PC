@@ -103,8 +103,8 @@ class _TabBarControllerState extends State<TabBarController> {
         .toList();
     return PopScope(
       canPop: false,
-      onPopInvoked: (canPopNow) async {
-        if (_navigatorKeys[_selectedTab].currentState?.canPop() ?? canPopNow) {
+      onPopInvokedWithResult: (didPop, result) async {
+        if (_navigatorKeys[_selectedTab].currentState?.canPop() ?? didPop) {
           _navigatorKeys[_selectedTab].currentState?.pop();
           return;
         }
@@ -121,25 +121,6 @@ class _TabBarControllerState extends State<TabBarController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 40),
-                  GestureDetector(
-                    onTap: () => {_toggleMenu()},
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      margin: EdgeInsets.symmetric(
-                          vertical:
-                              8), // Aumenta a distância vertical entre os botões
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(
-                            180), // Define bordas arredondadas para o quadrado branco
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 8),
-                        ],
-                      ),
-                    ),
-                  ),
                   ...items,
                   GestureDetector(
                     onTap: () async {
@@ -154,7 +135,6 @@ class _TabBarControllerState extends State<TabBarController> {
 
                       if (out != null && out) {
                         exit(0);
-                   
                       }
                     },
                     child: Container(

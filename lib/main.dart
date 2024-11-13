@@ -7,13 +7,20 @@ import 'dart:io';
 import 'providers/fileNameProvider.dart';
 import 'constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Directory documentsDirectory = await getApplicationDocumentsDirectory();
+  // Inicialize o window_manager
+  await windowManager.ensureInitialized();
 
-  // Obter o caminho da pasta "rascunhos"
+  // Configure a janela para ser tela cheia ao iniciar o aplicativo
+  windowManager.waitUntilReadyToShow().then((_) async {
+  //  await windowManager.setFullScreen(true);
+  });
+
+  Directory documentsDirectory = await getApplicationDocumentsDirectory();
   String path = '${documentsDirectory.path}/gerador de laudos';
 
   var files = await _listFiles(path + "/rascunhos/controle De Qualidade");
@@ -70,9 +77,6 @@ void main() async {
   files = await _listFiles(path + "/planilhas/sanidade De Sementes");
   final saniS = _obterNomesArquivos(files);
 
-  print("Sanidade de sementes rascunhos:");
-
-
   runApp(
     ChangeNotifierProvider(
       create: (context) => FileNameProvider(
@@ -105,11 +109,9 @@ class AgroBioTech extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Configurações da barra de status e orientação
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: mainColor,
-      statusBarIconBrightness:
-          Brightness.light, // Clareia os ícones da barra de status
+      statusBarIconBrightness: Brightness.light,
     ));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -122,41 +124,31 @@ class AgroBioTech extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
-      // Adicionar suporte à localidade
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations
-            .delegate, // Para suportar widgets Cupertino
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en', 'US'), // Inglês (Estados Unidos)
-        Locale('pt', 'BR'), // Português (Brasil)
-        // Adicione mais locais conforme necessário
+        Locale('en', 'US'),
+        Locale('pt', 'BR'),
       ],
-      locale: const Locale(
-          'pt', 'BR'), // Define o local padrão como português do Brasil
+      locale: const Locale('pt', 'BR'),
     );
   }
 }
 
 Future<List<FileSystemEntity>> _listFiles(String path) async {
   try {
-    // Obter o diretório de documentos
-
-    // Verificar se a pasta "rascunhos" existe
     if (await Directory(path).exists()) {
-      // Listar todos os arquivos na pasta "rascunhos"
       List<FileSystemEntity> files = Directory(path).listSync();
-
-      // Verificar se há arquivos
       if (files.isNotEmpty) {
         return files;
       } else {
         print('Nenhum arquivo encontrado na pasta "meus pdfs".');
       }
     } else {
-      print('A pasta' + path + ' não existe.');
+      print('A pasta ' + path + ' não existe.');
     }
   } catch (e) {
     print('Erro ao listar arquivos: $e');
@@ -167,9 +159,7 @@ Future<List<FileSystemEntity>> _listFiles(String path) async {
 List<String> _obterNomesArquivos(List<FileSystemEntity> entidades) {
   List<String> nomesArquivos = [];
   for (FileSystemEntity entidade in entidades) {
-    // Verificar se a entidade é um arquivo
     if (entidade is File) {
-      // Obter apenas o nome do arquivo sem o caminho nem a extensão
       String nomeArquivo = entidade.path;
 
       while (nomeArquivo.contains('\\') || nomeArquivo.contains('/')) {

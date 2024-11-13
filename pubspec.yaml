@@ -55,7 +55,7 @@ dependencies:
   open_file: ^3.3.2
   excel: ^2.0.6
   intl: ^0.19.0
-  pdf_text: ^0.5.0
+  window_manager: ^0.4.3
   flutter_localizations:
     sdk: flutter
 

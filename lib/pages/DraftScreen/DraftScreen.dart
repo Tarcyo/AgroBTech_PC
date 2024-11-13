@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:agro_bio_tech_pc/reusableWidgets/searchingBar.dart';
+import 'package:open_file/open_file.dart';
 
 class DraftScreen extends StatefulWidget {
   @override
@@ -402,15 +403,59 @@ class _DraftScreenState extends State<DraftScreen> {
                   bottomRight: Radius.circular(50),
                 ),
               ),
-              child: Center(
-                child: Text(
-                  "Meus Rascunhos",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Text(
+                      "Meus Rascunhos",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                  Positioned(
+                    right: 20, // Posição do grupo ícone e texto no lado direito
+                    top: 0,
+                    bottom: 0,
+                    child: GestureDetector(
+                      onTap: () async {
+                        // Obtém o caminho da pasta de documentos
+                        Directory? documentsDir =
+                            await getApplicationDocumentsDirectory();
+                        String folderPath = '${documentsDir.path}' +
+                            "\\gerador de laudos\\rascunhos";
+
+                        // Cria a pasta se ela não existir
+                        Directory folder = Directory(folderPath);
+                        if (!await folder.exists()) {
+                          await folder.create(recursive: true);
+                        }
+
+                        // Abra a pasta no sistema operacional
+                        OpenFile.open(folderPath);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.folder_open,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          SizedBox(width: 5), // Espaço entre o ícone e o texto
+                          Text(
+                            "Abrir Pasta",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 20),

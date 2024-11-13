@@ -238,7 +238,7 @@ Future<void> createPDF(
     index: 0,
     pw.MultiPage(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
-      maxPages: 999,
+      maxPages: 99,
       pageTheme: pw.PageTheme(
         theme: theme,
         clip: true,

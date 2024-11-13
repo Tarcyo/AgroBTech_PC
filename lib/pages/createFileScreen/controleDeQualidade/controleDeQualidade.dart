@@ -1125,7 +1125,11 @@ class _ControleDeQualidadeState extends State<ControleDeQualidade> {
       final cells = [];
       for (final c in r.cells) {
         final cell = c.child as TableTextCell;
-        cells.add(cell.controller.text);
+        if (cell.isNumeric) {
+          cells.add('${cell.controller.text} ${cell.controllerOfDopdown.text}');
+        } else {
+          cells.add(cell.controller.text);
+        }
       }
       results.add(cells);
     }
