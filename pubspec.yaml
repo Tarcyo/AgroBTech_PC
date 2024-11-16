@@ -21,7 +21,8 @@ flutter:
          style: italic
 
 environment:
-  sdk: ">=3.3.1 <4.0.0"
+  sdk: ^3.5.3
+
 
 dev_dependencies:
   flutter_launcher_icons: "^0.14.1"
@@ -46,13 +47,12 @@ flutter_launcher_icons:
 
 
 dependencies:
-  path_provider: ^2.1.2 
-  printing: ^5.10.0
+  path_provider: ^2.1.5
   provider: ^6.1.2
   pdf: ^3.11.1
-  share_plus: ^9.0.0
+  share_plus: ^10.1.2
   image_picker: ^1.1.2
-  open_file: ^3.3.2
+  open_file: ^3.5.9
   excel: ^2.0.6
   intl: ^0.19.0
   window_manager: ^0.4.3

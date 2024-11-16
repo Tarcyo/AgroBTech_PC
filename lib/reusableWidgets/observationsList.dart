@@ -49,7 +49,7 @@ class _ObservationsListState extends State<ObservationsList> {
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.green,
+                        color: Colors.blue,
                       ),
                       child: IconButton(
                         onPressed: () {
@@ -183,7 +183,7 @@ class _ObservationsListState extends State<ObservationsList> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.green,
+                    color: Colors.blue,
                   ),
                   child: IconButton(
                     onPressed: () {

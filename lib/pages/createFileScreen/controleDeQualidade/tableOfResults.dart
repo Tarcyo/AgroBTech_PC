@@ -61,7 +61,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.green,
+                  color: Colors.blue, // Botão de adição em azul
                 ),
                 child: IconButton(
                   onPressed: () {
@@ -106,15 +106,15 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     setState(() {
       rows.add(
         DataRow(cells: [
-          DataCell(
-              TableTextCell(TextEditingController(), TextEditingController(text: '\×10⁰',))),
-          DataCell(
-              TableTextCell(TextEditingController(), TextEditingController(text: '\×10⁰',))),
-          DataCell(TableTextCell(
-              TextEditingController(), TextEditingController(text: '\×10⁰',),
+          DataCell(TableTextCell(TextEditingController(),
+              TextEditingController(text: '\×10⁰'))),
+          DataCell(TableTextCell(TextEditingController(),
+              TextEditingController(text: '\×10⁰'))),
+          DataCell(TableTextCell(TextEditingController(),
+              TextEditingController(text: '\×10⁰'),
               isNumeric: true)), // Campo numérico com dropdown
-          DataCell(TableTextCell(
-              TextEditingController(), TextEditingController(text: '\×10⁰',),
+          DataCell(TableTextCell(TextEditingController(),
+              TextEditingController(text: '\×10⁰'),
               isNumeric: true)), // Campo numérico com dropdown
         ]),
       );
@@ -145,7 +145,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Deseja remover a ultima linha?",
+                "Deseja remover a última linha?",
                 style: TextStyle(color: Colors.grey[800], fontSize: 16),
               ),
             ],

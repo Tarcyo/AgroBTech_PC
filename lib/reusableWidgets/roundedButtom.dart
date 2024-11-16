@@ -21,11 +21,11 @@ class RoundedButton extends StatelessWidget {
         onPressed: onPressed,
         style: ButtonStyle(
             foregroundColor:
-                WidgetStateProperty.all<Color>(Color(0xFF00C2A0))),
+                WidgetStateProperty.all<Color>(Colors.blue)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.save, color: Color(0xFF00C2A0)), // Ícone de salvar
+            Icon(Icons.save, color: Colors.blue), // Ícone de salvar
             SizedBox(width: 5), // Espaço entre o ícone e o texto
             Text(
               text,

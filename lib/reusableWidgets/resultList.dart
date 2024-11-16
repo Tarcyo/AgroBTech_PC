@@ -14,10 +14,10 @@ class ResultList extends StatefulWidget {
 class _ResultListState extends State<ResultList> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> observations = [];
+    List<Widget> results = [];
 
     for (TextEditingController controller in widget.controllers) {
-      observations.add(
+      results.add(
         VeryLargeInsertCamp(
           controller: controller,
           text: "Digite o resultado",
@@ -37,7 +37,7 @@ class _ResultListState extends State<ResultList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ...observations,
+                    ...results,
                     SizedBox(
                       height: screenHeight * 0.03,
                     ),
@@ -49,7 +49,7 @@ class _ResultListState extends State<ResultList> {
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.green,
+                        color: Colors.blue,
                       ),
                       child: IconButton(
                         onPressed: () {
@@ -183,7 +183,7 @@ class _ResultListState extends State<ResultList> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.green,
+                    color: Colors.blue,
                   ),
                   child: IconButton(
                     onPressed: () {

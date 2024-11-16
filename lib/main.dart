@@ -11,13 +11,10 @@ import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Inicialize o window_manager
   await windowManager.ensureInitialized();
 
-  // Configure a janela para ser tela cheia ao iniciar o aplicativo
   windowManager.waitUntilReadyToShow().then((_) async {
-  //  await windowManager.setFullScreen(true);
+    await windowManager.setFullScreen(true);
   });
 
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -114,7 +111,6 @@ class AgroBioTech extends StatelessWidget {
       statusBarIconBrightness: Brightness.light,
     ));
 
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return MaterialApp(
       title: 'Agro Bio Tech: Gerador de laudos',

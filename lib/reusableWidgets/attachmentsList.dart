@@ -133,7 +133,7 @@ class _AttachmentsListState extends State<AttachmentsList> {
               children: [
                 if (_attachments.isNotEmpty)
                   IconButtonContainer(
-                    color: Colors.green,
+                    color: Colors.blue,
                     icon: Icons.add,
                     onPressed: () async {
                       final result = await _openFilePicker();
@@ -171,7 +171,7 @@ class _AttachmentsListState extends State<AttachmentsList> {
                   ),
                   SizedBox(height: screenHeight * 0.03),
                   IconButtonContainer(
-                    color: Colors.green,
+                    color: Colors.blue,
                     icon: Icons.add,
                     onPressed: () async {
                       final result = await _openFilePicker();
