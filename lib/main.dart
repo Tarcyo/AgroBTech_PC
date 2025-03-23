@@ -7,15 +7,14 @@ import 'dart:io';
 import 'providers/fileNameProvider.dart';
 import 'constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+ // await windowManager.ensureInitialized();
 
-  windowManager.waitUntilReadyToShow().then((_) async {
-    await windowManager.setFullScreen(true);
-  });
+ // windowManager.waitUntilReadyToShow().then((_) async {
+ //   await windowManager.setFullScreen(true);
+ // });
 
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
   String path = '${documentsDirectory.path}/gerador de laudos';
